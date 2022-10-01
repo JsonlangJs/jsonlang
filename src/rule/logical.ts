@@ -14,13 +14,16 @@ export class LogicalRules implements RulesImplementation {
   }
 
   private register = () => {
-    this.rules.set({ name: 'and', shortName: '&&' }, this.and);
-    this.rules.set({ name: 'or', shortName: '||' }, this.or);
-    this.rules.set({ name: 'equal', shortName: '==' }, this.equal);
-    this.rules.set({ name: 'greaterThan', shortName: '>' }, this.greaterThan);
-    this.rules.set({ name: 'lessThan', shortName: '<' }, this.lessThan);
-    this.rules.set({ name: 'greaterThanOrEqual', shortName: '>=' }, this.greaterThanOrEqual);
-    this.rules.set({ name: 'lessThanOrEqual', shortName: '<=' }, this.lessThanOrEqual);
+    this.rules.set({ name: 'And', shortName: '&&' }, this.and);
+    this.rules.set({ name: 'Or', shortName: '||' }, this.or);
+    this.rules.set({ name: 'All' }, this.all);
+    this.rules.set({ name: 'Equal', shortName: '==' }, this.equal);
+    this.rules.set({ name: 'NotEqual', shortName: '!=' }, this.notEqual);
+    this.rules.set({ name: 'Not', shortName: '!' }, this.not);
+    this.rules.set({ name: 'GreaterThan', shortName: '>' }, this.greaterThan);
+    this.rules.set({ name: 'LessThan', shortName: '<' }, this.lessThan);
+    this.rules.set({ name: 'GreaterThanOrEqual', shortName: '>=' }, this.greaterThanOrEqual);
+    this.rules.set({ name: 'LessThanOrEqual', shortName: '<=' }, this.lessThanOrEqual);
   }
 
   private isSameType = (inputs: any[]) => {
@@ -35,8 +38,20 @@ export class LogicalRules implements RulesImplementation {
     return inputs.some(input => input)
   }
 
+  private all = (inputs: any[]) => {
+    return inputs.map(input => input)
+  }
+
   private equal = (inputs: any[]) => {
     return this.isSameType(inputs) ? inputs[0] === inputs[1] : inputs[0] == inputs[1];
+  }
+
+  private notEqual = (inputs: any[]) => {
+    return this.isSameType(inputs) ? inputs[0] !== inputs[1] : inputs[0] != inputs[1];
+  }
+
+  private not = (inputs: any[]) => {
+    return !inputs[0];
   }
 
   private greaterThan = (inputs: any[]) => {

@@ -1,6 +1,6 @@
 import { 
   IJsonRules, IRulesCore, RuleHandler,
-  RuleIdentifier, RuleParams, Rules, ShortRuleParams
+  RuleIdentifier, RuleParams, RuleResult, Rules, ShortRuleParams
 } from './core.types';
 
 export class RuleCore implements IRulesCore {
@@ -10,7 +10,7 @@ export class RuleCore implements IRulesCore {
   constructor() {
     this.rules = new Map();
     this.outputs = new Map();
-    this.registerOne({ name: 'variable', shortName: 'var' }, this.getOutputValue);
+    this.registerOne({ name: 'Variable', shortName: 'Var' }, this.getOutputValue);
   }
 
   registerMany(rules: Rules): void {
@@ -23,36 +23,44 @@ export class RuleCore implements IRulesCore {
     if (ruleIdentifier.shortName) this.rules.set(ruleIdentifier.shortName, ruleHandler);
   }
 
-  execute = (jsonRules: IJsonRules) => {
+  execute = (jsonRules: IJsonRules, data?: {}) => {
     const { rule, inputs, output } = this.getRuleParams(jsonRules);
 
     const ruleHandler = this.rules.get(rule);
 
-    if (!ruleHandler) throw Error(`The ${RuleParams.Rule} is not exist`);
+    if (!ruleHandler) throw Error(`The "${rule}" is not exist`);
 
-    const result: any = ruleHandler(inputs.map(input => this.getInputValue(input)));
+    const result = <RuleResult> ruleHandler(inputs.map(input => this.getInputValue(input, data)), data);
 
     if (output) this.setOutputValue(output, result);
 
     return result;
   }
 
-  executeAsync = async (jsonRules: IJsonRules) => {
+  executeAsync = async (jsonRules: IJsonRules, data?: {}) => {
     const { rule, inputs, output } = this.getRuleParams(jsonRules);
 
     const ruleHandler = this.rules.get(rule);
 
-    if (!ruleHandler) throw Error(`The ${RuleParams.Rule} is not exist`);
+    if (!ruleHandler) throw Error(`The "${rule}" is not exist`);
 
     try {
-      const result = await ruleHandler(inputs.map(input => this.getInputValue(input)));
+      const resolvedInputs: any[] = [];
+
+      for (const input of inputs) {
+        const result = await this.getInputValueAsync(input, data);
+
+        resolvedInputs.push(result);
+      }
+
+      const result = await ruleHandler(resolvedInputs, data);
 
       if (output) this.setOutputValue(output, result);
   
       return result;
     }
     catch (error) {
-      throw Error(`Failed to Run ${RuleParams.Rule} cause of ${error}`);
+      throw Error(`Failed to Run "${rule}" cause of ${error}`);
     }
   }
 
@@ -72,8 +80,12 @@ export class RuleCore implements IRulesCore {
     );
   }
 
-  private getInputValue = (input: any) => {
-    return this.isRule(input) ? this.execute(input) : input;
+  private getInputValue = (input: any, data?: {}) => {
+    return this.isRule(input) ? this.execute(input, data) : input;
+  }
+
+  private getInputValueAsync = async (input: any, data?: {}) => {
+    return this.isRule(input) ? this.executeAsync(input, data) : input;
   }
 
   private setOutputValue = (out: string, value: any) => {
@@ -83,7 +95,7 @@ export class RuleCore implements IRulesCore {
   private getOutputValue = (inputs: any[]) => {
     const outputValue = this.outputs.get(inputs[0]);
 
-    if (!outputValue) throw Error(`The ${inputs[0]} output value is not exist`);
+    if (!outputValue) throw Error(`The "${inputs[0]}" output value is not exist`);
 
     return outputValue;
   }

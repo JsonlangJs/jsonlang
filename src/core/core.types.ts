@@ -3,7 +3,8 @@ export type IRulesCore = {
   registerOne(ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler): void;
   registerMany(rules: Rules): void;
   // validate(rules: IJsonRules): RulesValidation;
-  execute(rules: IJsonRules): Promise<any>;
+  execute(rules: IJsonRules, data?: {}): RuleResult;
+  executeAsync(rules: IJsonRules, data?: {}): Promise<RuleResult>;
 }
 
 export type RuleIdentifier = {
@@ -11,7 +12,11 @@ export type RuleIdentifier = {
   shortName?: string;
 } 
 
-export type RuleHandler = ((inputs: any[]) => any) | ((inputs: any[]) => Promise<any>);
+export type RuleHandler = ((inputs: RuleInput[], data?: {}) => RuleResult) | ((inputs: RuleInput[], data?: {}) => Promise<RuleResult>);
+
+export type RuleInput = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | IJsonRules;
+
+export type RuleResult = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | IJsonRules;
 
 export type RulesValidation = {
   isValid: boolean;
@@ -33,12 +38,12 @@ export enum ShortRuleParams {
 export type IJsonRules = {
   [RuleParams.Rule]: string;
   [RuleParams.Input]: string[] | number [] | boolean [] | any [] | IJsonRules [];
-  [RuleParams.Output]?: string;
+  [RuleParams.Output]?: symbol;
 } | 
 {
   [ShortRuleParams.Rule]: string;
   [ShortRuleParams.Input]: string[] | number [] | boolean [] | any [] | IJsonRules [];
-  [ShortRuleParams.Output]?: string;
+  [ShortRuleParams.Output]?: symbol;
 };
 
 export interface RulesImplementation {

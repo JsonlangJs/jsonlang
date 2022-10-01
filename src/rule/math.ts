@@ -14,11 +14,11 @@ export class MathRules implements RulesImplementation {
   }
 
   private register = () => {
-    this.rules.set({ name: 'isNumber', shortName: 'isNum' }, this.isNumber);
-    this.rules.set({ name: 'sum', shortName: '+' }, this.sum);
-    this.rules.set({ name: 'multiply', shortName: '*' }, this.multiply);
-    this.rules.set({ name: 'divide', shortName: '/' }, this.divide);
-    this.rules.set({ name: 'subtract', shortName: '-' }, this.subtract);
+    this.rules.set({ name: 'IsNumber', shortName: 'IsNum' }, this.isNumber);
+    this.rules.set({ name: 'Sum', shortName: '+' }, this.sum);
+    this.rules.set({ name: 'Multiply', shortName: '*' }, this.multiply);
+    this.rules.set({ name: 'Divide', shortName: '/' }, this.divide);
+    this.rules.set({ name: 'Subtract', shortName: '-' }, this.subtract);
   }
 
   private isNumber = (inputs: any[]) => {
