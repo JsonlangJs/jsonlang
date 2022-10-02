@@ -2,9 +2,9 @@
 
 ## What is JsonRules
 
-Is a Typescript package to provide a simple Json Programming Language, that allow you to execute a safe logic in Frontend or Backend (NodeJS). It can be stored in database and rendered to the Frontend-Side to execute/run some business logic. 
+It is a Typescript package that provides a simple JSON Programming Language, allowing you to execute a safe logic in Frontend or Backend (NodeJS). Furthermore, it can be stored in the database and rendered to the Frontend-Side to execute/run some business logic. 
 
-JsonRules designed to be extendable, you can define new rules with sync/async handlers. 
+JsonRules is designed to be extendable. You can define new rules with sync/async handlers. 
 
 ## Installation
 
@@ -14,13 +14,13 @@ npm install json-rules-js
 
 ## Features
 
-1. Typescript. It's a strong typed npm package
-1. the JSONRules structure is Simple and Optimized, Its [structure](#structure) and [rules](#builtin-rules) has a shortcut to make your json in a small size.
+1. Typescript. It's a strongly typed npm package
+1. the JSONRules structure is Simple and Optimized. Its [structure](#structure) and [rules](#builtin-rules) have a shortcut to make your JSON in a small size.
 1. Its structure is always Consistent. i.e. `{"Rule": "R1", Input: ["value1", "value2", {"Rule": "R2", Input: [...] }, ...] }`.
-1. Safe & Secure. Each Rule has it a secure function.
+1. Safe & Secure. Each Rule has a secure handler.
 1. Extendable. Easy to add new rules.
 1. Sync/Async. All rules in JSONRules are sync rules, but you can extend it and add async rules.
-1. DRY. You can pass any rule result in a variable to be used in another rules which make JSONRules JSON more optimized
+1. DRY. You can pass any rule result in a variable to be used in another rule which makes JSONRules JSON more optimized
 
 
 
@@ -31,19 +31,19 @@ npm install json-rules-js
 ``` js
    execute = (jsonRules: IJsonRules, data?: {}): RuleResult
 ```
-execute is used to run the json rules and it takes two params
+Execute is used to run the JSON rules and takes two parameters.
 
   1. **JsonRules**: check the [Structure](#structure)
   1. **Data**: schemaless data object to read/write to it using [Object Rules](#object)
 
-execute is the `Sync` version of jsonRules, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` Rules
+Execute is the `Sync` version of jsonRules, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` Rules
 
 
 ``` js 
   executeAsync = async (jsonRules: IJsonRules, data?: {}): Promise<RuleResult>
 ```
 
-execute is the `Async` version of jsonRules, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
+Execute is the `Async` version of jsonRules, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
 
 
 ### Extend
@@ -60,17 +60,17 @@ Extend JsonRules by adding 2 params
 ``` js 
 registerMany(rules: Rules): void
 ```
-registerMany allow to register a `Map()` of rules the `Map key` is `RuleIdentifier` and the `Map value` is the `RuleHandler`
+registerMany allows registering a `Map()` of rules. The `Map key` is `RuleIdentifier`, and the `Map value` is the `RuleHandler`
 
 
 
 ## Structure
 
-JsonRules have 3 main parameters:
+JsonRules have three main parameters:
 
-  1. **Rule** or **R** (shortcut): (`String`), is rule name itself. i.e. `and`, `or`, `==`, `>`.
-  1. **Input** or **I** (shortcut): (`any[]`), is array of inputs which will passed to the `Rule` handler/function, their type depends on the `Rule` handler or it have be a nested rule
-  1. **Output** or **O** (shortcut)?: (`Symbol [Optional]`), is an optional field, it accept a name of variable which used to save the Rule result in a [variable](#core) and can be called in any other rule by `{ "Rule": "Var": "Input": ["variableX"] }`. The output value should be unique as if you defined the same value more than one time, the last one will override the value of the pervious one.
+  1. **Rule** or **R** (shortcut): (`String`) is the rule name itself. i.e. `and`, `or`, `==`, `>`.
+  1. **Input** or **I** (shortcut): (`any[]`) is an array of inputs which will be passed to the `Rule` handler/function, their type depends on the `Rule` handler, or it can be a nested rule
+  1. **Output** or **O** (shortcut)?: (`Symbol [Optional]`), is an optional field, it accept a name of variable which used to save the Rule result in a [variable](#core) and can be called in any other rule by `{ "Rule": "Var": "Input": ["variableX"] }`. The output value should be unique. If you define the same value more than once, the last one will override the value of the previous one.
 
 
 ## Builtin Rules
@@ -80,57 +80,57 @@ JsonRules have 3 main parameters:
 * **Variable** or **Var**
   * Input[]: Array<string> (Size: 1).
   * Output: Any (depends on the output value).
-  * Description: It used to get the value of any `Output` from any rules, [Check the Output part](#structure). 
+  * Description: used to get the value of any `Output` from any rules, [Check the Output part](#structure). 
 
 ### Logical
 
 * **And** or **&&** 
   * Input[]: Array<any> (Size: Unlimited).
   * Output: Boolean (true or false).
-  * Description: Do the `Anding` operation, if the any value in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true`. 
+  * Description: Do the `Anding` operation, if any value in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true`. 
 * **Or** or **||**
   * Input[]: Array<any> (Size: Unlimited).
   * Output: Boolean (true or false).
-  * Description: Do the `Oring` operation, if the all values in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true` .
+  * Description: Do the `Oring` operation, if all values in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true` .
 * **All**
   * Input[]: Array<any> (Size: Unlimited).
   * Output: Array<any> (Size: Unlimited).
-  * Description: It takes array of inputs and return them again, it used to run a list of `nested Rules`.
+  * Description: It takes an array of inputs and returns them again. It is used to run a list of `nested Rules`.
 * **Equal** or **==**
   * Input[]: Array<any> (Size: 2).
   * Output: Boolean (true or false).
-  * Description: It takes array of 2 inputs to compare if element one `Equal` element two or not.
+  * Description: It takes an array of 2 inputs to compare if element one `Equal` element two or not.
 * **NotEqual** or **=**
   * Input[]: Array<any> (Size: 2).
   * Output: Boolean (true or false).
-  * Description: It takes array of 2 inputs to compare if element one `Not Equal` element two or not.
+  * Description: It takes an array of 2 inputs to compare if element one `Not Equal` to element two or not.
 * **Not** or **!**
   * Input[]: Array<Boolean> (Size: 1).
   * Output: Boolean (true or false).
-  * Description: It takes array of 1 input invert its value if it `true` it will return `false` and vise versa.
+  * Description: It takes an array of 1 input inverts its value. If it `true` it will return `false` and vice versa.
 * **GreaterThan** or **>**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
-  * Description: It takes array of 2 inputs to compare if element one `Greater Than` element two or not.
+  * Description: It takes an array of 2 inputs to compare if element one `Greater Than` element two or not.
 * **LessThan** or **<**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
-  * Description: It takes array of 2 inputs to compare if element one `Less Than` element two or not.
+  * Description: It takes an array of 2 inputs to compare if element one `Less Than` element two or not.
 * **GreaterThanOrEqual** or **>=**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
-  * Description: It takes array of 2 inputs to compare if element one `Greater Than or Equal` element two or not.
+  * Description: It takes an array of 2 inputs to compare if element one `Greater Than or Equal` element two or not.
 * **LessThanOrEqual** or **<=**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
-  * Description: It takes array of 2 inputs to compare if element one `Less Than or Equal` element two or not.
+  * Description: It takes an array of 2 inputs to compare if element one `Less Than or Equal` element two or not.
 
 ### Math
 
 * **IsNumber** or **IsNum**
   * Input[]: Array<number> (Size: 1).
   * Output: Boolean (true or false).
-  * Description: Check if the value dataType is number or not. 
+  * Description: Check if the value dataType is a number or not. 
 * **Sum** or **+**
   * Input[]: Array<number> (Size: unlimited).
   * Output: number.
@@ -153,23 +153,24 @@ JsonRules have 3 main parameters:
 * **Get** [In Progress]
   * Input[]: Array<mixed> (Size: 2) {path: string, defaultValue?: any}.
   * Output: Any.
-  * Description: It accept 2 inputs, the 1st one (required) is a path to get the [Data](#execute), and the 2nd one (optional) is a default value of the path is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+  * Description: It accepts two inputs, the 1st one (required) is a path to get the [Data](#execute), and the 2nd one (optional) is a default value of the path is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
 * **Set** [In Progress]
   * Input[]: Array<mixed> (Size: 2) {path: string, value: any}.
   * Output: Any.
-  * Description: It accept 2 inputs, the 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to set. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` is not exist, the `Set` rule will create it.
+  * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to set. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Set` Rule will create it.
 * **Update** [In Progress]
   * Input[]: Array<mixed> (Size: 2) {path: string, value: any}.
   * Output: Any.
-  * Description: It accept 2 inputs, the 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to update. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` is not exist, the `Update` rule won't do any thing.
+  * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to update. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Update` rule won't do anything.
 * **Delete** [In Progress]
   * Input[]: Array<string> (Size: 1) {path: string}.
   * Output: Any.
-  * Description: It accept 1 input, path to mutate the [Data](#execute) by deleting a field in the request path. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` is not exist, the `Delete` rule won't do any thing.
+  * Description: It accepts two inputs, a path to mutate the [Data](#execute) by deleting a field in the request path. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Delete` rule won't do anything.
 * **Push** [In Progress]
   * Input[]: Array<mixed> (Size: 2) {path: string, defaultValue?: any}.
   * Output: Any.
-  * Description: It accept 2 inputs, the 1st one (required) is a path in the [Data](#execute) of any array element to push a value in it, and the 2nd one (optional) is a default value of the path is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` is not exist or if the `path` is not a path of a non array property, the `Push` rule won't do any thing.
+  * Description: It accepts two inputs. The 1st one (required) is a path in the [Data](#execute) of any array element to push a value in it, and the 2nd one (optional) is a default value of the path that is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist or if the `path` is not a path of a non-array property, the `Push` rule won't do anything.
+
 
 ## Examples
 
@@ -191,12 +192,6 @@ jsonRules.executeAsync( { "R": "<" , "I": [10, 20] } )
   }); 
 
 ```
-
-This is a simple test, equivalent to `1 == 1`.  A few things about the format:
-
-  1. The operator is always in the "key" position. There is only one key per JsonLogic rule.
-  1. The values are typically an array.
-  1. Each value can be a string, number, boolean, array (non-associative), or null
 
 ### Nested Levels Example
 
@@ -258,36 +253,33 @@ console.log(result);
 
 ## Customization
 
-You can extend JsonRules and add any logic you want from well known sync/async packages like lodash, moment, ajv, axios, mysql, mongoose, ...etc. 
+You can extend JsonRules and add any logic you want from well-known sync/async packages like lodash, moment, ajv, axios, mysql, mongoose, ...etc. 
 
-Just use the [register functions](#extend) and follow its structure to add what ever you want.
+Just use the [register functions](#extend) and follow its structure to add whatever you want.
 
 
 
 ## Warnings
 
-JsonRules can be extended with any function and you can override the existing rules, but make sure that any method you will add won't:
+JsonRules can be extended with any function, and you can override the existing rules, but make sure that any method you will add won't:
 
 1. Have any security issue
-1. Async method without timeout or wih unhandled errors
+1. Async method without timeout or with unhandled errors
 1. Block the event loop in backend nodejs https://nodejs.org/en/docs/guides/dont-block-the-event-loop/
-1. abuse the cpu or the memory
+1. abuse the CPU or the memory
 
 
 ## Compatibility
 
-This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
+This library uses `Array.map` and `Array.reduce`, so it's not *exactly* Internet Explorer 8 friendly.
 
-## What Next?
 
-* Adding more math, logic, object, array, date, casting methods.
-* Automation Testing for the all methods and cover all cases.
-* Allow importing packages to extend JsonRules in an easy way.
-* Provide plugins to wrap some of the well-know packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
-* Make a UI Editor to generate the Json of JsonRules.
+## What's Next?
+
+* Adding more math, logic, object, array, date, and casting methods.
+* Automation Testing for all methods and covering all cases.
+* Allow importing packages to extend JsonRules easily.
+* Provide plugins to wrap well-known packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
+* Make a UI Editor generate the JSON of JsonRules.
 * Allow Writing Rules as expression. i.e. `And(true, Or(1, Get('var1.var2', 0)))`.
-* Public website has a good documentation, example, playground to try JsonRules, use-cases session has many ideas for using JsonRules.
-
-
-
-
+* Public website has good documentation, for example, playground to try JsonRules, use-cases session has many ideas for using JsonRules.
