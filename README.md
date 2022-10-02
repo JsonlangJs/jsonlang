@@ -290,3 +290,7 @@ This library uses `Array.map` and `Array.reduce`, so it's not *exactly* Internet
 * Make a UI Editor generate the JSON of JsonRules.
 * Allow Writing Rules as expression. i.e. `And(true, Or(1, Get('var1.var2', 0)))`.
 * Public website has good documentation, for example, playground to try JsonRules, use-cases session has many ideas for using JsonRules.
+
+## License
+
+JsonRules is [MIT licensed](LICENSE)
