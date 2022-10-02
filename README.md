@@ -4,6 +4,8 @@
 [![npm version](https://badge.fury.io/js/json-rules-js.svg)](https://badge.fury.io/js/json-rules-js.svg)
 [![install size](https://packagephobia.com/badge?p=json-rules-js)](https://packagephobia.com/result?p=json-rules-js)
 [![npm downloads](https://img.shields.io/npm/dm/json-rules-js.svg)](https://www.npmjs.com/package/json-rules-js)
+[![License](https://img.shields.io/github/license/ahmed-medhat-tawfiq/json-rules-js.svg)](https://github.com/ahmed-medhat-tawfiq/json-rules-js/blob/master/LICENSE)
+
 
 ## What is JsonRules
 
