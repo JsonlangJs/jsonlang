@@ -1,5 +1,10 @@
 # JsonRules
 
+
+[![npm version](https://badge.fury.io/js/json-rules-js.svg)](https://badge.fury.io/js/json-rules-js.svg)
+[![install size](https://packagephobia.com/badge?p=json-rules-js)](https://packagephobia.com/result?p=json-rules-js)
+[![npm downloads](https://img.shields.io/npm/dm/json-rules-js.svg)](https://www.npmjs.com/package/json-rules-js)
+
 ## What is JsonRules
 
 It is a Typescript package that provides a simple JSON Programming Language, allowing you to execute a safe logic in Frontend or Backend (NodeJS). Furthermore, it can be stored in the database and rendered to the Frontend-Side to execute/run some business logic. 
