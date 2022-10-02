@@ -16,9 +16,9 @@ export class MathRules implements RulesImplementation {
   private register = () => {
     this.rules.set({ name: 'IsNumber', shortName: 'IsNum' }, this.isNumber);
     this.rules.set({ name: 'Sum', shortName: '+' }, this.sum);
+    this.rules.set({ name: 'Subtract', shortName: '-' }, this.subtract);
     this.rules.set({ name: 'Multiply', shortName: '*' }, this.multiply);
     this.rules.set({ name: 'Divide', shortName: '/' }, this.divide);
-    this.rules.set({ name: 'Subtract', shortName: '-' }, this.subtract);
   }
 
   private isNumber = (inputs: any[]) => {
@@ -33,15 +33,15 @@ export class MathRules implements RulesImplementation {
     return this.isNumber(inputs)? inputs.reduce((a, b) => a + b) : 0;
   }
 
+  private subtract = (inputs: any[]) => {
+    return this.isNumber(inputs)? inputs.reduce((a, b) => a - b) : 0;
+  }
+
   private multiply = (inputs: any[]) => {
     return this.isNumber(inputs)? inputs.reduce((a, b) => a * b) : 0;
   }
 
   private divide = (inputs: any[]) => {
     return this.isNumber(inputs) && this.hasNoZero(inputs.slice(1))? inputs.reduce((a, b) => a / b) : 0;
-  }
-
-  private subtract = (inputs: any[]) => {
-    return this.isNumber(inputs)? inputs.reduce((a, b) => a - b) : 0;
   }
 }

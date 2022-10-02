@@ -13,7 +13,7 @@ export class RuleCore implements IRulesCore {
     this.registerOne({ name: 'Variable', shortName: 'Var' }, this.getOutputValue);
   }
 
-  registerMany(rules: Rules): void {
+  registerMany = (rules: Rules) => {
     rules.forEach((value: RuleHandler, key: RuleIdentifier) => this.registerOne(key, value));
   }
 

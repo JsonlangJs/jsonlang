@@ -17,7 +17,6 @@ export class ObjectRules implements RulesImplementation {
 
   private register = () => {
     this.rules.set({ name: 'Get' }, this.get);
-    this.rules.set({ name: 'Update' }, this.update);
   }
 
   private isArrayOfPaths = (path: any) => {
@@ -35,7 +34,6 @@ export class ObjectRules implements RulesImplementation {
   }
 
   private baseGet = (pathProps: string[], data: any): any | undefined => {
-    console.log(pathProps, data)
     const property = pathProps.shift();
 
     if (!property || data[property] === undefined) return undefined;
