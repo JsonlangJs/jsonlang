@@ -269,7 +269,7 @@ Just use the [register functions](#extend) and follow its structure to add what 
 JsonRules can be extended with any function and you can override the existing rules, but make sure that any method you will add won't:
 
 1. Have any security issue
-1. If it's and Async method, it should have a small timeout
+1. Async method without timeout or wih unhandled errors
 1. Block the event loop in backend nodejs https://nodejs.org/en/docs/guides/dont-block-the-event-loop/
 1. abuse the cpu or the memory
 
@@ -280,10 +280,13 @@ This library makes use of `Array.map` and `Array.reduce`, so it's not *exactly* 
 
 ## What Next?
 
-* Adding more math, logic, object, date, casting methods
-* Automation Testing for the all methods and cover all cases
-* Allow importing packages to extend JsonRules in an easy way
-* Provide plugins to wrap some of the well-know packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc
+* Adding more math, logic, object, array, date, casting methods.
+* Automation Testing for the all methods and cover all cases.
+* Allow importing packages to extend JsonRules in an easy way.
+* Provide plugins to wrap some of the well-know packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
+* Make a UI Editor to generate the Json of JsonRules.
+* Allow Writing Rules as expression. i.e. `And(true, Or(1, Get('var1.var2', 0)))`.
+* Public website has a good documentation, example, playground to try JsonRules, use-cases session has many ideas for using JsonRules.
 
 
 

@@ -13,16 +13,33 @@ export class RuleCore implements IRulesCore {
     this.registerOne({ name: 'Variable', shortName: 'Var' }, this.getOutputValue);
   }
 
+  /**
+   * @param {Rules} rules - Map of Rules.
+   * @returns {void}
+   * @description to extend JsonRules by a Map() of rules the "Map key" is RuleIdentifier and the "Map value" is the Sync/Async RuleHandler
+  */
   registerMany = (rules: Rules) => {
     rules.forEach((value: RuleHandler, key: RuleIdentifier) => this.registerOne(key, value));
   }
 
+  /**
+   * @param {RuleIdentifier} ruleIdentifier
+   * @param {RuleHandler} RuleHandler.
+   * @returns {void}
+   * @description to extend JsonRules by adding one Sync/Async Rule`
+  */
   registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler) => {
     this.rules.set(ruleIdentifier.name, ruleHandler);
 
     if (ruleIdentifier.shortName) this.rules.set(ruleIdentifier.shortName, ruleHandler);
   }
 
+  /**
+   * @param {IJsonRules} jsonRules
+   * @param {Object} data.
+   * @returns {RuleResult}
+   * @description is the `Sync` version of jsonRules, use it to run all builtin rules and any extended `Sync` Rules
+  */
   execute = (jsonRules: IJsonRules, data?: {}) => {
     const { rule, inputs, output } = this.getRuleParams(jsonRules);
 
@@ -37,6 +54,12 @@ export class RuleCore implements IRulesCore {
     return result;
   }
 
+  /**
+   * @param {IJsonRules} jsonRules
+   * @param {Object} data.
+   * @returns {Promise<RuleResult>}
+   * @description is the `Async` version of jsonRules, use it to run all builtin rules and any extended `Sync/Async` Rules
+  */
   executeAsync = async (jsonRules: IJsonRules, data?: {}) => {
     const { rule, inputs, output } = this.getRuleParams(jsonRules);
 
