@@ -5,6 +5,7 @@
 [![install size](https://packagephobia.com/badge?p=json-rules-js)](https://packagephobia.com/result?p=json-rules-js)
 [![npm downloads](https://img.shields.io/npm/dm/json-rules-js.svg)](https://www.npmjs.com/package/json-rules-js)
 [![License](https://img.shields.io/github/license/ahmed-medhat-tawfiq/json-rules-js.svg)](https://github.com/ahmed-medhat-tawfiq/json-rules-js/blob/master/LICENSE)
+[![Github Sponsor](https://camo.githubusercontent.com/7d9333b097b2f54a8957d126ab82937811489c9b75c3850f609985cf94cd29fe/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2532302d53706f6e736f722532306d652532306f6e2532304769744875622d6f72616e6765)](https://github.com/sponsors/ahmed-medhat-tawfiq)
 
 
 ## What is JsonRules
