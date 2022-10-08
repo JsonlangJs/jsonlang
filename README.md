@@ -25,12 +25,12 @@ npm install jsonlang-js
 ## Features
 
 1. Typescript. It's a strongly typed npm package
-1. the JSONRules structure is Simple and Optimized. Its [structure](#structure) and [rules](#builtin-rules) have a shortcut to make your JSON in a small size.
+1. the JsonLang structure is Simple and Optimized. Its [structure](#structure) and [rules](#builtin-rules) have a shortcut to make your JSON in a small size.
 1. Its structure is always Consistent. i.e. `{"Rule": "R1", Input: ["value1", "value2", {"Rule": "R2", Input: [...] }, ...] }`.
 1. Safe & Secure. Each Rule has a secure handler.
 1. Extendable. Easy to add new rules.
-1. Sync/Async. All rules in JSONRules are sync rules, but you can extend it and add async rules.
-1. DRY. You can pass any rule result in a variable to be used in another rule which makes JSONRules JSON more optimized
+1. Sync/Async. All rules in JsonLang are sync rules, but you can extend it and add async rules.
+1. DRY. You can pass any rule result in a variable to be used in another rule which makes JsonLang JSON more optimized
 
 
 
@@ -41,19 +41,19 @@ npm install jsonlang-js
 ``` js
    execute = (jsonLang: IJsonLangParams, data?: {}): RuleResult
 ```
-Execute is used to run the JSON rules and takes two parameters.
+Execute is used to run the JsonLang and takes two parameters.
 
   1. **JsonLang**: check the [Structure](#structure)
   1. **Data**: schemaless data object to read/write to it. To get data use the Rule [Data](#core)
 
-Execute is the `Sync` version of jsonLang, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` Rules
+Execute is the `Sync` version of JsonLang, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` Rules
 
 
 ``` js 
   executeAsync = async (jsonLang: IJsonLangParams, data?: {}): Promise<RuleResult>
 ```
 
-Execute is the `Async` version of jsonLang, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
+Execute is the `Async` version of JsonLang, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
 
 
 ### Extend
