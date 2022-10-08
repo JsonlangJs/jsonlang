@@ -1,7 +1,7 @@
 {
-  "name": "json-rules-js",
-  "version": "0.1.6",
-  "description": "Conditions and Rules in Json Format",
+  "name": "jsonlang-js",
+  "version": "0.1.0",
+  "description": "Json Programming Language",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "commonjs",
@@ -13,20 +13,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahmed-medhat-tawfiq/json-rules-js.git"
+    "url": "git+https://github.com/ahmed-medhat-tawfiq/jsonlang-js.git"
   },
   "keywords": [
     "rules",
     "conditions",
     "json-rules",
+    "JsonLang",
+    "JsonRules",
     "json-programming",
+    "json-language",
     "json-code",
     "json-conditions"
   ],
   "author": "https://github.com/ahmed-medhat-tawfiq",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ahmed-medhat-tawfiq/json-rules-js/issues",
+    "url": "https://github.com/ahmed-medhat-tawfiq/jsonlang-js/issues",
     "email": "ahmed.medhat.tawfiq@gmail.com"
   },
   "devDependencies": {

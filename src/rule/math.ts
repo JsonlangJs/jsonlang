@@ -1,4 +1,4 @@
-import { Rules, RulesImplementation } from "../core";
+import { RuleInput, Rules, RulesImplementation } from "../core";
 
 export class MathRules implements RulesImplementation {
 
@@ -14,34 +14,38 @@ export class MathRules implements RulesImplementation {
   }
 
   private register = () => {
-    this.rules.set({ name: 'IsNumber', shortName: 'IsNum' }, this.isNumber);
-    this.rules.set({ name: 'Sum', shortName: '+' }, this.sum);
-    this.rules.set({ name: 'Subtract', shortName: '-' }, this.subtract);
-    this.rules.set({ name: 'Multiply', shortName: '*' }, this.multiply);
-    this.rules.set({ name: 'Divide', shortName: '/' }, this.divide);
+    this.rules.set({ name: 'IsNumber' }, this.isNumber);
+    this.rules.set({ name: 'Sum', shortcut: '+' }, this.sum);
+    this.rules.set({ name: 'Subtract', shortcut: '-' }, this.subtract);
+    this.rules.set({ name: 'Multiply', shortcut: '*' }, this.multiply);
+    this.rules.set({ name: 'Divide', shortcut: '/' }, this.divide);
   }
 
-  private isNumber = (inputs: any[]) => {
-    return inputs.every(i => typeof i === 'number');
+  private isNumber = (inputs: RuleInput[]) => {
+    return inputs.every(i =>typeof i === 'number');
   }
 
-  private hasNoZero = (inputs: any[]) => {
+  private hasNoZero = (...inputs: RuleInput[]) => {
     return inputs.every(i => i !== 0);
   }
 
-  private sum = (inputs: any[]) => {
-    return this.isNumber(inputs)? inputs.reduce((a, b) => a + b) : 0;
+  private sum = (...inputs: RuleInput) => {
+    const arrayOfInputs = [...inputs];
+    return this.isNumber(arrayOfInputs)? arrayOfInputs.reduce((a, b) => a + b) : 0;
   }
 
-  private subtract = (inputs: any[]) => {
-    return this.isNumber(inputs)? inputs.reduce((a, b) => a - b) : 0;
+  private subtract = (...inputs: RuleInput) => {
+    const arrayOfInputs = [...inputs];
+    return this.isNumber(arrayOfInputs)? arrayOfInputs.reduce((a, b) => a - b) : 0;
   }
 
-  private multiply = (inputs: any[]) => {
-    return this.isNumber(inputs)? inputs.reduce((a, b) => a * b) : 0;
+  private multiply = (...inputs: RuleInput) => {
+    const arrayOfInputs = [...inputs];
+    return this.isNumber(arrayOfInputs)? arrayOfInputs.reduce((a, b) => a * b) : 0;
   }
 
-  private divide = (inputs: any[]) => {
-    return this.isNumber(inputs) && this.hasNoZero(inputs.slice(1))? inputs.reduce((a, b) => a / b) : 0;
+  private divide = (...inputs: RuleInput) => {
+    const arrayOfInputs = [...inputs];
+    return this.isNumber(arrayOfInputs) && this.hasNoZero(arrayOfInputs.slice(1))? arrayOfInputs.reduce((a, b) => a / b) : 0;
   }
 }

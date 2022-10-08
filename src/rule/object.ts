@@ -1,4 +1,4 @@
-import { RuleInput, Rules, RulesImplementation } from '../core';
+import { Rules, RulesImplementation } from '../core';
 
 export class ObjectRules implements RulesImplementation {
 
@@ -55,29 +55,25 @@ export class ObjectRules implements RulesImplementation {
     }
   }
 
-  private set = (inputs: RuleInput[], data?: {}) => {
-    const [path, value] = [inputs[0], inputs.length > 1? inputs[1] : null];
+  private set = (path: string, value: any, data?: {}) => {
     const pathProps = this.getPath(path);
 
     return data && pathProps && value ? this.baseSet(pathProps, data, value, true) : false;
   }
 
-  private get = (inputs: RuleInput[], data?: {}) => {
-    const [path, defaultValue] = [inputs[0], inputs.length > 1? inputs[1] : null];
-
+  private get = (path: string, defaultValue: any, data?: {}) => {
     const pathProps = this.getPath(path);
 
     const result = data && pathProps ? this.baseGet(pathProps, data) : undefined;
     return result === undefined ? defaultValue : result
   }
 
-  private update = (inputs: RuleInput[], data?: {}) => {
-    const [path, value] = [inputs[0], inputs.length > 1? inputs[1] : null];
+  private update = (path: string, value: any, data?: {}) => {
     const pathProps = this.getPath(path);
 
     return data && pathProps && value ? this.baseSet(pathProps, data, value) : false;
   }
 
-  private delete = (inputs: RuleInput[], data?: {}) => {
+  private delete = (path: string, data?: {}) => {
   }
 }

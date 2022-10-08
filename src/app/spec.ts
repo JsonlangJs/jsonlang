@@ -1,0 +1,168 @@
+import { JsonLang } from './app';
+
+describe('app/app', () => {
+  describe('JsonLang.execute', () => {
+    const jsonLang = new JsonLang();
+
+    it('Should Success To Execute Simple Rules', () => {
+      const results = jsonLang.execute( { "Rule": "LessThan" , "Input": [10, 20] } );
+
+      expect(results).toEqual(true);
+    });
+
+    it('Should Success To Execute Simple Shortcut Rules', () => {
+      const results = jsonLang.execute( { "R": "<" , "I": [10, 20] } );
+
+      expect(results).toEqual(true)
+    });
+
+    it('Should Success To Execute Complex/Nested Rules', () => {
+
+      const result = jsonLang.execute({ 
+        Rule: '+',
+        Input: [
+          {
+            R: '+',
+            I: [
+              1,
+              { R: '*', I: [2, 3] },
+              5
+            ]
+          },
+          {
+            R: '+',
+            I: [
+              1,
+              { R: '*', I: [3, 3], O: 'x' },
+              5
+            ]
+          },
+          { R: 'Var', I: ['x'] },
+          { R: 'Get', I: ['user.age', null, { R: 'Data', I: [] }] }
+        ]
+      }, { user: { name: 'test', age: 100 } });
+      
+      expect(result).toEqual(136);
+    });
+
+    it('Should Failed To Execute non existing Rules', () => {
+      expect(() => jsonLang.execute( { "R": "NotExisting" , "I": [1] } )).toThrowError('The \"NotExisting\" is not exist');
+    });
+
+    it('Should Failed To Execute cause of non existing Output', () => {
+      expect(() => jsonLang.execute( { "R": "Var" , "I": ["NotExisting"] } )).toThrowError('The \"NotExisting\" output value is not exist');
+    });
+
+    it('Should Failed To Execute cause of non existing Data', () => {
+      expect(() => jsonLang.execute( { "R": "Data" , "I": [] } )).toThrowError('There is no data passed');
+    });
+  });
+
+  describe('JsonLang.executeAsync', () => {
+    const jsonLang = new JsonLang();
+
+    it('Should Success To Execute Simple Rules', async () => {
+      const results = jsonLang.executeAsync( { "Rule": "LessThan" , "Input": [10, 20] } );
+
+      await expect(results).resolves.toEqual(true);
+    });
+
+    it('Should Success To Execute Simple Shortcut Rules', async () => {
+      const results = jsonLang.executeAsync( { "R": "<" , "I": [10, 20] } );
+
+      await expect(results).resolves.toEqual(true);
+    });
+
+    it('Should Success To Execute Complex/Nested Rules', async () => {
+      const result = jsonLang.executeAsync({ 
+        Rule: '+',
+        Input: [
+          {
+            R: '+',
+            I: [
+              1,
+              { R: '*', I: [2, 3] },
+              5
+            ]
+          },
+          {
+            R: '+',
+            I: [
+              1,
+              { R: '*', I: [3, 3], O: 'x' },
+              5
+            ]
+          },
+          { R: 'Var', I: ['x'] },
+          { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
+        ]
+      }, { user: { name: 'test', age: 100 } });
+      
+      await expect(result).resolves.toEqual(136);
+    });
+
+    it('Should Failed To Execute non existing Rules', async () => {
+      await expect(jsonLang.executeAsync( { "R": "NotExisting" , "I": [1] } )).rejects.toThrowError('The \"NotExisting\" is not exist');
+    });
+
+    it('Should Failed To Execute cause of non existing Output', async () => {
+      expect(jsonLang.executeAsync( { "R": "Var" , "I": ["NotExisting"] } )).rejects.toThrowError('The \"NotExisting\" output value is not exist');
+    });
+
+    it('Should Failed To Execute cause of non existing Data', () => {
+      expect(() => jsonLang.execute( { "R": "Data" , "I": [] } )).toThrowError('There is no data passed');
+    });
+  });
+
+  describe('JsonLang.registerOne', () => {
+    const jsonLang = new JsonLang();
+
+    it('Should Success in registerOne Rule', () => {
+      jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input: any) => {
+        return `${input} Test`
+      })
+      
+      const result = jsonLang.execute({ 
+        Rule: 'Test',
+        Input: [
+          { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
+        ]
+      }, { user: { name: 'test', age: 100 } });
+      
+      expect(result).toEqual('100 Test');
+    });
+
+    it('Should Failed To Execute Async Rule cause of Promise Rejection', async () => {
+      jsonLang.registerOne({ name: 'Validate', shortcut: 'v' }, async (input: any) => {
+        return new Promise((resolve, reject) => {
+          if (input) resolve(1);
+          else reject(0);
+        });
+      })
+
+      await expect(jsonLang.executeAsync({ Rule: 'v', Input: [] })).rejects.toThrowError('Failed to Run \"v\" cause of 0');
+    });
+  });
+
+  describe('JsonLang.registerMany', () => {
+    const jsonLang = new JsonLang();
+
+    it('Should Success in registerMany Rule', () => {
+
+      const rules = new Map([
+        [{ name: 'Hello', shortcut: 'Hi' }, (input: any) => { return `Hello JsonLang in ${input}` }],
+        [{ name: 'Year' }, () => { return new Date().getFullYear().toString()  }]
+      ]);
+
+      jsonLang.registerMany(rules);
+      
+      const result = jsonLang.execute({ 
+        Rule: 'Hi',
+        Input: [ { R: 'Year', I: [] } ]
+      });
+      
+      expect(result).toEqual(`Hello JsonLang in ${new Date().getFullYear().toString()}`);
+    });
+  });
+
+});

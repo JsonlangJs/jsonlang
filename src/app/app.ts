@@ -2,7 +2,7 @@ import { RuleCore } from '../core';
 import { LogicalRules, MathRules, ObjectRules } from '../rule';
 
 
-export class JsonRules extends RuleCore {
+export class JsonLang extends RuleCore {
   private mathRules: MathRules;
   private logicalRules: LogicalRules;
   private objectRules: ObjectRules;

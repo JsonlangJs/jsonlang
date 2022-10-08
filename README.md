@@ -1,23 +1,25 @@
-# JsonRules
+# JsonLang
 
 
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&type=6e&v=0.1.6&x2=0)](https://www.npmjs.com/package/json-rules-js)
-[![install size](https://packagephobia.com/badge?p=json-rules-js)](https://packagephobia.com/result?p=json-rules-js)
-[![npm downloads](https://img.shields.io/npm/dm/json-rules-js.svg)](https://www.npmjs.com/package/json-rules-js)
-[![License](https://img.shields.io/github/license/ahmed-medhat-tawfiq/json-rules-js.svg)](https://github.com/ahmed-medhat-tawfiq/json-rules-js/blob/master/LICENSE)
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&type=6e&v=0.1.0&x2=0)](https://www.npmjs.com/package/jsonlang-js)
+[![install size](https://packagephobia.com/badge?p=jsonlang-js)](https://packagephobia.com/result?p=jsonlang-js)
+[![npm downloads](https://img.shields.io/npm/dy/jsonlang-js.svg)](https://www.npmjs.com/package/jsonlang-js)
+[![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)
+[![License](https://img.shields.io/github/license/ahmed-medhat-tawfiq/jsonlang-js.svg)](https://github.com/ahmed-medhat-tawfiq/jsonlang-js/blob/master/LICENSE)
 [![Github Sponsor](https://camo.githubusercontent.com/7d9333b097b2f54a8957d126ab82937811489c9b75c3850f609985cf94cd29fe/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2532302d53706f6e736f722532306d652532306f6e2532304769744875622d6f72616e6765)](https://github.com/sponsors/ahmed-medhat-tawfiq)
 
 
-## What is JsonRules
+
+## What is JsonLang
 
 It is a Typescript package that provides a simple JSON Programming Language, allowing you to execute a safe logic in Frontend or Backend (NodeJS). Furthermore, it can be stored in the database and rendered to the Frontend-Side to execute/run some business logic. 
 
-JsonRules is designed to be extendable. You can define new rules with sync/async handlers. 
+JsonLang is designed to be extendable. You can define new rules with sync/async handlers. 
 
 ## Installation
 
 ```bash
-npm install json-rules-js
+npm install jsonlang-js
 ```
 
 ## Features
@@ -37,21 +39,21 @@ npm install json-rules-js
 ### Execute
 
 ``` js
-   execute = (jsonRules: IJsonRules, data?: {}): RuleResult
+   execute = (jsonLang: IJsonLangParams, data?: {}): RuleResult
 ```
 Execute is used to run the JSON rules and takes two parameters.
 
-  1. **JsonRules**: check the [Structure](#structure)
-  1. **Data**: schemaless data object to read/write to it using [Object Rules](#object)
+  1. **JsonLang**: check the [Structure](#structure)
+  1. **Data**: schemaless data object to read/write to it. To get data use the Rule [Data](#core)
 
-Execute is the `Sync` version of jsonRules, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` Rules
+Execute is the `Sync` version of jsonLang, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` Rules
 
 
 ``` js 
-  executeAsync = async (jsonRules: IJsonRules, data?: {}): Promise<RuleResult>
+  executeAsync = async (jsonLang: IJsonLangParams, data?: {}): Promise<RuleResult>
 ```
 
-Execute is the `Async` version of jsonRules, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
+Execute is the `Async` version of jsonLang, use it to run all [builtin rules](#builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
 
 
 ### Extend
@@ -60,10 +62,10 @@ Execute is the `Async` version of jsonRules, use it to run all [builtin rules](#
 registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler): void
 ```
 
-Extend JsonRules by adding 2 params
+Extend JsonLang by adding 2 params
 
-1. **ruleIdentifier**: Object `{ name: string, shortName?: string }`, `name`(required) is the `Rule` name, and `shortName`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortName`.
-1. **ruleHandler**: Sync/Async Function `(inputs: RuleInput[], data?: {}) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [check Input in Structure](#structure), and `data` is the schemaless data [check Data in the Execute Section](#execute)
+1. **ruleIdentifier**: Object `{ name: string, shortcut?: string }`, `name`(required) is the `Rule` name, and `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`.
+1. **ruleHandler**: Sync/Async Function `(...inputs: RuleInput[]) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [check Input in Structure](#structure), and `data` is the schemaless data [check Data in the Execute Section](#execute)
 
 ``` js 
 registerMany(rules: Rules): void
@@ -74,7 +76,7 @@ registerMany allows registering a `Map()` of rules. The `Map key` is `RuleIdenti
 
 ## Structure
 
-JsonRules have three main parameters:
+JsonLang have three main parameters:
 
   1. **Rule** or **R** (shortcut): (`String`) is the rule name itself. i.e. `and`, `or`, `==`, `>`.
   1. **Input** or **I** (shortcut): (`any[]`) is an array of inputs which will be passed to the `Rule` handler/function, their type depends on the `Rule` handler, or it can be a nested rule
@@ -85,10 +87,15 @@ JsonRules have three main parameters:
 
 ### Core
 
-* **Variable** or **Var**
-  * Input[]: Array<string> (Size: 1).
+* **Var**
+  * Input[]: Array<string> (Size: 1), for the Variable name of the Output.
   * Output: Any (depends on the output value).
-  * Description: used to get the value of any `Output` from any rules, [Check the Output part](#structure). 
+  * Description: used to get the value of any `Output` from any rules, [Check the Output part](#structure).
+
+* **Data**
+  * Input[]: Array<any> (Size: 0).
+  * Output: {}, the passed data object.
+  * Description: used to get the schemaless data object which you pass it to the [execute](#execute) method. 
 
 ### Logical
 
@@ -135,7 +142,7 @@ JsonRules have three main parameters:
 
 ### Math
 
-* **IsNumber** or **IsNum**
+* **IsNumber**
   * Input[]: Array<number> (Size: 1).
   * Output: Boolean (true or false).
   * Description: Check if the value dataType is a number or not. 
@@ -159,23 +166,23 @@ JsonRules have three main parameters:
 ### Object
 
 * **Get** [In Progress]
-  * Input[]: Array<mixed> (Size: 2) {path: string, defaultValue?: any}.
+  * Input[]: Array<mixed> (Size: 3) {path: string, defaultValue?: any, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs, the 1st one (required) is a path to get the [Data](#execute), and the 2nd one (optional) is a default value of the path is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
 * **Set** [In Progress]
-  * Input[]: Array<mixed> (Size: 2) {path: string, value: any}.
+  * Input[]: Array<mixed> (Size: 3) {path: string, value: any, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to set. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Set` Rule will create it.
 * **Update** [In Progress]
-  * Input[]: Array<mixed> (Size: 2) {path: string, value: any}.
+  * Input[]: Array<mixed> (Size: 3) {path: string, value: any, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to update. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Update` rule won't do anything.
 * **Delete** [In Progress]
-  * Input[]: Array<string> (Size: 1) {path: string}.
+  * Input[]: Array<string> (Size: 2) {path: string, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs, a path to mutate the [Data](#execute) by deleting a field in the request path. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Delete` rule won't do anything.
 * **Push** [In Progress]
-  * Input[]: Array<mixed> (Size: 2) {path: string, defaultValue?: any}.
+  * Input[]: Array<mixed> (Size: 3) {path: string, defaultValue: any|null, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs. The 1st one (required) is a path in the [Data](#execute) of any array element to push a value in it, and the 2nd one (optional) is a default value of the path that is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist or if the `path` is not a path of a non-array property, the `Push` rule won't do anything.
 
@@ -184,17 +191,17 @@ JsonRules have three main parameters:
 
 ### One Level Example
 ```js
-import { JsonRules } from 'json-rules-js';
+import { JsonLang } from 'jsonlang-js';
 
-const jsonRules = new JsonRules();
+const jsonLang = new JsonLang();
 
-jsonRules.execute( { "Rule": "LessThan" , "Input": [10, 20] } ); // true
+jsonLang.execute( { "Rule": "LessThan" , "Input": [10, 20] } ); // true
 
 // or for short
-jsonRules.execute( { "R": "<" , "I": [10, 20] } ); // true
+jsonLang.execute( { "R": "<" , "I": [10, 20] } ); // true
 
 // or use the async function
-jsonRules.executeAsync( { "R": "<" , "I": [10, 20] } )
+jsonLang.executeAsync( { "R": "<" , "I": [10, 20] } )
   .then(result => {
     console.log(result); // true
   }); 
@@ -204,31 +211,33 @@ jsonRules.executeAsync( { "R": "<" , "I": [10, 20] } )
 ### Nested Levels Example
 
 ```js
-import { JsonRules } from 'json-rules-js';
+import { JsonLang } from 'jsonlang-js';
 
-const jsonRules = new JsonRules();
+const jsonLang = new JsonLang();
 
-const result = jsonRules.execute({ 
+const result = jsonLang.execute({ 
   Rule: '+',
   Input: [
-    {
-      R: '+',
-      I: [
-        1,
-        { R: '*', I: [2, 3] },
-        5
-      ]
-    },
-    {
-      R: '+',
-      I: [
-        1,
-        { R: '*', I: [3, 3], O: 'x' },
-        5
-      ]
-    },
-    { R: 'Var', I: ['x'] },
-    { R: 'Get', I: ['user.age'] }
+    Rule: '+',
+    Input: [
+      {
+        R: '+',
+        I: [
+          1,
+          { R: '*', I: [2, 3] },
+          5
+        ]
+      },
+      {
+        R: '+',
+        I: [
+          1,
+          { R: '*', I: [3, 3], O: 'x' },
+          5
+        ]
+      },
+      { R: 'Var', I: ['x'] },
+      { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
   ]
 }, { user: { name: 'test', age: 100 } });
 
@@ -239,18 +248,18 @@ console.log(result);
 ### Extend Rules Example
 
 ```js
-import { JsonRules } from 'json-rules-js';
+import { JsonLang } from 'jsonlang-js';
 
-const jsonRules = new JsonRules();
+const jsonLang = new JsonLang();
 
-jsonRules.registerOne({ name: 'Test', shortName: 't' }, (inputs: any[]) => {
-  return `${inputs[0]} Test`
-})
+jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input: any) => {
+  return `${input} Test`
+});
 
-const result = jsonRules.execute({ 
+const result = jsonLang.execute({ 
   Rule: 'Test',
   Input: [
-    { R: 'Get', I: ['user.age'] }
+    { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
   ]
 }, { user: { name: 'test', age: 100 } });
 
@@ -261,7 +270,7 @@ console.log(result);
 
 ## Customization
 
-You can extend JsonRules and add any logic you want from well-known sync/async packages like lodash, moment, ajv, axios, mysql, mongoose, ...etc. 
+You can extend JsonLang and add any logic you want from well-known sync/async packages like lodash, moment, ajv, axios, mysql, mongoose, ...etc. 
 
 Just use the [register functions](#extend) and follow its structure to add whatever you want.
 
@@ -269,7 +278,7 @@ Just use the [register functions](#extend) and follow its structure to add whate
 
 ## Warnings
 
-JsonRules can be extended with any function, and you can override the existing rules, but make sure that any method you will add won't:
+JsonLang can be extended with any function, and you can override the existing rules, but make sure that any method you will add won't:
 
 1. Have any security issue
 1. Async method without timeout or with unhandled errors
@@ -286,12 +295,12 @@ This library uses `Array.map` and `Array.reduce`, so it's not *exactly* Internet
 
 * Adding more math, logic, object, array, date, and casting methods.
 * Automation Testing for all methods and covering all cases.
-* Allow importing packages to extend JsonRules easily.
+* Allow importing packages to extend JsonLang easily.
 * Provide plugins to wrap well-known packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
-* Make a UI Editor generate the JSON of JsonRules.
+* Make a UI Editor generate the JSON of JsonLang.
 * Allow Writing Rules as expression. i.e. `And(true, Or(1, Get('var1.var2', 0)))`.
-* Public website has good documentation, for example, playground to try JsonRules, use-cases session has many ideas for using JsonRules.
+* Public website has good documentation, for example, playground to try JsonLang, use-cases session has many ideas for using JsonLang.
 
 ## License
 
-JsonRules is [MIT licensed](LICENSE)
+JsonLang is [MIT licensed](LICENSE)
