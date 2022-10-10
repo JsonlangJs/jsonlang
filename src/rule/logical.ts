@@ -16,7 +16,6 @@ export class LogicalRules implements RulesImplementation {
   private register = () => {
     this.rules.set({ name: 'And', shortcut: '&&' }, this.and);
     this.rules.set({ name: 'Or', shortcut: '||' }, this.or);
-    this.rules.set({ name: 'All' }, this.all);
     this.rules.set({ name: 'Equal', shortcut: '==' }, this.equal);
     this.rules.set({ name: 'NotEqual', shortcut: '!=' }, this.notEqual);
     this.rules.set({ name: 'Not', shortcut: '!' }, this.not);
@@ -56,15 +55,11 @@ export class LogicalRules implements RulesImplementation {
   }
 
   private and = (...inputs: RuleInput[]) => {
-    return [...inputs].every(input => input)
+    return [...inputs].every(input => input);
   }
 
   private or = (...inputs: RuleInput[]) => {
     return [...inputs].some(input => input)
-  }
-
-  private all = (...inputs: RuleInput[]) => {
-    return [...inputs].map(input => input);
   }
 
   private equal = (lhs: RuleInput, rhs: RuleInput) => {

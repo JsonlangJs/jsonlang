@@ -1,4 +1,4 @@
-import { LogicalRules, MathRules, ObjectRules } from './index';
+import { LogicalRules, ArrayRules } from './index';
 
 describe('rule/logical', () => {
   describe('LogicalRules.and', () => {
@@ -48,16 +48,6 @@ describe('rule/logical', () => {
       const results = logicalRules.and(0, false);
 
       expect(results).toEqual(false);
-    });
-  });
-
-  describe('LogicalRules.all', () => {
-    const logicalRules: any = new LogicalRules();
-
-    it('Should Success To get the result of all passed values', () => {
-      const results = logicalRules.all(true, false, 1, 'test', 0);
-
-      expect(results).toEqual([true, false, 1, 'test', 0]);
     });
   });
 
@@ -338,6 +328,18 @@ describe('rule/logical', () => {
 
       expect(result1).toEqual(false);
       expect(result2).toEqual(false);
+    });
+  });
+});
+
+describe('rule/array', () => {
+  describe('ArrayRules.all', () => {
+    const logicalRules: any = new ArrayRules();
+  
+    it('Should Success To get the result of all passed values', () => {
+      const results = logicalRules.all(true, false, 1, 'test', 0);
+  
+      expect(results).toEqual([true, false, 1, 'test', 0]);
     });
   });
 });

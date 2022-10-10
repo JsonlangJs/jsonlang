@@ -1,4 +1,4 @@
-import { Rules, RulesImplementation } from '../core';
+import { IJsonLangParams, Rules, RulesImplementation, Runner } from '../core';
 
 export class ObjectRules implements RulesImplementation {
 

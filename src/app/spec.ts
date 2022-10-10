@@ -5,13 +5,13 @@ describe('app/app', () => {
     const jsonLang = new JsonLang();
 
     it('Should Success To Execute Simple Rules', () => {
-      const results = jsonLang.execute( { "Rule": "LessThan" , "Input": [10, 20] } );
+      const results = jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] } );
 
       expect(results).toEqual(true);
     });
 
     it('Should Success To Execute Simple Shortcut Rules', () => {
-      const results = jsonLang.execute( { "R": "<" , "I": [10, 20] } );
+      const results = jsonLang.execute( { "$R": "<" , "$I": [10, 20] } );
 
       expect(results).toEqual(true)
     });
@@ -19,26 +19,26 @@ describe('app/app', () => {
     it('Should Success To Execute Complex/Nested Rules', () => {
 
       const result = jsonLang.execute({ 
-        Rule: '+',
-        Input: [
+        $R: '+',
+        $I: [
           {
-            R: '+',
-            I: [
+            $R: '+',
+            $I: [
               1,
-              { R: '*', I: [2, 3] },
+              { $R: '*', $I: [2, 3] },
               5
             ]
           },
           {
-            R: '+',
-            I: [
+            $R: '+',
+            $I: [
               1,
-              { R: '*', I: [3, 3], O: 'x' },
+              { $R: '*', $I: [3, 3], $O: 'x' },
               5
             ]
           },
-          { R: 'Var', I: ['x'] },
-          { R: 'Get', I: ['user.age', null, { R: 'Data', I: [] }] }
+          { $R: 'Var', $I: ['x'] },
+          { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
         ]
       }, { user: { name: 'test', age: 100 } });
       
@@ -46,15 +46,15 @@ describe('app/app', () => {
     });
 
     it('Should Failed To Execute non existing Rules', () => {
-      expect(() => jsonLang.execute( { "R": "NotExisting" , "I": [1] } )).toThrowError('The \"NotExisting\" is not exist');
+      expect(() => jsonLang.execute( { "$R": "NotExisting" , "$I": [1] } )).toThrowError('The \"NotExisting\" is not exist');
     });
 
     it('Should Failed To Execute cause of non existing Output', () => {
-      expect(() => jsonLang.execute( { "R": "Var" , "I": ["NotExisting"] } )).toThrowError('The \"NotExisting\" output value is not exist');
+      expect(() => jsonLang.execute( { "$R": "Var" , "$I": ["NotExisting"] } )).toThrowError('The \"NotExisting\" output value is not exist');
     });
 
     it('Should Failed To Execute cause of non existing Data', () => {
-      expect(() => jsonLang.execute( { "R": "Data" , "I": [] } )).toThrowError('There is no data passed');
+      expect(() => jsonLang.execute( { "$R": "Data" , "$I": [] } )).toThrowError('There is no data passed');
     });
   });
 
@@ -62,39 +62,39 @@ describe('app/app', () => {
     const jsonLang = new JsonLang();
 
     it('Should Success To Execute Simple Rules', async () => {
-      const results = jsonLang.executeAsync( { "Rule": "LessThan" , "Input": [10, 20] } );
+      const results = jsonLang.executeAsync( { "$R": "LessThan" , "$I": [10, 20] } );
 
       await expect(results).resolves.toEqual(true);
     });
 
     it('Should Success To Execute Simple Shortcut Rules', async () => {
-      const results = jsonLang.executeAsync( { "R": "<" , "I": [10, 20] } );
+      const results = jsonLang.executeAsync( { "$R": "<" , "$I": [10, 20] } );
 
       await expect(results).resolves.toEqual(true);
     });
 
     it('Should Success To Execute Complex/Nested Rules', async () => {
       const result = jsonLang.executeAsync({ 
-        Rule: '+',
-        Input: [
+        $R: '+',
+        $I: [
           {
-            R: '+',
-            I: [
+            $R: '+',
+            $I: [
               1,
-              { R: '*', I: [2, 3] },
+              { $R: '*', $I: [2, 3] },
               5
             ]
           },
           {
-            R: '+',
-            I: [
+            $R: '+',
+            $I: [
               1,
-              { R: '*', I: [3, 3], O: 'x' },
+              { $R: '*', $I: [3, 3], $O: 'x' },
               5
             ]
           },
-          { R: 'Var', I: ['x'] },
-          { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
+          { $R: 'Var', $I: ['x'] },
+          { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
         ]
       }, { user: { name: 'test', age: 100 } });
       
@@ -102,15 +102,15 @@ describe('app/app', () => {
     });
 
     it('Should Failed To Execute non existing Rules', async () => {
-      await expect(jsonLang.executeAsync( { "R": "NotExisting" , "I": [1] } )).rejects.toThrowError('The \"NotExisting\" is not exist');
+      await expect(jsonLang.executeAsync( { "$R": "NotExisting" , "$I": [1] } )).rejects.toThrowError('The \"NotExisting\" is not exist');
     });
 
     it('Should Failed To Execute cause of non existing Output', async () => {
-      expect(jsonLang.executeAsync( { "R": "Var" , "I": ["NotExisting"] } )).rejects.toThrowError('The \"NotExisting\" output value is not exist');
+      expect(jsonLang.executeAsync( { "$R": "Var" , "$I": ["NotExisting"] } )).rejects.toThrowError('The \"NotExisting\" output value is not exist');
     });
 
     it('Should Failed To Execute cause of non existing Data', () => {
-      expect(() => jsonLang.execute( { "R": "Data" , "I": [] } )).toThrowError('There is no data passed');
+      expect(() => jsonLang.execute( { "$R": "Data" , "$I": [] } )).toThrowError('There is no data passed');
     });
   });
 
@@ -123,9 +123,9 @@ describe('app/app', () => {
       })
       
       const result = jsonLang.execute({ 
-        Rule: 'Test',
-        Input: [
-          { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
+        $R: 'Test',
+        $I: [
+          { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
         ]
       }, { user: { name: 'test', age: 100 } });
       
@@ -140,7 +140,7 @@ describe('app/app', () => {
         });
       })
 
-      await expect(jsonLang.executeAsync({ Rule: 'v', Input: [] })).rejects.toThrowError('Failed to Run \"v\" cause of 0');
+      await expect(jsonLang.executeAsync({ $R: 'v', $I: [] })).rejects.toThrowError('Failed to Run \"v\" cause of 0');
     });
   });
 
@@ -157,8 +157,8 @@ describe('app/app', () => {
       jsonLang.registerMany(rules);
       
       const result = jsonLang.execute({ 
-        Rule: 'Hi',
-        Input: [ { R: 'Year', I: [] } ]
+        $R: 'Hi',
+        $I: [ { $R: 'Year', $I: [] } ]
       });
       
       expect(result).toEqual(`Hello JsonLang in ${new Date().getFullYear().toString()}`);

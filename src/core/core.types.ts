@@ -33,15 +33,9 @@ export type RulesValidation = {
 }
 
 export enum RuleParams {
-  Rule = 'Rule',
-  Input = 'Input',
-  Output = 'Output',
-}
-
-export enum ShortRuleParams {
-  Rule = 'R',
-  Input = 'I',
-  Output = 'O',
+  Rule = '$R',
+  Input = '$I',
+  Output = '$O',
 }
 
 export type IJsonLangParams = {
@@ -52,26 +46,12 @@ export type IJsonLangParams = {
   /**
    * Input: is array of inputs which will passed to the "Rule" handler/function, their type depends on the "Rule" handler or it have be a nested rule
    */
-  [RuleParams.Input]?: string[] | number [] | boolean [] | any [] | IJsonLangParams [];
+  [RuleParams.Input]?: RuleInput[];
   /**
    *  Output: it accept a name of variable which used to save the Rule result in a variable and can be called in any other rule by `{ "Rule": "Var": "Input": ["variableX"] }`.
    *  The output value should be unique as if you defined the same value more than one time, the last one will override the value of the pervious one.
    */
-  [RuleParams.Output]?: symbol;
-} | 
-{
-  /**
-    * R: is rule name itself. i.e. "And", "Or", "==", ">"
-  */
-  [ShortRuleParams.Rule]: string;
-  /**
-   * I: is array of inputs which will passed to the "Rule" handler/function, their type depends on the "Rule" handler or it have be a nested rule
-  */
-  [ShortRuleParams.Input]?: string[] | number [] | boolean [] | any [] | IJsonLangParams [];
-  /**
-   * O: is array of inputs which will passed to the "Rule" handler/function, their type depends on the "Rule" handler or it have be a nested rule
-  */
-  [ShortRuleParams.Output]?: symbol;
+  [RuleParams.Output]?: string;
 };
 
 export interface RulesImplementation {
@@ -88,5 +68,14 @@ export type Rules = Map<RuleIdentifier, RuleHandler>;
 
 export enum CoreRules {
   Var = 'Var',
-  Data = 'Data'
+  Data = 'Data',
 }
+
+export enum DataScope {
+  Global = 'Global',
+  Local = 'Local',
+}
+
+export type Runner = (scopedData?: any) => (jsonLang: IJsonLangParams) => any;
+
+export interface InnerRules { runner: number | null, asyncRunner: number | null, rules: number[] };

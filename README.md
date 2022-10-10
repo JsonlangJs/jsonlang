@@ -1,7 +1,7 @@
 # JsonLang
 
 
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&type=6e&v=0.1.0&x2=0)](https://www.npmjs.com/package/jsonlang-js)
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&type=6e&v=0.2.0&x2=0)](https://www.npmjs.com/package/jsonlang-js)
 [![install size](https://packagephobia.com/badge?p=jsonlang-js)](https://packagephobia.com/result?p=jsonlang-js)
 [![npm downloads](https://img.shields.io/npm/dy/jsonlang-js.svg)](https://www.npmjs.com/package/jsonlang-js)
 [![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)
@@ -26,7 +26,7 @@ npm install jsonlang-js
 
 1. Typescript. It's a strongly typed npm package
 1. the JsonLang structure is Simple and Optimized. Its [structure](#structure) and [rules](#builtin-rules) have a shortcut to make your JSON in a small size.
-1. Its structure is always Consistent. i.e. `{"Rule": "R1", Input: ["value1", "value2", {"Rule": "R2", Input: [...] }, ...] }`.
+1. Its structure is always Consistent. i.e. `{"$R": "R1", "$I": ["value1", "value2", {"$R": "R2", "$I": [...] }, ...] }`.
 1. Safe & Secure. Each Rule has a secure handler.
 1. Extendable. Easy to add new rules.
 1. Sync/Async. All rules in JsonLang are sync rules, but you can extend it and add async rules.
@@ -78,9 +78,9 @@ registerMany allows registering a `Map()` of rules. The `Map key` is `RuleIdenti
 
 JsonLang have three main parameters:
 
-  1. **Rule** or **R** (shortcut): (`String`) is the rule name itself. i.e. `and`, `or`, `==`, `>`.
-  1. **Input** or **I** (shortcut): (`any[]`) is an array of inputs which will be passed to the `Rule` handler/function, their type depends on the `Rule` handler, or it can be a nested rule
-  1. **Output** or **O** (shortcut)?: (`Symbol [Optional]`), is an optional field, it accept a name of variable which used to save the Rule result in a [variable](#core) and can be called in any other rule by `{ "Rule": "Var": "Input": ["variableX"] }`. The output value should be unique. If you define the same value more than once, the last one will override the value of the previous one.
+  1. **$R**: (`String`) is the rule name itself. i.e. `and`, `or`, `==`, `>`.
+  1. **$I**: (`any[]`) is an array of inputs which will be passed to the `Rule` handler/function, their type depends on the `Rule` handler, or it can be a nested rule
+  1. **$O**?: (`Symbol [Optional]`), is an optional field, it accept a name of variable which used to save the Rule result in a [variable](#core) and can be called in any other rule by `{ "$R": "Var": "$I": ["variableX"] }`. The output value should be unique. If you define the same value more than once, the last one will override the value of the previous one.
 
 
 ## Builtin Rules
@@ -93,9 +93,9 @@ JsonLang have three main parameters:
   * Description: used to get the value of any `Output` from any rules, [Check the Output part](#structure).
 
 * **Data**
-  * Input[]: Array<any> (Size: 0).
-  * Output: {}, the passed data object.
-  * Description: used to get the schemaless data object which you pass it to the [execute](#execute) method. 
+  * Input[]?: Array<string> (Size: 1) Enum of "Global" or "Local", defaulted with "Global".
+  * Output: any.
+  * Description: if the Input is `["Global"]` it will return the schemaless data object which you pass it to the [execute](#execute) method, else if the input is `["Local"]`, it will return the value passed from the parent rule like [filter in array rules](#array).
 
 ### Logical
 
@@ -103,38 +103,43 @@ JsonLang have three main parameters:
   * Input[]: Array<any> (Size: Unlimited).
   * Output: Boolean (true or false).
   * Description: Do the `Anding` operation, if any value in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true`. 
+
 * **Or** or **||**
   * Input[]: Array<any> (Size: Unlimited).
   * Output: Boolean (true or false).
   * Description: Do the `Oring` operation, if all values in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true` .
-* **All**
-  * Input[]: Array<any> (Size: Unlimited).
-  * Output: Array<any> (Size: Unlimited).
-  * Description: It takes an array of inputs and returns them again. It is used to run a list of `nested Rules`.
+  
 * **Equal** or **==**
   * Input[]: Array<any> (Size: 2).
   * Output: Boolean (true or false).
   * Description: It takes an array of 2 inputs to compare if element one `Equal` element two or not.
+
 * **NotEqual** or **=**
   * Input[]: Array<any> (Size: 2).
   * Output: Boolean (true or false).
   * Description: It takes an array of 2 inputs to compare if element one `Not Equal` to element two or not.
+
 * **Not** or **!**
   * Input[]: Array<Boolean> (Size: 1).
   * Output: Boolean (true or false).
   * Description: It takes an array of 1 input inverts its value. If it `true` it will return `false` and vice versa.
+
+
 * **GreaterThan** or **>**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
   * Description: It takes an array of 2 inputs to compare if element one `Greater Than` element two or not.
+
 * **LessThan** or **<**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
   * Description: It takes an array of 2 inputs to compare if element one `Less Than` element two or not.
+
 * **GreaterThanOrEqual** or **>=**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
   * Description: It takes an array of 2 inputs to compare if element one `Greater Than or Equal` element two or not.
+
 * **LessThanOrEqual** or **<=**
   * Input[]: Array<number> (Size: 2).
   * Output: Boolean (true or false).
@@ -146,18 +151,22 @@ JsonLang have three main parameters:
   * Input[]: Array<number> (Size: 1).
   * Output: Boolean (true or false).
   * Description: Check if the value dataType is a number or not. 
+
 * **Sum** or **+**
   * Input[]: Array<number> (Size: unlimited).
   * Output: number.
   * Description: Used to Sum all values. i.e. `Input1 + Input2 + .... + InputN`.
+
 * **Subtract** or **-**
   * Input[]: Array<number> (Size: unlimited).
   * Output: number.
   * Description: Used to Subtract all values. i.e. `Input1 - Input2 - .... - InputN`.
+
 * **Multiply** or **\***
   * Input[]: Array<number> (Size: unlimited).
   * Output: number.
   * Description: Used to Multiply all values. i.e. `Input1 * Input2 * .... * InputN`.
+
 * **Divide** or **/**
   * Input[]: Array<number> (Size: unlimited).
   * Output: number.
@@ -169,23 +178,50 @@ JsonLang have three main parameters:
   * Input[]: Array<mixed> (Size: 3) {path: string, defaultValue?: any, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs, the 1st one (required) is a path to get the [Data](#execute), and the 2nd one (optional) is a default value of the path is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+
 * **Set** [In Progress]
   * Input[]: Array<mixed> (Size: 3) {path: string, value: any, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to set. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Set` Rule will create it.
+
 * **Update** [In Progress]
   * Input[]: Array<mixed> (Size: 3) {path: string, value: any, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [Data](#execute), and the 2nd one is the value to update. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Update` rule won't do anything.
+
 * **Delete** [In Progress]
   * Input[]: Array<string> (Size: 2) {path: string, data:{}}.
   * Output: Any.
   * Description: It accepts two inputs, a path to mutate the [Data](#execute) by deleting a field in the request path. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Delete` rule won't do anything.
-* **Push** [In Progress]
-  * Input[]: Array<mixed> (Size: 3) {path: string, defaultValue: any|null, data:{}}.
-  * Output: Any.
-  * Description: It accepts two inputs. The 1st one (required) is a path in the [Data](#execute) of any array element to push a value in it, and the 2nd one (optional) is a default value of the path that is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist or if the `path` is not a path of a non-array property, the `Push` rule won't do anything.
 
+
+
+### Array
+
+* **All**
+  * Input[]: Array<any> (Size: Unlimited).
+  * Output: Array<any> (Size: Unlimited).
+  * Description: It takes an array of inputs and returns them again. It is used to run a list of `nested Rules`.
+
+* **Filter**
+  * Input[]: Array<mixed> (Size: 2) {elements: any[], rule: IJsonLangParams}.
+  * Output: Any[].
+  * Description: It accepts array of elements with any type to filter them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [Data](#core) Rule with scope local, check this [example](#Access-Inner-Data).
+
+* **Map**
+  * Input[]: Array<mixed> (Size: 2) {elements: any[], rule: IJsonLangParams}.
+  * Output: Any[].
+  * Description: It accepts array of elements with any type to map them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [Data](#execute) Rule with scope local.
+
+* **Foreach**
+  * Input[]: Array<mixed> (Size: 2) {elements: any[], rule: IJsonLangParams}.
+  * Output: true.
+  * Description: It accepts array of elements with any type to iterate over them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [Data](#execute) Rule with scope local.
+
+* **Flatten**
+  * Input[]: Array<mixed> (Size: 2) {elements: any[], level?: number}.
+  * Output: true.
+  * Description: It accepts array of elements with any type to flatten this array with any level.
 
 ## Examples
 
@@ -195,7 +231,7 @@ import { JsonLang } from 'jsonlang-js';
 
 const jsonLang = new JsonLang();
 
-jsonLang.execute( { "Rule": "LessThan" , "Input": [10, 20] } ); // true
+jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] } ); // true
 
 // or for short
 jsonLang.execute( { "R": "<" , "I": [10, 20] } ); // true
@@ -216,34 +252,59 @@ import { JsonLang } from 'jsonlang-js';
 const jsonLang = new JsonLang();
 
 const result = jsonLang.execute({ 
-  Rule: '+',
-  Input: [
-    Rule: '+',
-    Input: [
-      {
-        R: '+',
-        I: [
-          1,
-          { R: '*', I: [2, 3] },
-          5
-        ]
-      },
-      {
-        R: '+',
-        I: [
-          1,
-          { R: '*', I: [3, 3], O: 'x' },
-          5
-        ]
-      },
-      { R: 'Var', I: ['x'] },
-      { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
+  $R: '+',
+  $I: [
+    {
+      $R: '+',
+      $I: [
+        1,
+        { $R: '*', $I: [2, 3] },
+        5
+      ]
+    },
+    {
+      $R: '+',
+      $I: [
+        1,
+        { $R: '*', $I: [3, 3], $O: 'x' },
+        5
+      ]
+    },
+    { $R: 'Var', $I: ['x'] },
+    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
   ]
 }, { user: { name: 'test', age: 100 } });
 
 console.log(result);
 // 136
 ```
+
+### Access Inner Data
+
+```js
+import { JsonLang } from 'jsonlang-js';
+
+const jsonLang = new JsonLang();
+
+const result = jsonLang.execute({ $R: 'All', $I: [
+  { 
+    $R: 'Filter',
+    $I: [[1, 3, 5], { $R: '>', $I: [{ $R: 'Data', $I: ['Local'] }, 2] }]
+  },
+  { 
+    $R: 'Filter',
+    $I: [
+      { $R: 'Get', $I: ['data.test', null, { $R: 'Data', $I: ['Global'] }] },
+      { $R: '<', $I: [{ $R: 'Data', $I: ['Local'] }, 500] }
+    ]
+  }
+] }, { data: { id: 'test', test: [100, 300, 700] } });
+
+console.log(result);
+
+// [ [ 3, 5 ], [ 100, 300 ] ]
+```
+
 
 ### Extend Rules Example
 
@@ -257,9 +318,9 @@ jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input: any) => {
 });
 
 const result = jsonLang.execute({ 
-  Rule: 'Test',
-  Input: [
-    { R: 'Get', I: ['user.age', null, { R: 'Data' }] }
+  $R: 'Test',
+  $I: [
+    { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
   ]
 }, { user: { name: 'test', age: 100 } });
 
