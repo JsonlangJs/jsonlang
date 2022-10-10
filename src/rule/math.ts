@@ -19,6 +19,8 @@ export class MathRules implements RulesImplementation {
     this.rules.set({ name: 'Subtract', shortcut: '-' }, this.subtract);
     this.rules.set({ name: 'Multiply', shortcut: '*' }, this.multiply);
     this.rules.set({ name: 'Divide', shortcut: '/' }, this.divide);
+    this.rules.set({ name: 'Min' }, this.min);
+    this.rules.set({ name: 'Max' }, this.max);
   }
 
   private isNumber = (inputs: RuleInput[]) => {
@@ -47,5 +49,15 @@ export class MathRules implements RulesImplementation {
   private divide = (...inputs: RuleInput) => {
     const arrayOfInputs = [...inputs];
     return this.isNumber(arrayOfInputs) && this.hasNoZero(arrayOfInputs.slice(1))? arrayOfInputs.reduce((a, b) => a / b) : 0;
+  }
+
+  private min = (...inputs: RuleInput) => {
+    const arrayOfInputs = [...inputs];
+    return this.isNumber(arrayOfInputs)? Math.min(...inputs) : null;
+  }
+
+  private max = (...inputs: RuleInput) => {
+    const arrayOfInputs = [...inputs];
+    return this.isNumber(arrayOfInputs)? Math.max(...inputs) : null;
   }
 }
