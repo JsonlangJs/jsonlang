@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+    - master
+
+
+jobs:
+  publish:
+    name: npm-publish
+    runs-on: Ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: install node v14
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+    - name: Installing...
+      run: npm i
+    - name: Building...
+      run: npm run build
+    - name: Testing...
+      run: npm run test
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Config GIT
+      run: >-
+        git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
+        git config --global user.name "Ahmed Medhat"
+    # - name: Publishing...
+    #   run: >-
+    #     npm publish
+    #     --target-branch master
+    #     --set-access-level public
+    #     --npm-auth-token ${{ secrets.NPM_AUTH_TOKEN }}
+    #     --apply --publish --add-commit-details
