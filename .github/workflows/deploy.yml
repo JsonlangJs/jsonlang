@@ -11,13 +11,11 @@ jobs:
     name: npm-publish
     runs-on: Ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+      uses: actions/setup-node@v3
       with:
-        fetch-depth: 0
-    - name: install node v14
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14
+        node-version: '16.x'
+        registry-url: 'https://registry.npmjs.org'
     - name: Installing...
       run: npm i
     - name: Building...
@@ -32,8 +30,10 @@ jobs:
         git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
         git config --global user.name "Ahmed Medhat"
     - name: Publishing...
-      run: npm publish --npm-auth-token ${{ secrets.NPM_AUTH_TOKEN }}
-
+      run: npm ci
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN  }}
 
 
         
