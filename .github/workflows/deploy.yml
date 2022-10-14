@@ -31,10 +31,10 @@ jobs:
       run: >-
         git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
         git config --global user.name "Ahmed Medhat"
-    # - name: Publishing...
-    #   run: >-
-    #     npm publish
-    #     --target-branch master
-    #     --set-access-level public
-    #     --npm-auth-token ${{ secrets.NPM_AUTH_TOKEN }}
-    #     --apply --publish --add-commit-details
+    - name: Publishing...
+      run: >-
+        npm publish
+        --target-branch master
+        --set-access-level public
+        --npm-auth-token ${{ secrets.NPM_AUTH_TOKEN }}
+        --apply --publish
