@@ -32,9 +32,8 @@ jobs:
         git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
         git config --global user.name "Ahmed Medhat"
     - name: Publishing...
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      run: npm publish --npm-auth-token ${{ secrets.NPM_AUTH_TOKEN }}
+
 
 
         
