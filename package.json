@@ -9,7 +9,7 @@
     "dev": "ts-node -r tsconfig-paths/register src/app/app.ts",
     "build": "rimraf ./dist/ && tsc",
     "release": "npm run build && npm publish --tag beta --access public",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
