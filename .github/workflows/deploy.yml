@@ -7,7 +7,7 @@ on:
 
 jobs:
   test: 
-    name: npm-publish
+    name: testing
     runs-on: Ubuntu-20.04
     steps:
     - uses: actions/checkout@v3

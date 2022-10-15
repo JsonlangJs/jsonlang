@@ -369,7 +369,6 @@ This library uses `Array.map` and `Array.reduce`, so it's not *exactly* Internet
 ## 📗 **What's Next?**
 
 * Adding more math, logic, object, array, date, and casting methods.
-* Automation Testing for all methods and covering all cases.
 * Allow importing packages to extend JsonLang easily.
 * Provide plugins to wrap well-known packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
 * Make a UI Editor generate the JSON of JsonLang.
