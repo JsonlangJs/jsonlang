@@ -15,6 +15,7 @@ JsonLang is designed to be extendable. You can define new rules with sync/async 
 [![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)
 [![codecov](https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js/branch/master/graph/badge.svg?token=35JEA7G369)](https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js)
 [![Maintenance](https://img.shields.io/maintenance/yes/2022.svg)](https://github.com/ahmed-medhat-tawfiq/jsonlang-js/graphs/commit-activity)
+[![Build](https://img.shields.io/github/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/Deploy/master)](https://github.com/ahmed-medhat-tawfiq/jsonlang-js/actions)
 [![Programming Language](https://img.shields.io/badge/typescript-100%25-blue.svg)](https://img.shields.io/badge/typescript-100%25-blue.svg)
 [![License](https://img.shields.io/github/license/ahmed-medhat-tawfiq/jsonlang-js.svg)](https://github.com/ahmed-medhat-tawfiq/jsonlang-js/blob/master/LICENSE)
 [![Github Sponsor](https://camo.githubusercontent.com/7d9333b097b2f54a8957d126ab82937811489c9b75c3850f609985cf94cd29fe/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2532302d53706f6e736f722532306d652532306f6e2532304769744875622d6f72616e6765)](https://github.com/sponsors/ahmed-medhat-tawfiq)
