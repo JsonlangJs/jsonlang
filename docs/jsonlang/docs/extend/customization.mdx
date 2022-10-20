@@ -1,0 +1,51 @@
+---
+sidebar_position: 1
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+# Customization
+
+You can extend JsonLang and add any logic you want from well-known sync/async packages like lodash, moment, ajv, axios, mysql, mongoose, ...etc. 
+
+Just use the [register functions](#extend) and follow its structure to add whatever you want.
+
+## Extend
+
+``` js 
+registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler): void
+```
+
+Extend JsonLang by adding 2 params
+
+1. **ruleIdentifier**: Object `{ name: string, shortcut?: string }`, `name`(required) is the `Rule` name, and `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`.
+1. **ruleHandler**: Sync/Async Function `(...inputs: RuleInput[]) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [check Input in Structure](../intro#structure), and `data` is the schemaless data [check Data in the Execute Section](../intro#execute)
+
+## Example
+
+``` js 
+registerMany(rules: Rules): void
+```
+registerMany allows registering a `Map()` of rules. The `Map key` is `RuleIdentifier`, and the `Map value` is the `RuleHandler`
+
+```js
+import { JsonLang } from 'jsonlang-js';
+
+const jsonLang = new JsonLang();
+
+jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input: any) => {
+  return `${input} Test`
+});
+
+const result = jsonLang.execute({ 
+  $R: 'Test',
+  $I: [
+    { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
+  ]
+}, { user: { name: 'test', age: 100 } });
+
+console.log(result);
+// 100 Test
+```
+
+<JsonLangRunner example="25" height="22vh" key="example26"></JsonLangRunner>

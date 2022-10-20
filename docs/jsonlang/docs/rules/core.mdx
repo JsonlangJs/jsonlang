@@ -1,0 +1,24 @@
+---
+sidebar_position: 1
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Core
+
+Access data in different scopes
+
+## Var
+  * Input[]: Array<string\> (Size: 1), for the Variable name of the Output.
+  * Output: Any (depends on the output value).
+  * Description: used to get the value of any `Output` from any rules, [Check the Output part](../intro#structure).
+
+<JsonLangRunner example="2" height="20vh" key="example2"></JsonLangRunner>
+
+## Data
+  * Input[]?: Array<string\> (Size: 1) Enum of "Global" or "Local", defaulted with "Global".
+  * Output: any.
+  * Description: if the Input is `["Global"]` it will return the schemaless data object which you pass it to the [execute](../intro#execute) method, else if the input is `["Local"]`, it will return the value passed from the parent rule like [filter in array rules](./array#filter).
+
+<JsonLangRunner example="3" height="18vh" key="example3"></JsonLangRunner>

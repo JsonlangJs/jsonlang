@@ -33,6 +33,7 @@ export class ArrayRules implements RulesImplementation {
     if (!Array.isArray(elements)) return false;
 
     elements.forEach((ele) => $runner(ele)($rule));
+    return true;
   }
 
   private map = (elements: any[], $rule: IJsonLangParams, $runner: Runner) => {

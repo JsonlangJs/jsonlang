@@ -1,0 +1,43 @@
+---
+sidebar_position: 2
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Nested/Composite Example
+
+```js
+import { JsonLang } from 'jsonlang-js';
+
+const jsonLang = new JsonLang();
+
+const result = jsonLang.execute({ 
+  $R: '+',
+  $I: [
+    {
+      $R: '+',
+      $I: [
+        1,
+        { $R: '*', $I: [2, 3] },
+        5
+      ]
+    },
+    {
+      $R: '+',
+      $I: [
+        1,
+        { $R: '*', $I: [3, 3], $O: 'x' },
+        5
+      ]
+    },
+    { $R: 'Var', $I: ['x'] },
+    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
+  ]
+}, { user: { name: 'test', age: 100 } });
+
+console.log(result);
+// 136
+```
+
+<JsonLangRunner example="1" height="40vh" key="example24"></JsonLangRunner>

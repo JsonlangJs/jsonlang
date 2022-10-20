@@ -1,0 +1,16 @@
+---
+sidebar_position: 4
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Warnings
+
+
+JsonLang can be extended with any function, and you can override the existing rules, but make sure that any method you will add won't:
+
+1. Have any security issue
+1. Async method without timeout or with unhandled errors
+1. Block the event loop in backend nodejs https://nodejs.org/en/docs/guides/dont-block-the-event-loop/
+1. abuse the CPU or the memory
