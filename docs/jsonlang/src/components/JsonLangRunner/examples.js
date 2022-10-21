@@ -36,7 +36,8 @@ export default function getExample(exampleNum) {
 ],
 [
 `{ 
-  "$R": "Data" 
+  "$R": "Data",
+  "$I": [] 
 }
 `,
 `{
