@@ -46,7 +46,7 @@ export type IJsonLangParams = {
   /**
    * Input: is array of inputs which will passed to the "Rule" handler/function, their type depends on the "Rule" handler or it have be a nested rule
    */
-  [RuleParams.Input]?: RuleInput[];
+  [RuleParams.Input]: RuleInput[];
   /**
    *  Output: it accept a name of variable which used to save the Rule result in a variable and can be called in any other rule by `{ "Rule": "Var": "Input": ["variableX"] }`.
    *  The output value should be unique as if you defined the same value more than one time, the last one will override the value of the pervious one.

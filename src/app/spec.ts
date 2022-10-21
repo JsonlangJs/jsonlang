@@ -46,7 +46,7 @@ describe('app/app', () => {
     });
 
     it('Should Failed To Execute non existing Rules', () => {
-      expect(() => jsonLang.execute( { "$R": "NotExisting" , "$I": [1] } )).toThrowError('The \"NotExisting\" is not exist');
+      expect(() => jsonLang.execute( { "$R": "NotExisting" , "$I": [1] } )).toThrowError('The \"NotExisting\" Rule is not exist');
     });
 
     it('Should Failed To Execute cause of non existing Output', () => {
@@ -94,7 +94,7 @@ describe('app/app', () => {
             ]
           },
           { $R: 'Var', $I: ['x'] },
-          { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
+          { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
         ]
       }, { user: { name: 'test', age: 100 } });
       
@@ -102,7 +102,7 @@ describe('app/app', () => {
     });
 
     it('Should Failed To Execute non existing Rules', async () => {
-      await expect(jsonLang.executeAsync( { "$R": "NotExisting" , "$I": [1] } )).rejects.toThrowError('The \"NotExisting\" is not exist');
+      await expect(jsonLang.executeAsync( { "$R": "NotExisting" , "$I": [1] } )).rejects.toThrowError('The \"NotExisting\" Rule is not exist');
     });
 
     it('Should Failed To Execute cause of non existing Output', async () => {
@@ -125,7 +125,7 @@ describe('app/app', () => {
       const result = jsonLang.execute({ 
         $R: 'Test',
         $I: [
-          { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
+          { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
         ]
       }, { user: { name: 'test', age: 100 } });
       

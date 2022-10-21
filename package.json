@@ -1,10 +1,11 @@
 {
   "name": "jsonlang-js",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Json Programming Language",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "commonjs",
+  "homepage": "https://jsonlang.dev",
   "scripts": {
     "dev": "ts-node -r tsconfig-paths/register src/app/app.ts",
     "build": "rimraf ./dist/ && tsc",

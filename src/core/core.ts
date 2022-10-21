@@ -70,11 +70,7 @@ export class RuleCore implements IRulesCore {
       let localData = scopedData;
 
       const innerRun = (jsonLang: IJsonLangParams) => {
-        const { rule, inputs = [], output } = this.getRuleParams(jsonLang);
-
-        const ruleHandler = this.rules.get(rule);
-    
-        if (!ruleHandler) throw Error(`The "${rule}" is not exist`);
+        const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
   
         let resolvedInputs = this.resolveRuleInputs(inputs, ruleHandler, innerRun, run);
 
@@ -99,12 +95,8 @@ export class RuleCore implements IRulesCore {
       let localData = scopedData;
 
       const innerRun = async (jsonLang: IJsonLangParams) => {
-        const { rule, inputs = [], output } = this.getRuleParams(jsonLang);
+        const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
 
-        const ruleHandler = this.rules.get(rule);
-    
-        if (!ruleHandler) throw Error(`The "${rule}" is not exist`);
-  
         try {
           let resolvedInputs = await this.resolveRuleAsyncInputs(inputs, ruleHandler, innerRun, syncRun, run);
     
@@ -177,11 +169,19 @@ export class RuleCore implements IRulesCore {
   }
 
   private getRuleParams(jsonLang: IJsonLangParams) {
+    if(!this.isRule(jsonLang)) throw new Error('Invalid Rule, Rule must be an object with 2 properties $R & $I');
+
     const rule: string = jsonLang[RuleParams.Rule];
     const inputs = jsonLang[RuleParams.Input]
     const output = jsonLang[RuleParams.Output];
 
-    return { rule, inputs, output };
+    if (!Array.isArray(inputs)) throw new Error('Invalid Rule, $I must be an array');
+
+    const ruleHandler = this.rules.get(rule);
+    
+    if (!ruleHandler) throw Error(`The "${rule}" Rule is not exist`);
+
+    return { ruleHandler, rule, inputs, output };
   }
 
   private getHandlerInnerRules = (ruleHandler: RuleHandler) => {

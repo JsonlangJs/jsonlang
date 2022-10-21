@@ -1,7 +1,9 @@
 # 👋 **JsonLang**
 
 
-<img align="center" src="./assets/default-monochrome.svg" height="200" width="300" alt="JsonLang Logo" /></br></br>
+<a href="https://jsonlang.dev"><img align="center" src="./assets/default-monochrome.svg" height="200" width="300" alt="JsonLang Logo"/></a></br></br>
+
+[https://jsonlang.dev](https://jsonlang.dev)
 
 
 It is a Typescript package that provides a simple JSON Programming Language, allowing you to execute a safe logic in Frontend or Backend (NodeJS). Furthermore, it can be stored in the database and rendered to the Frontend-Side to execute/run some business logic. 
@@ -248,10 +250,10 @@ const jsonLang = new JsonLang();
 jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] } ); // true
 
 // or for short
-jsonLang.execute( { "R": "<" , "I": [10, 20] } ); // true
+jsonLang.execute( { "$R": "<" , "$I": [10, 20] } ); // true
 
 // or use the async function
-jsonLang.executeAsync( { "R": "<" , "I": [10, 20] } )
+jsonLang.executeAsync( { "$R": "<" , "$I": [10, 20] } )
   .then(result => {
     console.log(result); // true
   }); 
@@ -286,7 +288,7 @@ const result = jsonLang.execute({
       ]
     },
     { $R: 'Var', $I: ['x'] },
-    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
+    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: ['Global'] }] }
   ]
 }, { user: { name: 'test', age: 100 } });
 
