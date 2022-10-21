@@ -18,6 +18,8 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'ahmed-medhat-tawfiq', // Usually your GitHub org/user name.
   projectName: 'JsonLang', // Usually your repo name.
+  deploymentBranch: 'website',
+  
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -88,11 +90,11 @@ const config = {
             position: 'right',
             label: 'Tutorial',
           },
-          // {
-          //   to: '/blog',
-          //   label: 'Blog',
-          //   position: 'right'
-          // },
+          {
+            to: '/playground',
+            label: 'Playground',
+            position: 'right'
+          },
           {
             href: 'https://github.com/ahmed-medhat-tawfiq/jsonlang-js',
             position: 'right',
