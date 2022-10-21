@@ -13,7 +13,7 @@ export default function getExample(exampleNum) {
         "$I": ["x"]
       }, {
         "$R": "Get",
-        "$I": ["user.age", null, { "$R": "Data" }]
+        "$I": ["user.age", null, { "$R": "Data", "$I": [] }]
       }]
 }`, `{ 
   "user": {
@@ -171,7 +171,7 @@ export default function getExample(exampleNum) {
   "$I": [
     "name.last",
     "Unknown Name",
-    { "$R": "Data" }
+    { "$R": "Data", "$I": [] }
   ]
 }
 `,
@@ -303,7 +303,7 @@ export default function getExample(exampleNum) {
   "$I": [
     { 
       "$R": "Get",
-      "$I": ["user.age", null, { "$R": "Data" }]
+      "$I": ["user.age", null, { "$R": "Data", "$I": [] }]
     }
   ]
 }
