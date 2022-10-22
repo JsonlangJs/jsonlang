@@ -27,7 +27,7 @@ export class MathRules implements RulesImplementation {
     return inputs.every(i =>typeof i === 'number');
   }
 
-  private hasNoZero = (...inputs: RuleInput[]) => {
+  private hasNoZero = (inputs: RuleInput[]) => {
     return inputs.every(i => i !== 0);
   }
 
