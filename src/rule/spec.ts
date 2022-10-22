@@ -1,4 +1,4 @@
-import { LogicalRules, ArrayRules } from './index';
+import { LogicalRules, ArrayRules, MathRules, ObjectRules } from './index';
 
 describe('rule/logical', () => {
   describe('LogicalRules.and', () => {
@@ -334,12 +334,226 @@ describe('rule/logical', () => {
 
 describe('rule/array', () => {
   describe('ArrayRules.all', () => {
-    const logicalRules: any = new ArrayRules();
+    const arrayRules: any = new ArrayRules();
   
     it('Should Success To get the result of all passed values', () => {
-      const results = logicalRules.all(true, false, 1, 'test', 0);
+      const results = arrayRules.all(true, false, 1, 'test', 0);
   
       expect(results).toEqual([true, false, 1, 'test', 0]);
     });
   });
+
+  describe('ArrayRules.flatten', () => {
+    const arrayRules: any = new ArrayRules();
+  
+    it('Should Success To get the result of flatten array with the given level', () => {
+      const results = arrayRules.flatten([1, [{"key": 2}, [{"key": 3}]]], 2);
+  
+      expect(results).toEqual([1, {"key": 2}, {"key": 3}]);
+    });
+
+    it('Should Success To get the result of [] if the values are not array', () => {
+      const results = arrayRules.flatten(1, 1);
+  
+      expect(results).toEqual([]);
+    });
+  });
+
+  describe('ArrayRules.filter', () => {
+    const arrayRules: any = new ArrayRules();
+  
+    it('Should Success To get the result of filtering all inputs based on a given role', () => {
+      const runner = (e:any) => (rule: any) => e > rule.$I[0];
+      const results = arrayRules.filter([1,2,3,5], { $R: '>', $I: [2] }, runner);
+  
+      expect(results).toEqual([3,5]);
+    });
+
+    it('Should Success To get the result of [] if the inputs are not an array', () => {
+      const runner = (e:any) => (rule: any) => e > rule.$I[0];
+      const results = arrayRules.filter({'key': [1,2,3,5]}, { $R: '>', $I: [2] }, runner);
+  
+      expect(results).toEqual([]);
+    });
+  });
+
+  describe('ArrayRules.foreach', () => {
+    const arrayRules: any = new ArrayRules();
+  
+    it('Should Success To iterate and get the result of True if the inputs are array', () => {
+      const runner = (e:any) => (rule: any) => e > rule.$I[0];
+      const results = arrayRules.foreach([1,2,3,5], { $R: '>', $I: [2] }, runner);
+  
+      expect(results).toEqual(true);
+    });
+
+    it('Should Success To get the result of false if the inputs are not an array', () => {
+      const runner = (e:any) => (rule: any) => e > rule.$I[0];
+      const results = arrayRules.foreach({'key': [1,2,3,5]}, { $R: '>', $I: [2] }, runner);
+  
+      expect(results).toEqual(false);
+    });
+  });
+
+  describe('ArrayRules.map', () => {
+    const arrayRules: any = new ArrayRules();
+  
+    it('Should Success To get the result of map all inputs based on a given role', () => {
+      const runner = (e:any) => (rule: any) => e * rule.$I[0];
+      const results = arrayRules.map([1,2,3,5], { $R: '*', $I: [2] }, runner);
+
+      expect(results).toEqual([2, 4, 6, 10]);
+    });
+
+    it('Should Success To get the result of [] if the inputs are not an array', () => {
+      const runner = (e:any) => (rule: any) => e > rule.$I[0];
+      const results = arrayRules.map({'key': [1,2,3,5]}, { $R: '>', $I: [2] }, runner);
+  
+      expect(results).toEqual([]);
+    });
+  });
 });
+
+describe('rule/math', () => {
+  describe('MathRules.isNumber', () => {
+    const mathRules: any = new MathRules();
+  
+    it('Should Success To get the result of true if all values are numbers', () => {
+      const results = mathRules.isNumber([1,2,3,4,5]);
+  
+      expect(results).toEqual(true);
+    });
+
+    it('Should Success To get the result of false if one of values are not number', () => {
+      const results = mathRules.isNumber([1,'2',{'data': {}}, [3,4],5,6]);
+  
+      expect(results).toEqual(false);
+    });
+  });
+
+  describe('MathRules.sum', () => {
+    const mathRules: any = new MathRules();
+  
+    it('Should Success To get the result of all values summation', () => {
+      const results = mathRules.sum(1,2,3,4,5);
+  
+      expect(results).toEqual(15);
+    });
+
+    it('Should Success To get the result 0 if one of the values are not number', () => {
+      const results = mathRules.sum(1,2,'3',4,5);
+  
+      expect(results).toEqual(0);
+    });
+  });
+
+  describe('MathRules.subtract', () => {
+    const mathRules: any = new MathRules();
+  
+    it('Should Success To get the result of all values subtraction', () => {
+      const results = mathRules.subtract(500,200,50, 20);
+  
+      expect(results).toEqual(230);
+    });
+
+    it('Should Success To get the result 0 if one of the values are not number', () => {
+      const results = mathRules.subtract(1,2,'3',4,5);
+  
+      expect(results).toEqual(0);
+    });
+  });
+
+  describe('MathRules.multiply', () => {
+    const mathRules: any = new MathRules();
+  
+    it('Should Success To get the result of all values multiplication', () => {
+      const results = mathRules.multiply(1,2,3,4);
+  
+      expect(results).toEqual(24);
+    });
+
+    it('Should Success To get the result 0 if one of the values are not number', () => {
+      const results = mathRules.multiply(1,2,'3',4,5);
+  
+      expect(results).toEqual(0);
+    });
+  });
+
+  describe('MathRules.divide', () => {
+    const mathRules: any = new MathRules();
+  
+    it('Should Success To get the result of all values division', () => {
+      const results = mathRules.divide(500,50,5);
+  
+      expect(results).toEqual(2);
+    });
+
+    it('Should Success To get the result of 0 if one of the values contains 0', () => {
+      const results = mathRules.divide(500,50,0);
+  
+      expect(results).toEqual(0);
+    });
+
+    it('Should Success To get the result 0 if one of the values are not number', () => {
+      const results = mathRules.divide(1,2,'3',4,5);
+  
+      expect(results).toEqual(0);
+    });
+  });
+
+  describe('MathRules.min', () => {
+    const mathRules: any = new MathRules();
+  
+    it('Should Success To get the result of the minimum value', () => {
+      const results = mathRules.min(500,700,200);
+  
+      expect(results).toEqual(200);
+    });
+
+    it('Should Success To get the result 0 if one of the values are not number', () => {
+      const results = mathRules.min(1,2,'3',4,5);
+  
+      expect(results).toEqual(null);
+    });
+  });
+
+  describe('MathRules.max', () => {
+    const mathRules: any = new MathRules();
+  
+    it('Should Success To get the result of the maximum value', () => {
+      const results = mathRules.max(500, 700, 200);
+  
+      expect(results).toEqual(700);
+    });
+
+    it('Should Success To get the result null if one of the values are not number', () => {
+      const results = mathRules.max(1,2,'3',4,5);
+  
+      expect(results).toEqual(null);
+    });
+  });
+
+  
+
+});
+
+describe('rule/objects', () => {
+  describe('ObjectRules.get', () => {
+    const objectRules: any = new ObjectRules();
+  
+    it('Should Success To get the result of the passed path of an object', () => {
+   
+      const results = objectRules.get('job', 'invalidPath', {job: "Footballer"});
+  
+      expect(results).toEqual('Footballer');
+    });
+
+    it('Should Success To get the default value if the path are not valid', () => {
+   
+      const results = objectRules.get('name', 'invalidPath', {job: "Footballer"});
+  
+      expect(results).toEqual('invalidPath');
+    });
+  });
+});
+
