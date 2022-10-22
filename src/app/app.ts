@@ -27,15 +27,3 @@ export class JsonLang extends RuleCore {
     this.registerMany(new Map([...mathRules, ...logicalRules, ...objectRules, ...arrayRules]))
   }
 }
-
-const jsonLang = new JsonLang();
-
-const Data ={ user: [{ name: 'test', age: 100 }] };
-const result = jsonLang.execute({ 
-  $R: 'All',
-  $I: [
-    { $R: 'Set', $I: ['user[0].job.name','MackupArtist', { $R: 'Data', $I: [] }] }
-  ]
-}, Data);
-
-console.log(Data, result);
