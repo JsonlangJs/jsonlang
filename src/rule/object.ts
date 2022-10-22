@@ -17,6 +17,9 @@ export class ObjectRules implements RulesImplementation {
 
   private register = () => {
     this.rules.set({ name: 'Get' }, this.get);
+    this.rules.set({ name: 'Set' }, this.set);
+    this.rules.set({ name: 'Update'}, this.update);
+    this.rules.set({ name: 'Delete'}, this.delete);
   }
 
   private isArrayOfPaths = (path: any) => {
@@ -41,25 +44,54 @@ export class ObjectRules implements RulesImplementation {
     return pathProps.length === 0 ? (property === '*'? data : data[property]) : this.baseGet(pathProps, data[property]);
   }
 
-  // private baseSet = (pathProps: string[], data: any, value: any, upsert: boolean = false): boolean => {
-  //   const property = pathProps.shift();
+  private baseSet = (pathProps: string[], data: any, value: any, upsert: boolean = false): boolean => {
+    const lastKeyIndex = pathProps.length-1;
+    for (var i = 0; i < lastKeyIndex; ++ i) {
+      let property = pathProps[i];
+      if (!(property in data)){
+        data[property] = {}
+      }
+      data = data[property];
+    }
+    data[pathProps[lastKeyIndex]] = value;
+    return true;
+  }
 
-  //   if (!property || data[property] === undefined) return false;
+  private baseUpdate = (pathProps: string[], data: any, value: any): boolean => {
+    const property = pathProps.shift();
 
-  //   if (pathProps.length === 0) {
-  //     data[property] = value;
-  //     return true;
-  //   }
-  //   else {
-  //     return this.baseSet(pathProps, data[property], value);
-  //   }
-  // }
+    if (!property || data[property] === undefined) return false;
 
-  // private set = (path: string, value: any, data?: {}) => {
-  //   const pathProps = this.getPath(path);
+    if (pathProps.length === 0) {
+      data[property] = value;
+      
+      return true;
+    }
+    else {
+      return this.baseUpdate(pathProps, data[property], value);
+    }
+  }
 
-  //   return data && pathProps && value ? this.baseSet(pathProps, data, value, true) : false;
-  // }
+  private baseDelete = (pathProps: string[], data: any): boolean => {
+    const property = pathProps.shift();
+
+    if (!property || data[property] === undefined) return false;
+
+    if (pathProps.length === 0) {
+      delete data[property];
+      
+      return true;
+    }
+    else {
+      return this.baseDelete(pathProps, data[property]);
+    }
+  }
+
+  private set = (path: string, value: any, data?: {}) => {
+    const pathProps = this.getPath(path);    
+
+    return data && pathProps && value ? this.baseSet(pathProps, data, value, true) : false;
+  }
 
   private get = (path: string, defaultValue?: any, data?: {}) => {
     const pathProps = this.getPath(path);
@@ -70,12 +102,15 @@ export class ObjectRules implements RulesImplementation {
     return result === undefined ? defaultValue : result
   }
 
-  // private update = (path: string, value: any, data?: {}) => {
-  //   const pathProps = this.getPath(path);
+  private update = (path: string, value: any, data?: {}) => {
+    const pathProps = this.getPath(path);
 
-  //   return data && pathProps && value ? this.baseSet(pathProps, data, value) : false;
-  // }
+    return data && pathProps && value ? this.baseUpdate(pathProps, data, value) : false;
+  }
 
-  // private delete = (path: string, data?: {}) => {
-  // }
+  private delete = (path: string, data?: {}) => {
+    const pathProps = this.getPath(path);
+
+    return data && pathProps ? this.baseDelete(pathProps, data) : false;
+  }
 }
