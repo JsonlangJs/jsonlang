@@ -3,6 +3,7 @@ import Editor from "@monaco-editor/react";
 import { JsonLang } from 'jsonlang-js';
 import styles from './styles.module.css';
 import getExample from './examples';
+import { useColorMode } from '@docusaurus/theme-common';
 
 const jsonLang = new JsonLang();
 
@@ -11,6 +12,7 @@ jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input) => {
 });
 
 export default function JsonLangRunner({ example, height }) {
+  const { colorMode } = useColorMode();
   const [result, setResult] = React.useState('');
   const [code, setCode] = React.useState(
     getExample(example)[0]
@@ -60,9 +62,8 @@ export default function JsonLangRunner({ example, height }) {
       <div className={styles.gridItem}>
       <label key="JsonLangLabel" className={styles.label}>Rules</label>
       <Editor
-        theme="vs-dark"
+        theme={colorMode === 'dark' ? "light":"vs-dark"}
         height={height}
-        width="75vh"
         defaultLanguage="json"
         defaultValue={code}
         onChange={handleCodeChange}
@@ -73,9 +74,8 @@ export default function JsonLangRunner({ example, height }) {
       <div className={styles.gridItem}>
       <label key="DataLabel" className={styles.label}>Data</label>
       <Editor
-        theme="vs-dark"
+        theme={colorMode === 'dark' ? "light":"vs-dark"}
         height={height}
-        width="43vh"
         defaultLanguage="json"
         defaultValue={objData}
         onChange={handleDataChange}
@@ -85,7 +85,7 @@ export default function JsonLangRunner({ example, height }) {
     </div>,
     <div key="Result">
       <label key="ResultLabel" className={styles.label}>Result</label>
-      <textarea key="ResultValue" defaultValue={result} disabled={true} className={styles.result}></textarea>
+      <textarea key="ResultValue" defaultValue={result} disabled={true} className={styles.resultBase + " " + styles.result}></textarea>
     </div>
   ]);
 }

@@ -27,3 +27,8 @@
   color: #000;
 }
 
+[data-theme='dark'] .description {
+  font-size: 1.6rem;
+  color: white;
+}
+

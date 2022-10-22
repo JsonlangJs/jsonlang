@@ -75,10 +75,6 @@ const config = {
           className: 'custom-navbar-logo-class',
         },
         items: [
-          // {
-          //   type: 'docsVersionDropdown',
-          //   position: 'right',
-          // },
           {
             href: 'https://github.com/sponsors/ahmed-medhat-tawfiq',
             position: 'right',
