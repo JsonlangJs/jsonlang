@@ -66,6 +66,7 @@
   "exclude": [
     "node_modules", 
     "dist", 
+    "website", 
     "**/**/*spec.ts", 
     "**/**/*e2e-spec.ts"
   ]
