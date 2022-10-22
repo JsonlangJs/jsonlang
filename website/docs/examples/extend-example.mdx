@@ -1,0 +1,30 @@
+---
+sidebar_position: 4
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Extend Rules Example
+
+```js
+import { JsonLang } from 'jsonlang-js';
+
+const jsonLang = new JsonLang();
+
+jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input: any) => {
+  return `${input} Test`
+});
+
+const result = jsonLang.execute({ 
+  $R: 'Test',
+  $I: [
+    { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
+  ]
+}, { user: { name: 'test', age: 100 } });
+
+console.log(result);
+// 100 Test
+```
+
+<JsonLangRunner example="25" height="22vh" key="example26"></JsonLangRunner>

@@ -1,0 +1,41 @@
+---
+sidebar_position: 5
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Array
+
+All Array/Collection operations
+
+
+## All
+  * Input[]: Array<any\> (Size: Unlimited).
+  * Output: Array<any\> (Size: Unlimited).
+  * Description: It takes an array of inputs and returns them again. It is used to run a list of `nested Rules`.
+<JsonLangRunner example="18" height="20vh" key="example18"></JsonLangRunner>
+
+## Filter
+  * Input[]: Array<mixed\> (Size: 2) {elements: any[], rule: IJsonLangParams}.
+  * Output: Any[].
+  * Description: It accepts array of elements with any type to filter them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
+<JsonLangRunner example="19" height="20vh" key="example19"></JsonLangRunner>
+
+## Map
+  * Input[]: Array<mixed\> (Size: 2) {elements: any[], rule: IJsonLangParams}.
+  * Output: Any[].
+  * Description: It accepts array of elements with any type to map them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
+<JsonLangRunner example="20" height="20vh" key="example20"></JsonLangRunner>
+
+## Foreach
+  * Input[]: Array<mixed\> (Size: 2) {elements: any[], rule: IJsonLangParams}.
+  * Output: true.
+  * Description: It accepts array of elements with any type to iterate over them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
+<JsonLangRunner example="21" height="20vh" key="example21"></JsonLangRunner>
+
+## Flatten
+  * Input[]: Array<mixed\> (Size: 2) {elements: any[], level?: number}.
+  * Output: true.
+  * Description: It accepts array of elements with any type to flatten this array with any level.
+<JsonLangRunner example="22" height="20vh" key="example22"></JsonLangRunner>

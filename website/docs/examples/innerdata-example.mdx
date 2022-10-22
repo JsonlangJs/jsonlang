@@ -1,0 +1,34 @@
+---
+sidebar_position: 3
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Access Inner Data
+
+```js
+import { JsonLang } from 'jsonlang-js';
+
+const jsonLang = new JsonLang();
+
+const result = jsonLang.execute({ $R: 'All', $I: [
+  { 
+    $R: 'Filter',
+    $I: [[1, 3, 5], { $R: '>', $I: [{ $R: 'Data', $I: ['Local'] }, 2] }]
+  },
+  { 
+    $R: 'Filter',
+    $I: [
+      { $R: 'Get', $I: ['data.test', null, { $R: 'Data', $I: ['Global'] }] },
+      { $R: '<', $I: [{ $R: 'Data', $I: ['Local'] }, 500] }
+    ]
+  }
+] }, { data: { id: 'test', test: [100, 300, 700] } });
+
+console.log(result);
+
+// [ [ 3, 5 ], [ 100, 300 ] ]
+```
+
+<JsonLangRunner example="24" height="60vh" key="example25"></JsonLangRunner>

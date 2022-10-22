@@ -1,0 +1,31 @@
+---
+sidebar_position: 4
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Object
+
+All Object operations to Read/Mutate the Data
+
+## Get [In Progress]
+  * Input[]: Array<mixed\> (Size: 3) {path: string, defaultValue?: any, data:{}}.
+  * Output: Any.
+  * Description: It accepts two inputs, the 1st one (required) is a path to get the [**Data**](../intro#structure), and the 2nd one (optional) is a default value of the path is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+<JsonLangRunner example="17" height="20vh" key="example17"></JsonLangRunner>
+
+## Set [In Progress]
+  * Input[]: Array<mixed\> (Size: 3) {path: string, value: any, data:{}}.
+  * Output: Any.
+  * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [**Data**](../intro#structure), and the 2nd one is the value to set. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Set` Rule will create it.
+
+## Update [In Progress]
+  * Input[]: Array<mixed\> (Size: 3) {path: string, value: any, data:{}}.
+  * Output: Any.
+  * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [**Data**](../intro#structure), and the 2nd one is the value to update. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Update` rule won't do anything.
+
+## Delete [In Progress]
+  * Input[]: Array<string\> (Size: 2) {path: string, data:{}}.
+  * Output: Any.
+  * Description: It accepts two inputs, a path to mutate the [**Data**](../intro#structure) by deleting a field in the request path. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Delete` rule won't do anything.

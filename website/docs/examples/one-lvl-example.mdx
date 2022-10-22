@@ -1,0 +1,28 @@
+---
+sidebar_position: 1
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# One Level Example
+
+```js
+import { JsonLang } from 'jsonlang-js';
+
+const jsonLang = new JsonLang();
+
+jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] } ); // true
+
+// or for short
+jsonLang.execute( { "R": "<" , "I": [10, 20] } ); // true
+
+// or use the async function
+jsonLang.executeAsync( { "R": "<" , "I": [10, 20] } )
+  .then(result => {
+    console.log(result); // true
+  }); 
+
+```
+
+<JsonLangRunner example="23" height="10vh" key="example23"></JsonLangRunner>
