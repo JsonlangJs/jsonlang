@@ -16,10 +16,10 @@ export class ObjectRules implements RulesImplementation {
   }
 
   private register = () => {
-    this.rules.set({ name: 'Get' }, this.get);
-    this.rules.set({ name: 'Set' }, this.set);
-    this.rules.set({ name: 'Update'}, this.update);
-    this.rules.set({ name: 'Delete'}, this.delete);
+    this.rules.set({ name: 'Get', group: 'Object' }, this.get);
+    this.rules.set({ name: 'Set', group: 'Object' }, this.set);
+    this.rules.set({ name: 'Update', group: 'Object' }, this.update);
+    this.rules.set({ name: 'Delete', group: 'Object' }, this.delete);
   }
 
   private isArrayOfPaths = (path: any) => {

@@ -11,8 +11,8 @@ export class RuleCore implements IRulesCore {
   constructor() {
     this.rules = new Map();
     this.ruleIds = new Set();
-    this.registerOne({ name: CoreRules.Var }, this.getOutputValue);
-    this.registerOne({ name: CoreRules.Data }, this.getDate);
+    this.registerOne({ name: CoreRules.Var, group: 'Core' }, this.getOutputValue);
+    this.registerOne({ name: CoreRules.Data, group: 'Core' }, this.getDate);
   }
 
   /**
@@ -49,8 +49,8 @@ export class RuleCore implements IRulesCore {
    * @returns {void}
    * @description to extend JsonLang by a Map() of rules the "Map key" is RuleIdentifier and the "Map value" is the Sync/Async RuleHandler
   */
-  registerMany = (rules: Rules) => {
-    rules.forEach((value: RuleHandler, key: RuleIdentifier) => this.registerOne(key, value));
+  registerMany = (rules: Rules, group?: string) => {
+    rules.forEach((value: RuleHandler, key: RuleIdentifier) => this.registerOne({ group, ...key }, value));
   }
 
   /**

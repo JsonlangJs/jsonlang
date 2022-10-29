@@ -16,6 +16,10 @@ export type RuleIdentifier = {
    *  the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`
    */
   shortcut?: string;
+  /**
+   *  used to group set of rules in one group
+  */
+  group?: string;
 } 
 
 /**

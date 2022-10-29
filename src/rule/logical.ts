@@ -14,15 +14,15 @@ export class LogicalRules implements RulesImplementation {
   }
 
   private register = () => {
-    this.rules.set({ name: 'And', shortcut: '&&' }, this.and);
-    this.rules.set({ name: 'Or', shortcut: '||' }, this.or);
-    this.rules.set({ name: 'Equal', shortcut: '==' }, this.equal);
-    this.rules.set({ name: 'NotEqual', shortcut: '!=' }, this.notEqual);
-    this.rules.set({ name: 'Not', shortcut: '!' }, this.not);
-    this.rules.set({ name: 'GreaterThan', shortcut: '>' }, this.greaterThan);
-    this.rules.set({ name: 'LessThan', shortcut: '<' }, this.lessThan);
-    this.rules.set({ name: 'GreaterThanOrEqual', shortcut: '>=' }, this.greaterThanOrEqual);
-    this.rules.set({ name: 'LessThanOrEqual', shortcut: '<=' }, this.lessThanOrEqual);
+    this.rules.set({ name: 'And', shortcut: '&&', group: 'Logical' }, this.and);
+    this.rules.set({ name: 'Or', shortcut: '||', group: 'Logical' }, this.or);
+    this.rules.set({ name: 'Equal', shortcut: '==', group: 'Logical' }, this.equal);
+    this.rules.set({ name: 'NotEqual', shortcut: '!=', group: 'Logical' }, this.notEqual);
+    this.rules.set({ name: 'Not', shortcut: '!', group: 'Logical' }, this.not);
+    this.rules.set({ name: 'GreaterThan', shortcut: '>', group: 'Logical' }, this.greaterThan);
+    this.rules.set({ name: 'LessThan', shortcut: '<', group: 'Logical' }, this.lessThan);
+    this.rules.set({ name: 'GreaterThanOrEqual', shortcut: '>=', group: 'Logical' }, this.greaterThanOrEqual);
+    this.rules.set({ name: 'LessThanOrEqual', shortcut: '<=', group: 'Logical' }, this.lessThanOrEqual);
   }
 
   private areSameType = (...inputs: RuleInput) => {

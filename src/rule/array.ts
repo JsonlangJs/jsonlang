@@ -14,11 +14,11 @@ export class ArrayRules implements RulesImplementation {
   }
 
   private register = () => {
-    this.rules.set({ name: 'All' }, this.all);
-    this.rules.set({ name: 'Map' }, this.map);
-    this.rules.set({ name: 'Filter' }, this.filter);
-    this.rules.set({ name: 'Flatten' }, this.flatten);
-    this.rules.set({ name: 'Foreach' }, this.foreach);
+    this.rules.set({ name: 'All', group: 'Array/Collections' }, this.all);
+    this.rules.set({ name: 'Map', group: 'Array/Collections' }, this.map);
+    this.rules.set({ name: 'Filter', group: 'Array/Collections' }, this.filter);
+    this.rules.set({ name: 'Flatten', group: 'Array/Collections' }, this.flatten);
+    this.rules.set({ name: 'Foreach', group: 'Array/Collections' }, this.foreach);
   }
 
   private all = (...inputs: RuleInput[]) => {

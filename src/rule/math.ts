@@ -14,13 +14,13 @@ export class MathRules implements RulesImplementation {
   }
 
   private register = () => {
-    this.rules.set({ name: 'IsNumber' }, this.isNumber);
-    this.rules.set({ name: 'Sum', shortcut: '+' }, this.sum);
-    this.rules.set({ name: 'Subtract', shortcut: '-' }, this.subtract);
-    this.rules.set({ name: 'Multiply', shortcut: '*' }, this.multiply);
-    this.rules.set({ name: 'Divide', shortcut: '/' }, this.divide);
-    this.rules.set({ name: 'Min' }, this.min);
-    this.rules.set({ name: 'Max' }, this.max);
+    this.rules.set({ name: 'IsNumber', group: 'Math' }, this.isNumber);
+    this.rules.set({ name: 'Sum', shortcut: '+', group: 'Math' }, this.sum);
+    this.rules.set({ name: 'Subtract', shortcut: '-', group: 'Math' }, this.subtract);
+    this.rules.set({ name: 'Multiply', shortcut: '*', group: 'Math' }, this.multiply);
+    this.rules.set({ name: 'Divide', shortcut: '/', group: 'Math' }, this.divide);
+    this.rules.set({ name: 'Min', group: 'Math' }, this.min);
+    this.rules.set({ name: 'Max', group: 'Math' }, this.max);
   }
 
   private isNumber = (inputs: RuleInput[]) => {
