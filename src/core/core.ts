@@ -6,9 +6,11 @@ import {
 
 export class RuleCore implements IRulesCore {
   private rules: Map<string, RuleHandler>;
+  private ruleIds: Set<RuleIdentifier>;
 
   constructor() {
     this.rules = new Map();
+    this.ruleIds = new Set();
     this.registerOne({ name: CoreRules.Var }, this.getOutputValue);
     this.registerOne({ name: CoreRules.Data }, this.getDate);
   }
@@ -55,13 +57,20 @@ export class RuleCore implements IRulesCore {
    * @param {RuleIdentifier} ruleIdentifier
    * @param {RuleHandler} RuleHandler.
    * @returns {void}
-   * @description to extend JsonLang by adding one Sync/Async Rule`
+   * @description to extend JsonLang by adding one Sync/Async Rule
   */
   registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler) => {
     this.rules.set(ruleIdentifier.name, ruleHandler);
+    this.ruleIds.add(ruleIdentifier);
 
     if (ruleIdentifier.shortcut) this.rules.set(ruleIdentifier.shortcut, ruleHandler);
   }
+
+  /**
+   * @returns {RuleIdentifier[]}
+   * @description Get rules identifiers 
+  */
+  getRulesIds = () => [...this.ruleIds];
 
 
   private createRunContext = (outputs: Map<string, any>, data?: {}) => {

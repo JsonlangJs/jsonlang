@@ -165,4 +165,15 @@ describe('app/app', () => {
     });
   });
 
+  describe('JsonLang.getRulesIds', () => {
+    const jsonLang = new JsonLang();
+
+    it('Should Success to get rules Ids', () => {
+
+      jsonLang.getRulesIds();
+      
+      expect(jsonLang.getRulesIds().length).toBeGreaterThan(0);
+    });
+  });
+
 });
