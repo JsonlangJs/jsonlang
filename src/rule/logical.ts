@@ -1,4 +1,4 @@
-import { RuleInput, Rules, RulesImplementation } from '../core';
+import { IJsonLangParams, RuleInput, Rules, RulesImplementation, Runner } from '../core';
 
 export class LogicalRules implements RulesImplementation {
 
@@ -23,6 +23,7 @@ export class LogicalRules implements RulesImplementation {
     this.rules.set({ name: 'LessThan', shortcut: '<', group: 'Logical' }, this.lessThan);
     this.rules.set({ name: 'GreaterThanOrEqual', shortcut: '>=', group: 'Logical' }, this.greaterThanOrEqual);
     this.rules.set({ name: 'LessThanOrEqual', shortcut: '<=', group: 'Logical' }, this.lessThanOrEqual);
+    this.rules.set({ name: 'If', group: 'Logical' }, this.if);
   }
 
   private areSameType = (...inputs: RuleInput) => {
@@ -112,5 +113,14 @@ export class LogicalRules implements RulesImplementation {
     if (this.hasObjects(lhs, rhs)) return false;
     const [parsedLHS, parsedRHS] =  this.jsonParse(lhs, rhs);
     return this.areSameType(parsedLHS, parsedRHS) ? parsedLHS <= parsedRHS : false;
+  }
+
+  private if = (
+    $rule_condition: IJsonLangParams,
+    $rule_then: IJsonLangParams,
+    $rule_else: IJsonLangParams,
+    $runner: Runner
+  ) => {
+    return $runner()($rule_condition) ? $runner()($rule_then) : $runner()($rule_else);
   }
 }

@@ -79,6 +79,8 @@ export class RuleCore implements IRulesCore {
       let localData = scopedData;
 
       const innerRun = (jsonLang: IJsonLangParams) => {
+        if (!this.isRule(jsonLang)) return jsonLang;
+
         const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
   
         let resolvedInputs = this.resolveRuleInputs(inputs, ruleHandler, innerRun, run);
@@ -104,6 +106,8 @@ export class RuleCore implements IRulesCore {
       let localData = scopedData;
 
       const innerRun = async (jsonLang: IJsonLangParams) => {
+        if (!this.isRule(jsonLang)) return jsonLang;
+
         const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
 
         try {
@@ -178,7 +182,6 @@ export class RuleCore implements IRulesCore {
   }
 
   private getRuleParams(jsonLang: IJsonLangParams) {
-    if(!this.isRule(jsonLang)) throw new Error('Invalid Rule, Rule must be an object with 2 properties $R & $I');
 
     const rule: string = jsonLang[RuleParams.Rule];
     const inputs = jsonLang[RuleParams.Input]

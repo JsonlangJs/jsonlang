@@ -45,6 +45,30 @@ describe('app/app', () => {
       expect(result).toEqual(136);
     });
 
+    it('Should Success To get true if the condition is true', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [true, true, false] });
+
+      expect(results).toEqual(true);
+    });
+
+    it('Should Success To get true if the condition is false', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [false, true, false] });
+
+      expect(results).toEqual(false);
+    });
+
+    it('Should Success To get true if the condition is succeeded', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [{ $R: '&&', $I: [true, { $R: '||', $I: [0, 1] }] }, { $R: '+', $I: [6, 1, 2] }, { $R: '-', $I: [6, 1, 2] }]});
+
+      expect(results).toEqual(9);
+    });
+
+    it('Should Success To get true if the condition is succeeded', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [{ $R: '==', $I: [true, { $R: '&&', $I: [0, 1] }] }, { $R: '+', $I: [6, 1, 2] }, { $R: '-', $I: [6, 1, 2] }]});
+
+      expect(results).toEqual(3);
+    });
+
     it('Should Failed To Execute non existing Rules', () => {
       expect(() => jsonLang.execute( { "$R": "NotExisting" , "$I": [1] } )).toThrowError('The \"NotExisting\" Rule is not exist');
     });
