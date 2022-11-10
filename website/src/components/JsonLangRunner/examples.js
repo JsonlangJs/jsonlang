@@ -315,6 +315,29 @@ export default function getExample(exampleNum) {
     "age": 100
   }
 }`
+],
+[
+`{ 
+  "$R": "If",
+  "$I": [
+    { 
+      "$R": ">",
+      "$I": [4, 3]
+    },
+    { 
+      "$R": "If",
+      "$I": [0, "Failed", "Success"]
+    },
+    false
+  ]
+}
+`,
+`{
+  "user": { 
+    "name": "test",
+    "age": 100
+  }
+}`
 ]
 ];
 
