@@ -92,6 +92,11 @@ const config = {
             position: 'right'
           },
           {
+            to: '/flowBuilder',
+            label: 'Flow',
+            position: 'right'
+          },
+          {
             href: 'https://github.com/ahmed-medhat-tawfiq/jsonlang-js',
             position: 'right',
             className: 'header-github-link',
