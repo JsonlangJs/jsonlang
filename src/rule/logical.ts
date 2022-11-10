@@ -121,6 +121,7 @@ export class LogicalRules implements RulesImplementation {
     $rule_else: IJsonLangParams,
     $runner: Runner
   ) => {
+    if (!$runner) return false;
     return $runner()($rule_condition) ? $runner()($rule_then) : $runner()($rule_else);
   }
 }
