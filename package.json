@@ -1,6 +1,6 @@
 {
   "name": "jsonlang-js",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Json Programming Language",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahmed-medhat-tawfiq/jsonlang-js.git"
+    "url": "git+https://github.com/JsonlangJs/jsonlang-js.git"
   },
   "keywords": [
     "rules",
@@ -30,7 +30,7 @@
   "author": "https://github.com/ahmed-medhat-tawfiq",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ahmed-medhat-tawfiq/jsonlang-js/issues",
+    "url": "https://github.com/JsonlangJs/jsonlang-js/issues",
     "email": "ahmed.medhat.tawfiq@gmail.com"
   },
   "devDependencies": {
