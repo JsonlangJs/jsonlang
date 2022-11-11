@@ -41,11 +41,11 @@ function HomepageHeader() {
           </a>
         </div>
         <div>
-        <a href="https://github.com/ahmed-medhat-tawfiq/jsonlang-js/actions" target="_blank">
+        <a href="https://github.com/JsonlangJs/jsonlang-js/actions" target="_blank">
             <img alt="Build Status" src="https://img.shields.io/github/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/Deploy/master" />
           </a>
           &nbsp;
-          <a href="https://github.com/ahmed-medhat-tawfiq/jsonlang-js/graphs/commit-activity" target="_blank">
+          <a href="https://github.com/JsonlangJs/jsonlang-js/graphs/commit-activity" target="_blank">
             <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2022.svg" />
           </a>
           &nbsp;
@@ -53,11 +53,11 @@ function HomepageHeader() {
             <img alt="License" src="https://img.shields.io/github/license/ahmed-medhat-tawfiq/jsonlang-js.svg" />
           </a>
           &nbsp;
-          <a href="https://github.com/ahmed-medhat-tawfiq/jsonlang-js/blob/master/LICENSE" target="_blank">
+          <a href="https://github.com/JsonlangJs/jsonlang-js/blob/master/LICENSE" target="_blank">
             <img alt="FOSSA Status" src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fahmed-medhat-tawfiq%2Fjsonlang-js.svg?type=shield" />
           </a>
           &nbsp;
-          <a href="https://github.com/ahmed-medhat-tawfiq/jsonlang-js/stargazers" target="_blank">
+          <a href="https://github.com/JsonlangJs/jsonlang-js/stargazers" target="_blank">
             <img alt="Star on GitHub" src="https://img.shields.io/github/stars/ahmed-medhat-tawfiq/jsonlang-js?style=social" />
           </a>
           &nbsp;
