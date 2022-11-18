@@ -1,48 +1,88 @@
-import { IJsonLangParams, RuleInput, Rules, RulesImplementation, Runner } from '../core';
+import { 
+  IJsonLangParams, RuleInput,
+  Runner, RuleExtension, JsonLangExtension
+} from '../core';
 
-export class ArrayRules implements RulesImplementation {
+import { 
+  allDefinition,
+  arrayContactDefinition,
+  arrayUniqueDefinition,
+  filterDefinition,
+  flattenDefinition,
+  foreachDefinition,
+  mapDefinition,
+  seqDefinition
+} from './definitions';
 
-  private rules: Rules;
+@JsonLangExtension('Array/Collections')
+export class ArrayRules {
 
-  constructor() {
-    this.rules = new Map();
-    this.register();
-  }
-
-  getRules(): Rules {
-    return this.rules;
-  }
-
-  private register = () => {
-    this.rules.set({ name: 'All', group: 'Array/Collections' }, this.all);
-    this.rules.set({ name: 'Map', group: 'Array/Collections' }, this.map);
-    this.rules.set({ name: 'Filter', group: 'Array/Collections' }, this.filter);
-    this.rules.set({ name: 'Flatten', group: 'Array/Collections' }, this.flatten);
-    this.rules.set({ name: 'Foreach', group: 'Array/Collections' }, this.foreach);
-  }
-
-  private all = (...inputs: RuleInput[]) => {
+  @RuleExtension(allDefinition)
+  async all(...inputs: RuleInput[]) {
     return [...inputs].map(input => input);
   }
 
-  private filter = (elements: any[], $rule: IJsonLangParams, $runner: Runner) => {
-    return Array.isArray(elements) ? elements.filter((ele) => $runner(ele)($rule)) : [];
-  }
+  @RuleExtension(seqDefinition)
+  async seq($rules: IJsonLangParams[], $runner: Runner) {
+    if(!Array.isArray($rules)) return false;
 
-  private foreach = (elements: any[], $rule: IJsonLangParams, $runner: Runner) => {
-    if (!Array.isArray(elements)) return false;
-
-    elements.forEach((ele) => $runner(ele)($rule));
+    await Promise.all($rules.map((rule) => $runner(rule)));
 
     return true;
   }
 
-  private map = (elements: any[], $rule: IJsonLangParams, $runner: Runner) => {
-    return Array.isArray(elements) ? elements.map((ele) => $runner(ele)($rule)) : [];
+  @RuleExtension(filterDefinition)
+  async filter(array: any[], iterator: string, $rule: IJsonLangParams, $runner: Runner) {
+    if(!Array.isArray(array)) return [];
+
+    const results = [];
+
+    for (const ele of array) {
+      const condition = await $runner($rule, iterator? { key: iterator, value: ele } : undefined);
+      if (condition) results.push(ele);
+    }
+
+    return results;
   }
 
-  private flatten = (elements: any[], lvl?: number) => {
-    return Array.isArray(elements) ? elements.flat(lvl) : [];
+  @RuleExtension(foreachDefinition)
+  async foreach(array: any[], iterator: string, $rule: IJsonLangParams, $runner: Runner) {
+    if (!Array.isArray(array)) return false;
+
+    for (const ele of array) {
+      await $runner($rule, iterator? { key: iterator, value: ele } : undefined);
+    }
+
+    return true;
+  }
+
+  @RuleExtension(mapDefinition)
+  async map(array: any[], iterator: string, $rule: IJsonLangParams, $runner: Runner) {
+    if(!Array.isArray(array)) return [];
+
+    const results = [];
+
+    for (const ele of array) {
+      const mapping = await $runner($rule, iterator? { key: iterator, value: ele } : undefined);
+      results.push(mapping);
+    }
+
+    return results;
+  }
+
+  @RuleExtension(flattenDefinition)
+  flatten(nestedArray: any[], level?: number) {
+    return Array.isArray(nestedArray) ? nestedArray.flat(level) : [];
+  }
+
+  @RuleExtension(arrayContactDefinition)
+  arrayConcat(firstArray: any[], secondArray: any[]) {
+    return Array.isArray(firstArray) && Array.isArray(secondArray) ? firstArray.concat(secondArray) : [];
+  }
+
+  @RuleExtension(arrayUniqueDefinition)
+  unique(array: any[]) {
+    return Array.isArray(array) ? [...new Set(array.map(r => JSON.stringify(r)))].map(r => JSON.parse(r)) : [];
   }
 
 }

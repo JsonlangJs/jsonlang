@@ -1,32 +1,17 @@
 import { 
-  CoreRules,
-  IJsonLangParams, InnerRules, IRulesCore, RuleHandler,
-  RuleIdentifier, RuleParams, RuleResult, Rules
+  IJsonLangParams, InnerRules, RuleHandler,
+  RuleParams, RuleResult, Rules, RuleDefinition, LocalData
 } from './core.types';
+import { RuleDefinitionParser } from "./rule-parser";
 
-export class RuleCore implements IRulesCore {
+
+export class RuleCore {
   private rules: Map<string, RuleHandler>;
-  private ruleIds: Set<RuleIdentifier>;
+  private rulesDefinitions: Map<string, RuleDefinition>;
 
   constructor() {
     this.rules = new Map();
-    this.ruleIds = new Set();
-    this.registerOne({ name: CoreRules.Var, group: 'Core' }, this.getOutputValue);
-    this.registerOne({ name: CoreRules.Data, group: 'Core' }, this.getDate);
-  }
-
-  /**
-   * @param {IJsonLangParams} jsonLang
-   * @param {Object} data.
-   * @returns {RuleResult}
-   * @description is the `Sync` version of jsonLang, use it to run all builtin rules and any extended `Sync` Rules
-  */
-  execute(rules: IJsonLangParams, data?: {}): RuleResult {
-    const outputs = new Map();
-
-    const run = this.createRunContext(outputs, data);
-
-    return run()(rules);
+    this.rulesDefinitions = new Map();
   }
 
   /**
@@ -35,13 +20,37 @@ export class RuleCore implements IRulesCore {
    * @returns {Promise<RuleResult>}
    * @description is the `Async` version of jsonLang, use it to run all builtin rules and any extended `Sync/Async` Rules
   */
-  executeAsync(rules: IJsonLangParams, data?: {}): Promise<RuleResult> {
-    const outputs = new Map();
+  execute(rules: IJsonLangParams, data?: {}): Promise<RuleResult> {
+    const localData = new Map();
+    const run = this.createRunContext(localData, data);
 
-    const syncRun = this.createRunContext(outputs, data);
-    const run = this.createAsyncRunContext(outputs, syncRun, data);
+    return run(rules);
+  }
 
-    return run()(rules);
+  /**
+   * @param {Class[]} RuleClasses - Array of Classes which contain methods/rules.
+   * @returns {void}
+   * @description to extend JsonLang by importing a class with @JsonLangExtension decorator, and register its methods by @RuleExtension decorator
+  */
+  import = (RuleClasses: any) => {
+    RuleClasses.forEach((RuleClass: any) => {
+      if (!RuleClass.prototype) return;
+
+      const ruleClass = new RuleClass();
+      const propertyNames = Object.getOwnPropertyNames(RuleClass.prototype);
+      
+      propertyNames.forEach((propertyName) => {
+        const group = Reflect.getMetadata('jsonlang:group', RuleClass)?.name || 'Others';
+        const ruleDefinition = Reflect.getMetadata('jsonlang:rule', RuleClass, propertyName);
+  
+        if (ruleDefinition) {
+          const ruleHandler: RuleHandler = ruleClass[propertyName].bind(ruleClass);
+          ruleDefinition.identifier.group = ruleDefinition.identifier.group || group;
+
+          this.setRuleWithDefinition(ruleDefinition, ruleHandler)
+        }
+      });
+    });
   }
 
   /**
@@ -49,8 +58,8 @@ export class RuleCore implements IRulesCore {
    * @returns {void}
    * @description to extend JsonLang by a Map() of rules the "Map key" is RuleIdentifier and the "Map value" is the Sync/Async RuleHandler
   */
-  registerMany = (rules: Rules, group?: string) => {
-    rules.forEach((value: RuleHandler, key: RuleIdentifier) => this.registerOne({ group, ...key }, value));
+  registerMany = (rules: Rules) => {
+    rules.forEach((value: RuleHandler, key: RuleDefinition) => this.registerOne(key, value));
   }
 
   /**
@@ -59,130 +68,95 @@ export class RuleCore implements IRulesCore {
    * @returns {void}
    * @description to extend JsonLang by adding one Sync/Async Rule
   */
-  registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler) => {
-    this.rules.set(ruleIdentifier.name, ruleHandler);
-    this.ruleIds.add(ruleIdentifier);
-
-    if (ruleIdentifier.shortcut) this.rules.set(ruleIdentifier.shortcut, ruleHandler);
+  registerOne = (definition: RuleDefinition, ruleHandler: RuleHandler) => {
+    const ruleDefinition = RuleDefinitionParser.parse(ruleHandler, [], definition);
+    this.setRuleWithDefinition(ruleDefinition, ruleHandler)
   }
 
   /**
-   * @returns {RuleIdentifier[]}
-   * @description Get rules identifiers 
+   * @param {string[]} rules - Optional Array of Rules' names or shortcuts to get their definitions.
+   * @returns {RuleDefinition[]}
+   * @description Get rules definitions, if no rules names passed, it will return all rules definitions 
   */
-  getRulesIds = () => [...this.ruleIds];
+  getRulesDefinitions = (rules?: string[]): RuleDefinition[] => {
+    const definitions = new Map();
+
+    this.rulesDefinitions.forEach((definition, rule) => {
+      const id = definition.identifier.name + definition.identifier.shortcut || '';
+
+      if (rules) {
+        if (rules.includes(rule)) definitions.set(id, definition);
+      }
+      else {
+        definitions.set(id, definition);
+      }
+    });
+
+    return [...definitions.values()]
+  };
 
 
-  private createRunContext = (outputs: Map<string, any>, data?: {}) => {
+  private setRuleWithDefinition(definition: RuleDefinition, ruleHandler: RuleHandler) {
+    this.rules.set(definition.identifier.name, ruleHandler);
+    this.rulesDefinitions.set(definition.identifier.name, definition);
 
-    const run = (scopedData?: any) => {
-      let localData = scopedData;
+    if (definition.identifier.shortcut) {
+      this.rulesDefinitions.set(definition.identifier.shortcut, definition);
+      this.rules.set(definition.identifier.shortcut, ruleHandler);
+    }
+  }
 
-      const innerRun = (jsonLang: IJsonLangParams) => {
-        if (!this.isRule(jsonLang)) return jsonLang;
+  private createRunContext = (localDataStore: Map<string, any>, data?: {}) => {
 
-        const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
+    const runner = async (jsonLang: IJsonLangParams, localData?: LocalData) => {
+      if (localData?.key) localDataStore.set(localData.key, localData?.value);
+
+      if (!this.isRule(jsonLang)) return jsonLang;
+
+      const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
+      try {
+        const resolvedInputs = await this.resolveRuleInputs(rule, inputs, runner, data, localDataStore);
   
-        let resolvedInputs = this.resolveRuleInputs(inputs, ruleHandler, innerRun, run);
-
-        resolvedInputs = this.getAllInputs(rule, resolvedInputs, outputs, data, localData);
-
-        const result = <RuleResult> ruleHandler(...resolvedInputs);
-    
-        if (output) this.setOutputValue(output, result, outputs);
+        const result = await ruleHandler(...resolvedInputs);
+  
+        if (output) localDataStore.set(output, result);
     
         return result;
       }
-  
-      return innerRun;
-    }
-
-    return run;
-  }
-
-  private createAsyncRunContext = (outputs: Map<string, any>, syncRun: Function, data?: {}) => {
-
-    const run = (scopedData?: any) => {
-      let localData = scopedData;
-
-      const innerRun = async (jsonLang: IJsonLangParams) => {
-        if (!this.isRule(jsonLang)) return jsonLang;
-
-        const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
-
-        try {
-          let resolvedInputs = await this.resolveRuleAsyncInputs(inputs, ruleHandler, innerRun, syncRun, run);
-    
-          resolvedInputs = this.getAllInputs(rule, resolvedInputs, outputs, data, localData);
-    
-          const result = await ruleHandler(...resolvedInputs);
-    
-          if (output) this.setOutputValue(output, result, outputs);
-      
-          return result;
-        }
-        catch (error) {
-          throw Error(`Failed to Run "${rule}" cause of ${error}`);
-        }
+      catch (error) {
+        throw Error(`Failed to Run "${rule}" cause of ${error}`);
       }
-      
-      return innerRun;
     }
-
-    return run;
+    
+    return runner;
   }
 
 
-  private resolveRuleInputs = (inputs: any[], ruleHandler: RuleHandler, run: Function, runner: Function) => {
-    const innerRules = this.getHandlerInnerRules(ruleHandler);
-
-    const resolvedInputs = inputs.map((input, i) => {
-      return this.isRule(input) && !innerRules.rules.includes(i) ? run(input) : input
-    });
-
-    if (innerRules.runner) resolvedInputs.splice(innerRules.runner, 0, <any> runner);
-
-    return resolvedInputs;
-  }
-
-  private resolveRuleAsyncInputs = async (
+  private resolveRuleInputs = async (
+    rule: string,
     inputs: any[], 
-    ruleHandler: RuleHandler, 
-    run: Function, 
     runner: Function,
-    asyncRunner: Function
+    globalData: {} = {},
+    localDataStore: Map<string, any>,
   ) => {
-    const innerRules = this.getHandlerInnerRules(ruleHandler);
-
     const resolvedInputs = [];
+    const innerRules = this.getHandlerInnerRules(rule);
 
     for (let i = 0; i < inputs.length; i++) {
       const input = inputs[i];
-      const result = this.isRule(input) && !innerRules.rules.includes(i) ? await run(input) : input;
+      const result = this.isRule(input) && !innerRules.rules.includes(i) ? await runner(input) : input;
       resolvedInputs.push(result);
     }
 
     if (innerRules.runner) resolvedInputs.splice(innerRules.runner, 0, <any> runner);
-    if (innerRules.asyncRunner) resolvedInputs.splice(innerRules.asyncRunner, 0, <any> asyncRunner);
+    if (innerRules.localData) resolvedInputs.splice(innerRules.localData, 0, <any> localDataStore);
+    if (innerRules.globalData) resolvedInputs.splice(innerRules.globalData, 0, <any> globalData);
 
     return resolvedInputs;
   }
 
-  private getAllInputs(rule: string, inputs: any[], outputs: Map<string, any>, data?: {}, scopedData?: any) {
-    let params = inputs;
-
-    if (rule === CoreRules.Var) {
-      params = [inputs?.[0], outputs];
-    }
-    else if (rule === CoreRules.Data) {
-      params = inputs?.[0] === 'Local'? [scopedData] : [data];
-    }
-
-    return params;
-  }
 
   private getRuleParams(jsonLang: IJsonLangParams) {
-
     const rule: string = jsonLang[RuleParams.Rule];
     const inputs = jsonLang[RuleParams.Input]
     const output = jsonLang[RuleParams.Output];
@@ -196,44 +170,29 @@ export class RuleCore implements IRulesCore {
     return { ruleHandler, rule, inputs, output };
   }
 
-  private getHandlerInnerRules = (ruleHandler: RuleHandler) => {
-    const innerRules: InnerRules = { runner: null, asyncRunner: null, rules: [] };
+  private getHandlerInnerRules = (rule: string) => {
+    const innerRules: InnerRules = { runner: null, globalData: null, localData: null, rules: [] };
+    const [definition] = this.getRulesDefinitions([rule]);
 
-    this.getHandlerArgs(ruleHandler).forEach((arg, i) => {
-      if (arg === '$runner') {
-        innerRules.runner = i;
+    if (!definition?.inputs) return innerRules;
+
+    if (definition?.inputs?.type && Object.keys(definition?.inputs).length === 1) {
+      if (definition.inputs.type === 'runner') innerRules.runner = 0;
+      if (definition.inputs.type === 'globalData') innerRules.globalData = 0;
+      if (definition.inputs.type === 'localData') innerRules.localData = 0;
+      if (definition.inputs.type === 'rule') innerRules.rules = [0];
+    }
+    else {
+      for (const key in definition?.inputs) {
+        if ((<any> definition.inputs)[key].type === 'runner') innerRules.runner = (<any> definition.inputs)[key].index;
+        if ((<any> definition.inputs)[key].type === 'globalData') innerRules.globalData = (<any> definition.inputs)[key].index;
+        if ((<any> definition.inputs)[key].type === 'localData') innerRules.localData = (<any> definition.inputs)[key].index;
+        if ((<any> definition.inputs)[key].type === 'rule') innerRules.rules.push((<any> definition.inputs)[key].index);
       }
-      else if (arg === '$asyncRunner') {
-        innerRules.asyncRunner = i;
-      }
-      else if (arg.startsWith('$rule')) {
-        innerRules.rules.push(i);
-      }
-    });
+    }
 
     return innerRules;
   }
-  
-  private getHandlerArgs = (ruleHandler: RuleHandler) => ruleHandler
-    .toString()?.match(/\((.*?)\)/)?.[1]?.split(',')?.map(i => i.trim()) || [];
 
   private isRule = (data: any) => (data && typeof data === 'object' && data[RuleParams.Rule])
-
-  private setOutputValue = (out: string, value: any, outputs: Map<string, any>) => {
-    outputs.set(out, value);
-  }
-
-  private getOutputValue = (varName: string, outputs: Map<string, any>) => {
-    const outputValue = outputs.get(varName);
-
-    if (!outputValue) throw Error(`The "${varName}" output value is not exist`);
-
-    return outputValue;
-  }
-
-  private getDate = (data: any) => {
-    if (!data) throw Error('There is no data passed');
-
-    return data;
-  }
 }

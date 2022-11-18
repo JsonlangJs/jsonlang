@@ -105,9 +105,9 @@ JsonLang have three main parameters:
   * Description: used to get the value of any `Output` from any rules, [Check the Output part](#🏗️-structure).
 
 * **Data**
-  * Input[]?: Array<string> (Size: 1) Enum of "Global" or "Local", defaulted with "Global".
+  * Input[]?: Array<string> (Size: 1) Enum of "External" or "Internal", defaulted with "External".
   * Output: any.
-  * Description: if the Input is `["Global"]` it will return the schemaless data object which you pass it to the [execute](#execute) method, else if the input is `["Local"]`, it will return the value passed from the parent rule like [filter in array rules](#array).
+  * Description: if the Input is `["External"]` it will return the schemaless data object which you pass it to the [execute](#execute) method, else if the input is `["Internal"]`, it will return the value passed from the parent rule like [filter in array rules](#array).
 </br>
 
 ### **Logical**
@@ -219,17 +219,17 @@ JsonLang have three main parameters:
 * **Filter**
   * Input[]: Array<mixed> (Size: 2) {elements: any[], rule: IJsonLangParams}.
   * Output: Any[].
-  * Description: It accepts array of elements with any type to filter them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [Data](#core) Rule with scope local, check this [example](#Access-Inner-Data).
+  * Description: It accepts array of elements with any type to filter them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Internal`, to access it by the inner rules, you will need to use [Data](#core) Rule with scope local, check this [example](#Access-Inner-Data).
 
 * **Map**
   * Input[]: Array<mixed> (Size: 2) {elements: any[], rule: IJsonLangParams}.
   * Output: Any[].
-  * Description: It accepts array of elements with any type to map them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [Data](#execute) Rule with scope local.
+  * Description: It accepts array of elements with any type to map them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Internal`, to access it by the inner rules, you will need to use [Data](#execute) Rule with scope local.
 
 * **Foreach**
   * Input[]: Array<mixed> (Size: 2) {elements: any[], rule: IJsonLangParams}.
   * Output: true.
-  * Description: It accepts array of elements with any type to iterate over them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [Data](#execute) Rule with scope local.
+  * Description: It accepts array of elements with any type to iterate over them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Internal`, to access it by the inner rules, you will need to use [Data](#execute) Rule with scope local.
 
 * **Flatten**
   * Input[]: Array<mixed> (Size: 2) {elements: any[], level?: number}.
@@ -288,7 +288,7 @@ const result = jsonLang.execute({
       ]
     },
     { $R: 'Var', $I: ['x'] },
-    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: ['Global'] }] }
+    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: ['External'] }] }
   ]
 }, { user: { name: 'test', age: 100 } });
 
@@ -307,13 +307,13 @@ const jsonLang = new JsonLang();
 const result = jsonLang.execute({ $R: 'All', $I: [
   { 
     $R: 'Filter',
-    $I: [[1, 3, 5], { $R: '>', $I: [{ $R: 'Data', $I: ['Local'] }, 2] }]
+    $I: [[1, 3, 5], { $R: '>', $I: [{ $R: 'Data', $I: ['Internal'] }, 2] }]
   },
   { 
     $R: 'Filter',
     $I: [
-      { $R: 'Get', $I: ['data.test', null, { $R: 'Data', $I: ['Global'] }] },
-      { $R: '<', $I: [{ $R: 'Data', $I: ['Local'] }, 500] }
+      { $R: 'Get', $I: ['data.test', null, { $R: 'Data', $I: ['External'] }] },
+      { $R: '<', $I: [{ $R: 'Data', $I: ['Internal'] }, 500] }
     ]
   }
 ] }, { data: { id: 'test', test: [100, 300, 700] } });

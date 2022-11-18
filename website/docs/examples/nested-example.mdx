@@ -31,8 +31,8 @@ const result = jsonLang.execute({
         5
       ]
     },
-    { $R: 'Var', $I: ['x'] },
-    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
+    { $R: 'Data', $I: ['x','Internal'] },
+    { $R: 'Get', $I: ['user.age', null, { { $R: 'Data', $I: ['*', 'External'] } }] }
   ]
 }, { user: { name: 'test', age: 100 } });
 

@@ -1,0 +1,18 @@
+---
+sidebar_position: 1
+---
+
+import JsonLangRunner from '@site/src/components/JsonLangRunner';
+
+
+# Data
+
+Access data in different scopes
+
+
+## Data
+  * Input[]?: Array<string\> (Size: 2) { varName: string, scope Enum of "External" or "Internal"}.
+  * Output: any.
+  * Description: if the Input is `["External"]` it will return the schemaless data object which you pass it to the [**execute**](../intro#execute) method, but if the input is `["Internal"]`, it will return value of any `Output` from any rules, [**Check the Output part**](../intro#structure) or the value passed from the parent rule like [filter in array rules](./array#filter).
+
+<JsonLangRunner example="3" height="18vh" key="example3"></JsonLangRunner>

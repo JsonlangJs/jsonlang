@@ -44,5 +44,6 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "reflect-metadata": "^0.1.13",
   }
 }

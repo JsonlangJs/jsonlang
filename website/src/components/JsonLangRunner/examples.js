@@ -13,7 +13,7 @@ export default function getExample(exampleNum) {
         "$I": ["x"]
       }, {
         "$R": "Get",
-        "$I": ["user.age", null, { "$R": "Data", "$I": [] }]
+        "$I": ["user.age", null, { { "$R": "Data", "$I": ["*", "External"] } }]
       }]
 }`, `{ 
   "user": {
@@ -172,7 +172,7 @@ export default function getExample(exampleNum) {
   "$I": [
     "name.last",
     "Unknown Name",
-    { "$R": "Data", "$I": [] }
+    { { "$R": "Data", "$I": ["*", "External"] } }
   ]
 }
 `,
@@ -203,7 +203,7 @@ export default function getExample(exampleNum) {
     [1, 3, 5],
     { 
       "$R": ">",
-      "$I": [{ "$R": "Data", "$I": ["Local"] }, 2] 
+      "$I": [{ "$R": "Data", "$I": ["Internal"] }, 2] 
     }
   ]
 }
@@ -217,7 +217,7 @@ export default function getExample(exampleNum) {
     [1, 3, 5],
     { 
       "$R": "+",
-      "$I": [{ "$R": "Data", "$I": ["Local"] }, 2]
+      "$I": [{ "$R": "Data", "$I": ["Internal"] }, 2]
     }
   ]
 }
@@ -231,7 +231,7 @@ export default function getExample(exampleNum) {
     [1, 3, 5],
     {
       "$R": "+",
-      "$I": [{ "$R": "Data", "$I": ["Local"] }, 2]
+      "$I": [{ "$R": "Data", "$I": ["Internal"] }, 2]
     }
   ]
 }
@@ -265,7 +265,7 @@ export default function getExample(exampleNum) {
         [1, 3, 5], 
         { 
           "$R": ">",
-          "$I": [{ "$R": "Data", "$I": ["Local"] }, 2]
+          "$I": [{ "$R": "Data", "$I": ["Internal"] }, 2]
         }
       ]
     },
@@ -277,12 +277,12 @@ export default function getExample(exampleNum) {
           "$I": [
             "data.test",
             null,
-            { "$R": "Data", "$I": ["Global"] }
+            { "$R": "Data", "$I": ["External"] }
           ]
         },
         {
           "$R": "<",
-          "$I": [{ "$R": "Data", "$I": ["Local"] }, 500]
+          "$I": [{ "$R": "Data", "$I": ["Internal"] }, 500]
         }
       ]
     }
@@ -304,7 +304,7 @@ export default function getExample(exampleNum) {
   "$I": [
     { 
       "$R": "Get",
-      "$I": ["user.age", null, { "$R": "Data", "$I": [] }]
+      "$I": ["user.age", null, { { "$R": "Data", "$I": ["*", "External"] } }]
     }
   ]
 }

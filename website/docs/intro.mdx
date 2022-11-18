@@ -21,7 +21,7 @@ npm install jsonlang-js
 ## Features
 
 1. Typescript. It's a strongly typed npm package
-1. the JsonLang structure is Simple and Optimized. Its [**structure**](#structure) and [**rules**](./rules/core.mdx) have a shortcut to make your JSON in a small size.
+1. the JsonLang structure is Simple and Optimized. Its [**structure**](#structure) and [**rules**](./rules/data.mdx) have a shortcut to make your JSON in a small size.
 1. Its structure is always Consistent. i.e. `{"$R": "R1", "$I": ["value1", "value2", {"$R": "R2", "$I": [...] }, ...] }`.
 1. Safe & Secure. Each Rule has a secure handler.
 1. Extendable. Easy to add new rules.
@@ -35,7 +35,7 @@ JsonLang have three main parameters:
 
   1. **$R**: (`String`) is the rule name itself. i.e. `and`, `or`, `==`, `>`.
   1. **$I**: (`any[]`) is an array of inputs which will be passed to the `Rule` handler/function, their type depends on the `Rule` handler, or it can be a nested rule
-  1. **$O**?: (`Symbol [Optional]`), is an optional field, it accept a name of variable which used to save the Rule result in a [**variable**](./rules/core.mdx) and can be called in any other rule by `{ "$R": "Var": "$I": ["variableX"] }`. The output value should be unique. If you define the same value more than once, the last one will override the value of the previous one.
+  1. **$O**?: (`Symbol [Optional]`), is an optional field, it accept a name of variable which used to save the Rule result in a [**variable**](./rules/data.mdx) and can be called in any other rule by `{ "$R": "Var": "$I": ["variableX"] }`. The output value should be unique. If you define the same value more than once, the last one will override the value of the previous one.
 
 
 ## Methods
@@ -50,14 +50,14 @@ Execute is used to run the JsonLang and takes two parameters.
   1. **JsonLang**: check the [**Structure**](#structure)
   1. **Data**: schemaless data object to read/write to it. To get data use the Rule [**Data**](./rules/core#data)
 
-Execute is the `Sync` version of JsonLang, use it to run all [**builtin rules**](./rules/core.mdx) and any [**extended**](./extend/customization.mdx) `Sync` Rules
+Execute is the `Sync` version of JsonLang, use it to run all [**builtin rules**](./rules/data.mdx) and any [**extended**](./extend/customization.mdx) `Sync` Rules
 
 
 ``` js 
   executeAsync = async (jsonLang: IJsonLangParams, data?: {}): Promise<RuleResult>
 ```
 
-Execute is the `Async` version of JsonLang, use it to run all [**builtin rules**](./rules/core.mdx) and any [**extended**](./extend/customization.mdx) `Sync` or `Async` Rules
+Execute is the `Async` version of JsonLang, use it to run all [**builtin rules**](./rules/data.mdx) and any [**extended**](./extend/customization.mdx) `Sync` or `Async` Rules
 
 
 ### Extend
