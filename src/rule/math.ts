@@ -8,37 +8,37 @@ import {
 export class MathRules {
 
   @RuleExtension(sumDefinition)
-  sum(...inputs: RuleInput) {
+  sum(...inputs: number[]) {
     const arrayOfInputs = [...inputs];
     return this.isNumber(arrayOfInputs)? arrayOfInputs.reduce((a, b) => a + b) : 0;
   }
 
   @RuleExtension(subtractDefinition)
-  subtract(...inputs: RuleInput) {
+  subtract(...inputs: number[]) {
     const arrayOfInputs = [...inputs];
     return this.isNumber(arrayOfInputs)? arrayOfInputs.reduce((a, b) => a - b) : 0;
   }
 
   @RuleExtension(multiplyDefinition)
-  multiply(...inputs: RuleInput) {
+  multiply(...inputs: number[]) {
     const arrayOfInputs = [...inputs];
     return this.isNumber(arrayOfInputs)? arrayOfInputs.reduce((a, b) => a * b) : 0;
   }
 
   @RuleExtension(divideDefinition)
-  divide(...inputs: RuleInput) {
+  divide(...inputs: number[]) {
     const arrayOfInputs = [...inputs];
     return this.isNumber(arrayOfInputs) && this.hasNoZero(arrayOfInputs.slice(1))? arrayOfInputs.reduce((a, b) => a / b) : 0;
   }
 
   @RuleExtension(minimumDefinition)
-  min(...inputs: RuleInput) {
+  min(...inputs: number[]) {
     const arrayOfInputs = [...inputs];
     return this.isNumber(arrayOfInputs)? Math.min(...inputs) : null;
   }
 
   @RuleExtension(maximumDefinition)
-  max(...inputs: RuleInput) {
+  max(...inputs: number[]) {
     const arrayOfInputs = [...inputs];
     return this.isNumber(arrayOfInputs)? Math.max(...inputs) : null;
   }

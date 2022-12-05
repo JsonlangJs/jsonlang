@@ -1,9 +1,9 @@
-import { RuleDefinition, RuleHandler, RuleIdentifier } from "./core.types";
+import { RuleDefinition, AsyncRuleHandler, RuleIdentifier } from "./core.types";
 
 export class RuleDefinitionParser {
 
-  static parse = (handler: RuleHandler, argsTypes: string[] = [], definition: RuleDefinition): RuleDefinition => {
-    const { identifier, inputs, output } = definition || {};
+  static parse = (handler: AsyncRuleHandler, argsTypes: string[] = [], definition: RuleDefinition): RuleDefinition => {
+    const { identifier, inputs, output, sync } = definition || {};
     
     let ruleInputs: any = {};
     const argsNames: any[] = handler.toString()?.match(/\((.*?)\)/)?.[1]?.split(',')?.map((i: any) => i.trim()) || [];
@@ -27,7 +27,8 @@ export class RuleDefinitionParser {
     return { 
       identifier: ruleIdentifier,
       inputs: ruleInputs,
-      output: output
+      output,
+      sync
     };
   }
   

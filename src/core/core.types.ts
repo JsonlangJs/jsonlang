@@ -17,11 +17,24 @@ export type RuleIdentifier = {
 /**
  * Sync/Async Function `(inputs: RuleInput[], data?: {}) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler, and `data` is the schemaless data
 */
-export type RuleHandler = ((...inputs: RuleInput[]) => Promise<RuleResult>);
+export type AsyncRuleHandler = ((...inputs: RuleInput[]) => Promise<RuleResult>);
+export type SyncRuleHandler = ((...inputs: RuleInput[]) => RuleResult);
 
-export type RuleInput = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | any | IJsonLangParams;
+export type RuleInput = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | {[key: string]: any} | IJsonLangParams;
 
-export type RuleResult = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | any | IJsonLangParams;
+export type RuleResult = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | {[key: string]: any} | IJsonLangParams;
+
+export type JsonLangOptions = {
+  sync?: boolean;
+}
+
+export type SyncJsonLangOptions = JsonLangOptions & {
+  sync?: true
+}
+
+export type AsyncJsonLangOptions = JsonLangOptions & {
+  sync?: false
+}
 
 export type RulesValidation = {
   isValid: boolean;
@@ -60,6 +73,8 @@ export interface RulesImplementation {
  * RuleHandler: Sync/Async Function `(inputs: RuleInput[], data?: {}) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler, and `data` is the schemaless data
  */
 export type Rules = Map<RuleDefinition, RuleHandler>;
+
+export type RuleHandler = { sync: SyncRuleHandler, async?: SyncRuleHandler } | { sync?: SyncRuleHandler, async: AsyncRuleHandler };
 
 
 export enum CoreRules {
@@ -110,6 +125,7 @@ export type RuleOutput = JsonSchema;
 
 export type RuleDefinition = {
   identifier: RuleIdentifier;
+  sync?: boolean;
   inputs?: RuleInputs;
   output?: RuleOutput;
 }

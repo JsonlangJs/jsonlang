@@ -12,7 +12,7 @@ export class DataRules {
     $globalData: any
   ) {
     let outputValue;
-    
+
     if (type === DataScope.External) outputValue = ['', '*', null].includes(varName) ? $globalData : $globalData[varName];
     if (type === DataScope.Internal) outputValue = ['', '*', null].includes(varName) ?  Object.fromEntries($localData) : $localData?.get(varName);
 

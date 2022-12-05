@@ -133,8 +133,26 @@ export class LogicalRules {
     }
   }
 
+  @RuleExtension({ ...IfDefinition, sync: true })
+  syncIf(
+    $rule_condition: IJsonLangParams,
+    $rule_then: IJsonLangParams,
+    $rule_else: IJsonLangParams,
+    $runner: Runner
+  ) {
+    if (!$runner) return false;
+
+    const condition = $runner($rule_condition);
+
+    if (condition) {
+      return $runner($rule_then);
+    }
+    else {
+      return $runner($rule_else);
+    }
+  }
   
-  private areSameType(...inputs: RuleInput) {
+  private areSameType(...inputs: any) {
     return [...inputs].slice(1).every(i => typeof i === typeof inputs[0]);
   }
 

@@ -70,6 +70,54 @@ export class ArrayRules {
     return results;
   }
 
+  @RuleExtension({ ...seqDefinition, sync: true })
+  syncSeq($rules: IJsonLangParams[], $runner: Runner) {
+    if(!Array.isArray($rules)) return false;
+
+    $rules.map((rule) => $runner(rule));
+
+    return true;
+  }
+
+  @RuleExtension({ ...filterDefinition, sync: true })
+  syncFilter(array: any[], iterator: string, $rule: IJsonLangParams, $runner: Runner) {
+    if(!Array.isArray(array)) return [];
+
+    const results = [];
+
+    for (const ele of array) {
+      const condition = $runner($rule, iterator? { key: iterator, value: ele } : undefined);
+      if (condition) results.push(ele);
+    }
+
+    return results;
+  }
+
+  @RuleExtension({ ...foreachDefinition, sync: true })
+  syncForeach(array: any[], iterator: string, $rule: IJsonLangParams, $runner: Runner) {
+    if (!Array.isArray(array)) return false;
+
+    for (const ele of array) {
+      $runner($rule, iterator? { key: iterator, value: ele } : undefined);
+    }
+
+    return true;
+  }
+
+  @RuleExtension({ ...mapDefinition, sync: true })
+  syncMap(array: any[], iterator: string, $rule: IJsonLangParams, $runner: Runner) {
+    if(!Array.isArray(array)) return [];
+
+    const results = [];
+
+    for (const ele of array) {
+      const mapping = $runner($rule, iterator? { key: iterator, value: ele } : undefined);
+      results.push(mapping);
+    }
+
+    return results;
+  }
+
   @RuleExtension(flattenDefinition)
   flatten(nestedArray: any[], level?: number) {
     return Array.isArray(nestedArray) ? nestedArray.flat(level) : [];

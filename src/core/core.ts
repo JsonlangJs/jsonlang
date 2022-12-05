@@ -1,6 +1,6 @@
 import { 
   IJsonLangParams, InnerRules, RuleHandler,
-  RuleParams, RuleResult, Rules, RuleDefinition, LocalData
+  RuleParams, RuleResult, Rules, RuleDefinition, LocalData, JsonLangOptions, SyncJsonLangOptions, AsyncJsonLangOptions, AsyncRuleHandler
 } from './core.types';
 import { RuleDefinitionParser } from "./rule-parser";
 
@@ -8,8 +8,10 @@ import { RuleDefinitionParser } from "./rule-parser";
 export class RuleCore {
   private rules: Map<string, RuleHandler>;
   private rulesDefinitions: Map<string, RuleDefinition>;
+  private sync: boolean;
 
-  constructor() {
+  constructor(options?: JsonLangOptions) {
+    this.sync = options?.sync || false;
     this.rules = new Map();
     this.rulesDefinitions = new Map();
   }
@@ -17,15 +19,18 @@ export class RuleCore {
   /**
    * @param {IJsonLangParams} jsonLang
    * @param {Object} data.
-   * @returns {Promise<RuleResult>}
-   * @description is the `Async` version of jsonLang, use it to run all builtin rules and any extended `Sync/Async` Rules
+   * @returns {Promise<RuleResult> | RuleResult}
+   * @description use it to run all rules and any extended `Sync/Async` Rules
   */
-  execute(rules: IJsonLangParams, data?: {}): Promise<RuleResult> {
+   async execute(rules: IJsonLangParams, data?: {}, options?: AsyncJsonLangOptions): Promise<RuleResult>;
+  execute(rules: IJsonLangParams, data?: {}, options?: SyncJsonLangOptions): RuleResult;
+  execute(rules: IJsonLangParams, data?: {}, options?: JsonLangOptions): Promise<RuleResult> | RuleResult {
     const localData = new Map();
-    const run = this.createRunContext(localData, data);
+    const sync = options?.sync || this.sync;
 
-    return run(rules);
+    return sync ? this.createSyncRunContext(localData, data)(rules) : this.createRunContext(localData, data)(rules);
   }
+
 
   /**
    * @param {Class[]} RuleClasses - Array of Classes which contain methods/rules.
@@ -41,11 +46,12 @@ export class RuleCore {
       
       propertyNames.forEach((propertyName) => {
         const group = Reflect.getMetadata('jsonlang:group', RuleClass)?.name || 'Others';
-        const ruleDefinition = Reflect.getMetadata('jsonlang:rule', RuleClass, propertyName);
+        const ruleDefinition: RuleDefinition = Reflect.getMetadata('jsonlang:rule', RuleClass, propertyName);
   
         if (ruleDefinition) {
-          const ruleHandler: RuleHandler = ruleClass[propertyName].bind(ruleClass);
+          const handler = ruleClass[propertyName].bind(ruleClass);
           ruleDefinition.identifier.group = ruleDefinition.identifier.group || group;
+          const ruleHandler: any = ruleDefinition.sync ? { sync: handler } : { async: handler };
 
           this.setRuleWithDefinition(ruleDefinition, ruleHandler)
         }
@@ -69,7 +75,8 @@ export class RuleCore {
    * @description to extend JsonLang by adding one Sync/Async Rule
   */
   registerOne = (definition: RuleDefinition, ruleHandler: RuleHandler) => {
-    const ruleDefinition = RuleDefinitionParser.parse(ruleHandler, [], definition);
+    const handler: any = ruleHandler.sync || ruleHandler.async;
+    const ruleDefinition = RuleDefinitionParser.parse(handler, [], definition);
     this.setRuleWithDefinition(ruleDefinition, ruleHandler)
   }
 
@@ -97,12 +104,24 @@ export class RuleCore {
 
 
   private setRuleWithDefinition(definition: RuleDefinition, ruleHandler: RuleHandler) {
-    this.rules.set(definition.identifier.name, ruleHandler);
-    this.rulesDefinitions.set(definition.identifier.name, definition);
+    let finalDefinition = definition;
+    let finalRuleHandler = ruleHandler;
+    const existingRule = this.rules.get(definition.identifier.name);
+
+    if (existingRule) {
+      finalRuleHandler = Object.assign(existingRule, ruleHandler);
+      finalDefinition = this.rulesDefinitions.get(definition.identifier.name) || definition;
+    }
+
+    finalRuleHandler.async = finalRuleHandler.async || finalRuleHandler.sync;
+    finalRuleHandler.sync = finalRuleHandler.sync || finalRuleHandler.async;
+
+    this.rules.set(definition.identifier.name, finalRuleHandler);
+    this.rulesDefinitions.set(definition.identifier.name, finalDefinition);
 
     if (definition.identifier.shortcut) {
-      this.rulesDefinitions.set(definition.identifier.shortcut, definition);
-      this.rules.set(definition.identifier.shortcut, ruleHandler);
+      this.rulesDefinitions.set(definition.identifier.shortcut, finalDefinition);
+      this.rules.set(definition.identifier.shortcut, finalRuleHandler);
     }
   }
 
@@ -116,8 +135,33 @@ export class RuleCore {
       const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
       try {
         const resolvedInputs = await this.resolveRuleInputs(rule, inputs, runner, data, localDataStore);
+        const handler: any = ruleHandler.async || ruleHandler.sync;
+        const result = await handler(...resolvedInputs);
   
-        const result = await ruleHandler(...resolvedInputs);
+        if (output) localDataStore.set(output, result);
+    
+        return result;
+      }
+      catch (error) {
+        throw Error(`Failed to Run "${rule}" cause of ${error}`);
+      }
+    }
+    
+    return runner;
+  }
+
+  private createSyncRunContext = (localDataStore: Map<string, any>, data?: {}) => {
+
+    const runner = (jsonLang: IJsonLangParams, localData?: LocalData) => {
+      if (localData?.key) localDataStore.set(localData.key, localData?.value);
+
+      if (!this.isRule(jsonLang)) return jsonLang;
+
+      const { ruleHandler, rule, inputs = [], output } = this.getRuleParams(jsonLang);
+      try {
+        const resolvedInputs = this.resolveSyncRuleInputs(rule, inputs, runner, data, localDataStore);
+        const handler: any = ruleHandler.sync;
+        const result = handler(...resolvedInputs);
   
         if (output) localDataStore.set(output, result);
     
@@ -148,6 +192,35 @@ export class RuleCore {
       resolvedInputs.push(result);
     }
 
+    return this.getInputsWithActions(runner, globalData, localDataStore, innerRules, resolvedInputs);
+  }
+
+  private resolveSyncRuleInputs = (
+    rule: string,
+    inputs: any[], 
+    runner: Function,
+    globalData: {} = {},
+    localDataStore: Map<string, any>,
+  ) => {
+    const resolvedInputs = [];
+    const innerRules = this.getHandlerInnerRules(rule);
+
+    for (let i = 0; i < inputs.length; i++) {
+      const input = inputs[i];
+      const result = this.isRule(input) && !innerRules.rules.includes(i) ? runner(input) : input;
+      resolvedInputs.push(result);
+    }
+
+    return this.getInputsWithActions(runner, globalData, localDataStore, innerRules, resolvedInputs);
+  }
+
+  private getInputsWithActions = (
+    runner: Function,
+    globalData: {} = {},
+    localDataStore: Map<string, any>,
+    innerRules: InnerRules,
+    resolvedInputs: any[],
+  ) => {
     if (innerRules.runner) resolvedInputs.splice(innerRules.runner, 0, <any> runner);
     if (innerRules.localData) resolvedInputs.splice(innerRules.localData, 0, <any> localDataStore);
     if (innerRules.globalData) resolvedInputs.splice(innerRules.globalData, 0, <any> globalData);

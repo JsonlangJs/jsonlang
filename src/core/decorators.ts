@@ -21,7 +21,7 @@ export function RuleExtension(definition?: Partial<RuleDefinition>) {
       {
         ...definition,
         identifier: { ...identifier, name: identifier?.name || propertyKey },
-        output: output || { type: returnType },
+        output: output || { type: returnType }
       }
     );
 
