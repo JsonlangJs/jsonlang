@@ -63,16 +63,13 @@ export type IJsonLangParams = {
   [RuleParams.Output]?: string;
 };
 
-export interface RulesImplementation {
-  getRules(): Rules;
-};
 
 /**
  * A Set of Rules
  * RuleIdentifier: Object `{ name: string, shortcut?: string }`, `name`(required) is the `Rule` name, and `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`
  * RuleHandler: Sync/Async Function `(inputs: RuleInput[], data?: {}) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler, and `data` is the schemaless data
  */
-export type Rules = Map<RuleDefinition, RuleHandler>;
+export type Rules = Map<Omit<RuleDefinition, 'sync'>, RuleHandler>;
 
 export type RuleHandler = { sync: SyncRuleHandler, async?: SyncRuleHandler } | { sync?: SyncRuleHandler, async: AsyncRuleHandler };
 

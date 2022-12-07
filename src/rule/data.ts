@@ -18,7 +18,6 @@ export class DataRules {
 
     return outputValue || null;
   }
-  
 }
 
 

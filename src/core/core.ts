@@ -74,7 +74,7 @@ export class RuleCore {
    * @returns {void}
    * @description to extend JsonLang by adding one Sync/Async Rule
   */
-  registerOne = (definition: RuleDefinition, ruleHandler: RuleHandler) => {
+  registerOne = (definition: Omit<RuleDefinition, 'sync'>, ruleHandler: RuleHandler) => {
     const handler: any = ruleHandler.sync || ruleHandler.async;
     const ruleDefinition = RuleDefinitionParser.parse(handler, [], definition);
     this.setRuleWithDefinition(ruleDefinition, ruleHandler)

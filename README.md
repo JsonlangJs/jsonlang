@@ -50,38 +50,82 @@ npm install jsonlang-js
 ### **Execute**
 
 ``` js
-   execute = (jsonLang: IJsonLangParams, data?: {}): RuleResult
+  execute = async (jsonLang: IJsonLangParams, data?: {}, options?: { sync: false }): Promise<RuleResult>
+
 ```
 Execute is used to run the JsonLang and takes two parameters.
 
   1. **JsonLang**: check the [Structure](#🏗️-structure)
   1. **Data**: schemaless data object to read/write to it. To get data use the Rule [Data](#core)
 
-Execute is the `Sync` version of JsonLang, use it to run all [builtin rules](#⚒️-builtin-rules) and any [extended](#extend) `Sync` Rules
-
+Execute is the `Async` version of JsonLang, use it to run all [builtin rules](#⚒️-builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
+</br>
 
 ``` js 
-  executeAsync = async (jsonLang: IJsonLangParams, data?: {}): Promise<RuleResult>
+  execute = (jsonLang: IJsonLangParams, data: {} | undefined, options: { sync: true }): RuleResult
 ```
 
-Execute is the `Async` version of JsonLang, use it to run all [builtin rules](#⚒️-builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
+Execute is the `Sync` version of JsonLang, use it to run all [builtin rules](#⚒️-builtin-rules) and any [extended](#extend) `Sync` Rules
 </br></br>
 
 ### **Extend**
 
+#### **The First Way**:
+</br>
+
 ``` js 
-registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler): void
+registerOne = (ruleDefinition: RuleDefinition, ruleHandler: RuleHandler): void
 ```
 
 Extend JsonLang by adding 2 params
 
-1. **ruleIdentifier**: Object `{ name: string, shortcut?: string }`, `name`(required) is the `Rule` name, and `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`.
-1. **ruleHandler**: Sync/Async Function `(...inputs: RuleInput[]) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [check Input in Structure](#🏗️-structure), and `data` is the schemaless data [check Data in the Execute Section](#execute)
+* **ruleDefinition**: Object of 
+  * identifier: `{ name: string, shortcut?: string, group?: string }`, `name`(required) is the `Rule` name, `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`, and `group` a name of group to categorize/group set of rule under group.
+  * inputs: JsonSchema to define the rule inputs
+  * output: JsonSchema to define the rule output
+* **ruleHandler**: Object of two props sync & async, you need to pass the implementation Function `(...inputs: RuleInput[]) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [check Input in Structure](#🏗️-structure), and `data` is the schemaless data [check Data in the Execute Section](#execute)
+
+</br>
 
 ``` js 
 registerMany(rules: Rules): void
 ```
-registerMany allows registering a `Map()` of rules. The `Map key` is `RuleIdentifier`, and the `Map value` is the `RuleHandler`
+registerMany allows registering a `Map()` of rules. The `Map key` is `RuleDefinition`, and the `Map value` is the `RuleHandler`
+
+</br>
+
+#### **The Second Way**:
+</br>
+
+This way is the best practice way to extend JSONLang using decorators
+
+``` js 
+@JsonLangExtension('Test') // here pass the groupName
+export class DataRules {
+
+  @RuleExtension({
+    identifier: { name: 'RuleOne' },
+    inputs: { inputOne: {type: 'string', enum: ['TP', 'RF']}, inputTwo: {type: 'number'} },
+    output: { type: 'boolean', default: false } 
+  })
+  RuleOne(
+    inputOne: string,
+    inputTwo: number
+  ): boolean {
+    // do the implementation here
+  }
+
+  @RuleExtension({
+    identifier: { name: 'RuleTwo', shortcut: 'R' },
+    inputs: { type: 'array', items: { type: 'string' } },
+    output: { type: 'number' } 
+  })
+  RuleTwo(...inputs: string[]): number {
+    // do the implementation here
+  }
+}
+```
+
 </br></br>
    
 
@@ -247,13 +291,13 @@ import { JsonLang } from 'jsonlang-js';
 
 const jsonLang = new JsonLang();
 
-jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] } ); // true
+jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] }, undefined, { sync: true }  ); // true
 
 // or for short
-jsonLang.execute( { "$R": "<" , "$I": [10, 20] } ); // true
+jsonLang.execute( { "$R": "<" , "$I": [10, 20] }, undefined, { sync: true } ); // true
 
 // or use the async function
-jsonLang.executeAsync( { "$R": "<" , "$I": [10, 20] } )
+jsonLang.execute( { "$R": "<" , "$I": [10, 20] } )
   .then(result => {
     console.log(result); // true
   }); 
@@ -290,7 +334,7 @@ const result = jsonLang.execute({
     { $R: 'Var', $I: ['x'] },
     { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: ['External'] }] }
   ]
-}, { user: { name: 'test', age: 100 } });
+}, { user: { name: 'test', age: 100 } }, { sync: true });
 
 console.log(result);
 // 136
@@ -316,7 +360,7 @@ const result = jsonLang.execute({ $R: 'All', $I: [
       { $R: '<', $I: [{ $R: 'Data', $I: ['Internal'] }, 500] }
     ]
   }
-] }, { data: { id: 'test', test: [100, 300, 700] } });
+] }, { data: { id: 'test', test: [100, 300, 700] } }, { sync: true });
 
 console.log(result);
 
@@ -331,16 +375,17 @@ import { JsonLang } from 'jsonlang-js';
 
 const jsonLang = new JsonLang();
 
-jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input: any) => {
-  return `${input} Test`
+jsonLang.registerOne({ name: 'Test', shortcut: 't' }, { 
+  sync: (input: any) => { return `${input} Test` },
+  async: async (input: any) => { return `${input} Test` } 
 });
 
-const result = jsonLang.execute({ 
+const result = await jsonLang.execute({ 
   $R: 'Test',
   $I: [
     { $R: 'Get', $I: ['user.age', null, { $R: 'Data' }] }
   ]
-}, { user: { name: 'test', age: 100 } });
+}, { user: { name: 'test', age: 100 } }, { sync: true });
 
 console.log(result);
 // 100 Test
