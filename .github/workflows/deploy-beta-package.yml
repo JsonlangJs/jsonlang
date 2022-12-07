@@ -33,16 +33,16 @@ jobs:
       with:
         node-version: '16.x'
         registry-url: 'https://registry.npmjs.org'
+    - name: Config GIT
+      run: >-
+        git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
+        git config --global user.name "Ahmed Medhat"
     - name: Installing...
       run: npm i
     - name: Release RC...
       run: npm version prerelease --preid=rc
     - name: Building...
       run: npm run build
-    - name: Config GIT
-      run: >-
-        git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
-        git config --global user.name "Ahmed Medhat"
     - name: Publishing...
       uses: JS-DevTools/npm-publish@v1
       with:
