@@ -1,7 +1,81 @@
 import { JsonLang } from './app';
 
 describe('app/app', () => {
-  describe('JsonLang.execute', () => {
+  describe('JsonLang.execute sync', () => {
+    const jsonLang = new JsonLang();
+
+    it('Should Success To Execute Simple Rules', () => {
+      const results = jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] }, {}, { sync: true } );
+
+      expect(results).toEqual(true);
+    });
+
+    it('Should Success To Execute Simple Shortcut Rules', () => {
+      const results = jsonLang.execute( { "$R": "<" , "$I": [10, 20] }, {}, { sync: true } );
+
+      expect(results).toEqual(true)
+    });
+
+    it('Should Success To Execute Complex/Nested Rules', () => {
+
+      const results = jsonLang.execute({ 
+        $R: '+',
+        $I: [
+          {
+            $R: '+',
+            $I: [
+              1,
+              { $R: '*', $I: [2, 3] },
+              5
+            ]
+          },
+          {
+            $R: '+',
+            $I: [
+              1,
+              { $R: '*', $I: [3, 3], $O: 'x' },
+              5
+            ]
+          },
+          { $R: 'Data', $I: ['x', 'Internal'] },
+          { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: ['*', 'External'] }] }
+        ]
+      }, { user: { name: 'test', age: 100 } }, { sync: true });
+      
+      expect(results).toEqual(136);
+    });
+
+    it('Should Success To get true if the condition is true', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [true, true, false] }, {}, { sync: true });
+
+      expect(results).toEqual(true);
+    });
+
+    it('Should Success To get true if the condition is false', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [false, true, false] }, {}, { sync: true });
+
+      expect(results).toEqual(false);
+    });
+
+    it('Should Success To get true if the condition is succeeded', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [{ $R: '&&', $I: [true, { $R: '||', $I: [0, 1] }] }, { $R: '+', $I: [6, 1, 2] }, { $R: '-', $I: [6, 1, 2] }]}, {}, { sync: true });
+
+      expect(results).toEqual(9);
+    });
+
+    it('Should Success To get true if the condition is succeeded', () => {
+      const results = jsonLang.execute({ $R: 'If', $I: [{ $R: '==', $I: [true, { $R: '&&', $I: [0, 1] }] }, { $R: '+', $I: [6, 1, 2] }, { $R: '-', $I: [6, 1, 2] }]}, {}, { sync: true });
+
+      expect(results).toEqual(3);
+    });
+    
+    it('Should Failed To Execute non existing Rules', () => {
+      expect(() => jsonLang.execute({ "$R": "NotExisting" , "$I": [1] }, {}, { sync: true } )).toThrowError('The \"NotExisting\" Rule is not exist');
+    });
+
+  });
+
+  describe('JsonLang.execute async', () => {
     const jsonLang = new JsonLang();
 
     it('Should Success To Execute Simple Rules', async () => {
@@ -82,9 +156,9 @@ describe('app/app', () => {
     const jsonLang = new JsonLang();
 
     it('Should Success in registerOne Rule', async () => {
-      jsonLang.registerOne({ identifier: { name: 'Test', shortcut: 't' } }, async (input: any) => {
+      jsonLang.registerOne({ identifier: { name: 'Test', shortcut: 't' } }, { async: async (input: any) => {
         return `${input} Test`
-      })
+      } })
       
       const result = await jsonLang.execute({ 
         $R: 'Test',
@@ -103,8 +177,8 @@ describe('app/app', () => {
     it('Should Success in registerMany Rule', async () => {
 
       const rules = new Map([
-        [{ identifier: { name: 'Hello', shortcut: 'Hi' } }, async (input: any) => { return `Hello JsonLang in ${input}` }],
-        [{ identifier: { name: 'Year' } }, async () => { return new Date().getFullYear().toString()  }]
+        [{ identifier: { name: 'Hello', shortcut: 'Hi' } }, { async: async (input: any) => { return `Hello JsonLang in ${input}` }}],
+        [{ identifier: { name: 'Year' } }, {async: async () => { return new Date().getFullYear().toString()  }}]
       ]);
 
       jsonLang.registerMany(rules);
