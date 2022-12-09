@@ -1,4 +1,4 @@
-import { RuleCore } from '../core';
+import { RuleCore, RuleExtension, JsonLangExtension } from '../core';
 import { ArrayRules, DataRules, LogicalRules, MathRules, ObjectRules } from '../rule';
 
 

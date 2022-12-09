@@ -14,7 +14,7 @@ import {
   seqDefinition
 } from './definitions';
 
-@JsonLangExtension('Array/Collections')
+@JsonLangExtension('Array')
 export class ArrayRules {
 
   @RuleExtension(allDefinition)

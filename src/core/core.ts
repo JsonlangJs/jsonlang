@@ -268,4 +268,5 @@ export class RuleCore {
   }
 
   private isRule = (data: any) => (data && typeof data === 'object' && data[RuleParams.Rule])
+
 }
