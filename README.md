@@ -29,7 +29,7 @@ JsonLang is designed to be extendable. You can define new rules with sync/async 
 ## ⏬ **Installation**
 
 ```bash
-npm install jsonlang-js
+npm install @jsonlang/core
 ```
 </br> 
 
@@ -243,7 +243,7 @@ JsonLang have three main parameters:
 
 ### **One Level Example**
 ```js
-import { JsonLang } from 'jsonlang-js';
+import { JsonLang } from '@jsonlang/core';
 
 const jsonLang = new JsonLang();
 
@@ -264,7 +264,7 @@ jsonLang.executeAsync( { "$R": "<" , "$I": [10, 20] } )
 ### **Nested Levels Example**
 
 ```js
-import { JsonLang } from 'jsonlang-js';
+import { JsonLang } from '@jsonlang/core';
 
 const jsonLang = new JsonLang();
 
@@ -300,7 +300,7 @@ console.log(result);
 ### **Access Inner Data**
 
 ```js
-import { JsonLang } from 'jsonlang-js';
+import { JsonLang } from '@jsonlang/core';
 
 const jsonLang = new JsonLang();
 
@@ -327,7 +327,7 @@ console.log(result);
 ### **Extend Rules Example**
 
 ```js
-import { JsonLang } from 'jsonlang-js';
+import { JsonLang } from '@jsonlang/core';
 
 const jsonLang = new JsonLang();
 
