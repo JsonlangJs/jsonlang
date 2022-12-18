@@ -42,7 +42,7 @@ function HomepageHeader() {
         </div>
         <div>
         <a href="https://github.com/JsonlangJs/jsonlang-js/actions" target="_blank">
-            <img alt="Build Status" src="https://img.shields.io/github/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/Deploy/master" />
+            <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/deploy-package.yml?branch=master" />
           </a>
           &nbsp;
           <a href="https://github.com/JsonlangJs/jsonlang-js/graphs/commit-activity" target="_blank">
