@@ -1,7 +1,12 @@
 {
   "name": "jsonlang-js",
-  "version": "0.6.1",
+  "version": "0.6.2",
+  "license": "MIT",
   "description": "Json Programming Language",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/ahmed-medhat-tawfiq"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "commonjs",
@@ -28,7 +33,6 @@
     "json-conditions"
   ],
   "author": "https://github.com/ahmed-medhat-tawfiq",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/JsonlangJs/jsonlang-js/issues",
     "email": "ahmed.medhat.tawfiq@gmail.com"
