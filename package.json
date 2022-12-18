@@ -1,5 +1,11 @@
 {
   "name": "JsonLang",
+  "scripts": {
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "lint": "lerna run lint",
+    "start": "lerna run --parallel start"
+  },
   "private": true,
   "workspaces": [
     "packages/*"
