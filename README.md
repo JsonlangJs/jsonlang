@@ -17,7 +17,7 @@ JsonLang is designed to be extendable. You can define new rules with sync/async 
 [![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)
 [![codecov](https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js/branch/master/graph/badge.svg?token=35JEA7G369)](https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js)
 [![Maintenance](https://img.shields.io/maintenance/yes/2022.svg)](https://github.com/JsonlangJs/jsonlang-js/graphs/commit-activity)
-[![Build](https://img.shields.io/github/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/Deploy/master)](https://github.com/JsonlangJs/jsonlang-js/actions)
+[![Build](https://img.shields.io/github/actions/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/deploy-package.yml?branch=master)](https://github.com/JsonlangJs/jsonlang-js/actions)
 [![Programming Language](https://img.shields.io/badge/typescript-100%25-blue.svg)](https://img.shields.io/badge/typescript-100%25-blue.svg)
 [![License](https://img.shields.io/github/license/ahmed-medhat-tawfiq/jsonlang-js.svg)](https://github.com/JsonlangJs/jsonlang-js/blob/master/LICENSE)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fahmed-medhat-tawfiq%2Fjsonlang-js.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fahmed-medhat-tawfiq%2Fjsonlang-js?ref=badge_shield)
