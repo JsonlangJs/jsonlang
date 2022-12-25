@@ -7,14 +7,14 @@
   "type": "commonjs",
   "homepage": "https://jsonlang.dev",
   "scripts": {
-    "watch": "concurrently --handle-input \"wait-on dist/index.js && nodemon\" \"tsc -w\" ",
+    "start": "concurrently --handle-input \"wait-on dist/index.js && nodemon\" \"tsc -w\" ",
     "build": "rimraf ./dist/ && tsc",
     "release": "npm run build && npm publish --access public",
     "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JsonlangJs/jsonlang-js.git"
+    "url": "git+https://github.com/JsonlangJs/jsonlang.git"
   },
   "keywords": [
     "rules",
@@ -30,7 +30,7 @@
   "author": "https://github.com/ahmed-medhat-tawfiq",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JsonlangJs/jsonlang-js/issues",
+    "url": "https://github.com/JsonlangJs/jsonlang/issues",
     "email": "ahmed.medhat.tawfiq@gmail.com"
   },
   "devDependencies": {

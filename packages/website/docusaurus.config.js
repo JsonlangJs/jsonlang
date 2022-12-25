@@ -92,7 +92,7 @@ const config = {
             position: 'right'
           },
           {
-            href: 'https://github.com/JsonlangJs/jsonlang-js',
+            href: 'https://github.com/JsonlangJs/jsonlang',
             position: 'right',
             className: 'header-github-link',
             'aria-label': 'GitHub repository',
@@ -125,7 +125,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/JsonlangJs/jsonlang-js',
+                href: 'https://github.com/JsonlangJs/jsonlang',
               },
             ],
           },

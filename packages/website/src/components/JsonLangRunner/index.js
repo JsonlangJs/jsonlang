@@ -1,6 +1,6 @@
 import React from 'react';
 import Editor from "@monaco-editor/react";
-import { JsonLang } from 'jsonlang-js';
+import { JsonLang } from '@jsonlang/core';
 import styles from './styles.module.css';
 import getExample from './examples';
 import { useColorMode } from '@docusaurus/theme-common';
