@@ -7,7 +7,7 @@
   "type": "commonjs",
   "homepage": "https://jsonlang.dev",
   "scripts": {
-    "start": "concurrently --handle-input \"wait-on dist/index.js && nodemon\" \"tsc -w\" ",
+    "watch": "concurrently --handle-input \"wait-on dist/index.js && nodemon\" \"tsc -w\" ",
     "build": "rimraf ./dist/ && tsc",
     "release": "npm run build && npm publish --access public",
     "test": "jest --coverage"
@@ -43,6 +43,7 @@
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "wait-on": "^7.0.1"
   }
 }
