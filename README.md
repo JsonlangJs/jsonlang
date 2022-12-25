@@ -372,12 +372,16 @@ This library uses `Array.map` and `Array.reduce`, so it's not *exactly* Internet
 
 ## 📗 **What's Next?**
 
-* Adding more math, logic, object, array, date, and casting methods.
+* Adding more math, logic, object, array, date, and casting extensions.
 * Allow importing packages to extend JsonLang easily.
-* Provide plugins to wrap well-known packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
+* Provide plugins/extensions to wrap well-known packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
 * Make a UI Editor generate the JSON of JsonLang.
-* Allow Writing Rules as expression. i.e. `And(true, Or(1, Get('var1.var2', 0)))`.
-* Public website has good documentation, for example, playground to try JsonLang, use-cases session has many ideas for using JsonLang.
+* Support building tasks & workflows can be run in the frontend or backend.
+* Support logger and logger view to show you the workflow progress and its incidents.
+* Support connectors to allow you to create your own tasks in any place, and jsonlang flow can call it by connectors (HTTP, Pub-Sub, grpc, ...etc)
+* Support a scalable workflow engine with builder and auditing built on top of JsonLang can save logs, and allow users to retry workflow instances and resolve incidents.
+* Public website has good documentation. For example, the playground to try JsonLang, use-cases session has many ideas for using JsonLang.
+
 </br></br>
 
 ## 📜 **License**
