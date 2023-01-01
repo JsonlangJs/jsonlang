@@ -2,10 +2,10 @@
   "name": "JsonLang",
   "scripts": {
     "install": "lerna bootstrap",
-    "build": "lerna run build",
-    "test": "lerna run test",
-    "lint": "lerna run lint",
-    "start": "lerna exec npm run --parallel start"
+    "build": "lerna exec --parallel --ignore @jsonlang/website npm run build",
+    "test": "lerna exec --parallel --ignore @jsonlang/website npm run test",
+    "lint": "lerna exec --parallel --ignore @jsonlang/website npm run lint",
+    "start": "lerna exec --parallel npm run start"
   },
   "private": true,
   "workspaces": [
