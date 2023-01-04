@@ -36,7 +36,7 @@ npm install jsonlang-js
 ## 🎉 **Features**
 
 1. Typescript. It's a strongly typed npm package
-1. the JsonLang structure is Simple and Optimized. Its [structure](#🏗️-structure) and [rules](#⚒️-builtin-rules) have a shortcut to make your JSON in a small size.
+1. the JsonLang structure is Simple and Optimized. Its [structure](#%EF%B8%8F-structure) and [rules](#%EF%B8%8F-builtin-rules) have a shortcut to make your JSON in a small size.
 1. Its structure is always Consistent. i.e. `{"$R": "R1", "$I": ["value1", "value2", {"$R": "R2", "$I": [...] }, ...] }`.
 1. Safe & Secure. Each Rule has a secure handler.
 1. Extendable. Easy to add new rules.
@@ -54,17 +54,17 @@ npm install jsonlang-js
 ```
 Execute is used to run the JsonLang and takes two parameters.
 
-  1. **JsonLang**: check the [Structure](#🏗️-structure)
+  1. **JsonLang**: check the [Structure](#%EF%B8%8F-structure)
   1. **Data**: schemaless data object to read/write to it. To get data use the Rule [Data](#core)
 
-Execute is the `Sync` version of JsonLang, use it to run all [builtin rules](#⚒️-builtin-rules) and any [extended](#extend) `Sync` Rules
+Execute is the `Sync` version of JsonLang, use it to run all [builtin rules](#%EF%B8%8F-builtin-rules) and any [extended](#extend) `Sync` Rules
 
 
 ``` js 
   executeAsync = async (jsonLang: IJsonLangParams, data?: {}): Promise<RuleResult>
 ```
 
-Execute is the `Async` version of JsonLang, use it to run all [builtin rules](#⚒️-builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
+Execute is the `Async` version of JsonLang, use it to run all [builtin rules](#%EF%B8%8F-builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
 </br></br>
 
 ### **Extend**
@@ -76,7 +76,7 @@ registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler): void
 Extend JsonLang by adding 2 params
 
 1. **ruleIdentifier**: Object `{ name: string, shortcut?: string }`, `name`(required) is the `Rule` name, and `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`.
-1. **ruleHandler**: Sync/Async Function `(...inputs: RuleInput[]) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [check Input in Structure](#🏗️-structure), and `data` is the schemaless data [check Data in the Execute Section](#execute)
+1. **ruleHandler**: Sync/Async Function `(...inputs: RuleInput[]) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [check Input in Structure](#%EF%B8%8F-structure), and `data` is the schemaless data [check Data in the Execute Section](#execute)
 
 ``` js 
 registerMany(rules: Rules): void
@@ -102,7 +102,7 @@ JsonLang have three main parameters:
 * **Var**
   * Input[]: Array<string> (Size: 1), for the Variable name of the Output.
   * Output: Any (depends on the output value).
-  * Description: used to get the value of any `Output` from any rules, [Check the Output part](#🏗️-structure).
+  * Description: used to get the value of any `Output` from any rules, [Check the Output part](#%EF%B8%8F-structure).
 
 * **Data**
   * Input[]?: Array<string> (Size: 1) Enum of "Global" or "Local", defaulted with "Global".
