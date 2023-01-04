@@ -1,12 +1,18 @@
 {
   "name": "jsonlang-js",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "license": "MIT",
   "description": "Json Programming Language",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/ahmed-medhat-tawfiq"
-  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/ahmed-medhat-tawfiq"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/jsonlang-js"
+    }
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "commonjs",
