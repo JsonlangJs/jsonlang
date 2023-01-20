@@ -1,7 +1,7 @@
 {
-  "name": "@jsonlang/core",
+  "name": "@jsonlang/logic",
   "version": "0.0.1",
-  "description": "Json Programming Language Core",
+  "description": "JsonLang Extension for Logical Operations",
   "funding": [
     {
       "type": "github",
@@ -29,7 +29,8 @@
   "keywords": [
     "JsonLang",
     "json-lang",
-    "jsonlang-core",
+    "jsonlang-extension",
+    "jsonlang-logic",
     "rules",
     "conditions",
     "json-code",
@@ -58,6 +59,6 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.13"
+    "@jsonlang/core": "*"
   }
 }

@@ -1,15 +1,28 @@
 import React from 'react';
 import Editor from "@monaco-editor/react";
 import { JsonLang } from '@jsonlang/core';
+import { MathRules } from '@jsonlang/math';
+import { LogicRules } from '@jsonlang/logic';
+import { ArrayRules } from '@jsonlang/array';
+import { ObjectRules } from '@jsonlang/object';
+
 import styles from './styles.module.css';
 import getExample from './examples';
 import { useColorMode } from '@docusaurus/theme-common';
 
 const jsonLang = new JsonLang();
 
-jsonLang.registerOne({ name: 'Test', shortcut: 't' }, (input) => {
+jsonLang.import(MathRules, LogicRules, ArrayRules, ObjectRules);
+
+const definition = { 
+  identifier: { name: 'Test', shortcut: 't' },
+  inputs: { type: 'any' },
+  output: { type: 'string' }
+};
+
+jsonLang.registerOne(definition, { sync: (input) => {
   return `${input} Test`
-});
+} });
 
 export default function JsonLangRunner({ example, height }) {
   const { colorMode } = useColorMode();
@@ -38,7 +51,7 @@ export default function JsonLangRunner({ example, height }) {
 
     if (jsonCode && jsonData) {
       try {
-        const res = jsonLang.execute(jsonCode, jsonData);
+        const res = jsonLang.execute(jsonCode, jsonData, { sync: true });
         setResult(typeof res == 'object'? JSON.stringify(res) : res);
       } catch (error) {
         setResult(error.message);

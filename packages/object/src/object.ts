@@ -1,25 +1,12 @@
-import { IJsonLangParams, Rules, RulesImplementation, Runner } from '../core';
+import { JsonLangExtension, RuleExtension } from '@jsonlang/core';
+import { getDefinition, updateDefinition, deleteDefinition, setDefinition } from './definitions';
 
-export class ObjectRules implements RulesImplementation {
-
-  private rules: Rules;
+@JsonLangExtension('Object')
+export class ObjectRules {
   private arrayEleNumRegex: RegExp;
 
   constructor() {
     this.arrayEleNumRegex = /^\[([0-9]+)\]/;
-    this.rules = new Map();
-    this.register();
-  }
-
-  getRules(): Rules {
-    return this.rules;
-  }
-
-  private register = () => {
-    this.rules.set({ name: 'Get', group: 'Object' }, this.get);
-    this.rules.set({ name: 'Set', group: 'Object' }, this.set);
-    this.rules.set({ name: 'Update', group: 'Object' }, this.update);
-    this.rules.set({ name: 'Delete', group: 'Object' }, this.delete);
   }
 
   private isArrayOfPaths = (path: any) => {
@@ -87,13 +74,15 @@ export class ObjectRules implements RulesImplementation {
     }
   }
 
-  private set = (path: string, value: any, data?: {}) => {
+  @RuleExtension(setDefinition)
+  set(path: string, value: any, data?: {}) {
     const pathProps = this.getPath(path);    
 
     return data && pathProps && value ? this.baseSet(pathProps, data, value, true) : false;
   }
 
-  private get = (path: string, defaultValue?: any, data?: {}) => {
+  @RuleExtension(getDefinition)
+  get(path: string, defaultValue?: any, data?: {}) {
     const pathProps = this.getPath(path);
 
     // defaultValue = defaultValue || 'invalidPath';
@@ -102,13 +91,15 @@ export class ObjectRules implements RulesImplementation {
     return result === undefined ? defaultValue : result
   }
 
-  private update = (path: string, value: any, data?: {}) => {
+  @RuleExtension(updateDefinition)
+  update(path: string, value: any, data?: {}) {
     const pathProps = this.getPath(path);
 
     return data && pathProps && value ? this.baseUpdate(pathProps, data, value) : false;
   }
 
-  private delete = (path: string, data?: {}) => {
+  @RuleExtension(deleteDefinition)
+  delete(path: string, data?: {}) {
     const pathProps = this.getPath(path);
 
     return data && pathProps ? this.baseDelete(pathProps, data) : false;

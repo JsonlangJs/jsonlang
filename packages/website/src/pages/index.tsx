@@ -41,16 +41,16 @@ function HomepageHeader() {
           </a>
         </div>
         <div>
-        <a href="https://github.com/JsonlangJs/jsonlang-js/actions" target="_blank">
+        <a href="https://github.com/JsonlangJs/jsonlang/actions" target="_blank">
             <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/deploy-package.yml?branch=master" />
           </a>
           &nbsp;
-          <a href="https://github.com/JsonlangJs/jsonlang-js/graphs/commit-activity" target="_blank">
-            <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2022.svg" />
+          <a href="https://github.com/JsonlangJs/jsonlang/graphs/commit-activity" target="_blank">
+            <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2023.svg" />
           </a>
           &nbsp;
           <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fahmed-medhat-tawfiq%2Fjsonlang-js?ref=badge_shield" target="_blank">
-            <img alt="License" src="https://img.shields.io/github/license/ahmed-medhat-tawfiq/jsonlang-js.svg" />
+            <img alt="License" src="https://img.shields.io/github/license/jsonlangjs/jsonlang.svg" />
           </a>
           &nbsp;
           <a href="https://github.com/JsonlangJs/jsonlang-js/blob/master/LICENSE" target="_blank">

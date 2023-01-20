@@ -1,12 +1,4 @@
 
-export type IRulesCore = {
-  registerOne(ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler): void;
-  registerMany(rules: Rules): void;
-  // validate(rules: IJsonLangParams): RulesValidation;
-  execute(rules: IJsonLangParams, data?: {}): RuleResult;
-  executeAsync(rules: IJsonLangParams, data?: {}): Promise<RuleResult>;
-}
-
 export type RuleIdentifier = {
  /**
    * the `Rule` name i.e. "And", "Or"
@@ -25,11 +17,24 @@ export type RuleIdentifier = {
 /**
  * Sync/Async Function `(inputs: RuleInput[], data?: {}) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler, and `data` is the schemaless data
 */
-export type RuleHandler = ((...inputs: RuleInput[]) => RuleResult) | ((...inputs: RuleInput[]) => Promise<RuleResult>);
+export type AsyncRuleHandler = ((...inputs: RuleInput[]) => Promise<RuleResult>);
+export type SyncRuleHandler = ((...inputs: RuleInput[]) => RuleResult);
 
-export type RuleInput = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | any | IJsonLangParams;
+export type RuleInput = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | {[key: string]: any} | IJsonLangParams;
 
-export type RuleResult = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | any | IJsonLangParams;
+export type RuleResult = string | number | boolean | bigint | string[] | number[] | boolean[] | bigint[] | {[key: string]: any} | IJsonLangParams;
+
+export type JsonLangOptions = {
+  sync?: boolean;
+}
+
+export type SyncJsonLangOptions = JsonLangOptions & {
+  sync?: true
+}
+
+export type AsyncJsonLangOptions = JsonLangOptions & {
+  sync?: false
+}
 
 export type RulesValidation = {
   isValid: boolean;
@@ -58,28 +63,74 @@ export type IJsonLangParams = {
   [RuleParams.Output]?: string;
 };
 
-export interface RulesImplementation {
-  getRules(): Rules;
-};
 
 /**
  * A Set of Rules
  * RuleIdentifier: Object `{ name: string, shortcut?: string }`, `name`(required) is the `Rule` name, and `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`
  * RuleHandler: Sync/Async Function `(inputs: RuleInput[], data?: {}) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler, and `data` is the schemaless data
  */
-export type Rules = Map<RuleIdentifier, RuleHandler>;
+export type Rules = Map<Omit<RuleDefinition, 'sync'>, RuleHandler>;
+
+export type RuleHandler = { sync: SyncRuleHandler, async?: SyncRuleHandler } | { sync?: SyncRuleHandler, async: AsyncRuleHandler };
 
 
 export enum CoreRules {
-  Var = 'Var',
   Data = 'Data',
 }
 
 export enum DataScope {
-  Global = 'Global',
-  Local = 'Local',
+  External = 'External',
+  Internal = 'Internal',
 }
 
-export type Runner = (scopedData?: any) => (jsonLang: IJsonLangParams) => any;
+export type LocalData = {
+  key: string;
+  value: any;
+}
 
-export interface InnerRules { runner: number | null, asyncRunner: number | null, rules: number[] };
+export interface JsonSchema {
+  title?: string;
+  description?: string;
+  type?: 'string' | 'number' | 'boolean' | 'object' | 'array' | 'rule' | 'runner' | 'globalData' | 'localData' | 'null' | 'any';
+  nullable?: boolean;
+  examples?: any[];
+  deprecated?: boolean;
+  items?: JsonSchema | JsonSchema[];
+  properties?: {[propertyName: string]: (JsonSchema)};
+  format?: string;
+  default?: any;
+  maximum?: number;
+  minimum?: number;
+  maxLength?: number;
+  minLength?: number;
+  pattern?: string;
+  maxItems?: number;
+  minItems?: number;
+  uniqueItems?: boolean;
+  maxProperties?: number;
+  minProperties?: number;
+  required?: string[];
+  enum?: any[];
+}
+
+export type RuleInputs = {
+  [key in string]: JsonSchema;
+} | JsonSchema;
+
+export type RuleOutput = JsonSchema;
+
+export type RuleDefinition = {
+  identifier: RuleIdentifier;
+  sync?: boolean;
+  inputs?: RuleInputs;
+  output?: RuleOutput;
+}
+
+export type Runner = (jsonLang: IJsonLangParams, localData?: LocalData) => any;
+
+export interface InnerRules { 
+  runner: number | null, 
+  globalData: number | null, 
+  localData: number | null, 
+  rules: number[]
+};

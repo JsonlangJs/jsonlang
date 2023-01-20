@@ -9,11 +9,11 @@ export default function getExample(exampleNum) {
         "$R": "+",
         "$I": [1, { "$R": "*", "$I": [3, 3, 7], "$O": "x" }, 6, 7]
       }, {
-        "$R": "Var",
-        "$I": ["x"]
+        "$R": "Data",
+        "$I": ["x", "Internal"]
       }, {
         "$R": "Get",
-        "$I": ["user.age", null, { "$R": "Data", "$I": [] }]
+        "$I": ["user.age", null, { "$R": "Data", "$I": ["*", "External"] }]
       }]
 }`, `{ 
   "user": {
@@ -26,7 +26,7 @@ export default function getExample(exampleNum) {
   "$R": "All", 
   "$I": [
     { "$R": "+", "$I": [1, 2], "$O": "y" },
-    { "$R": "Var", "$I": ["y"] }
+    { "$R": "Data", "$I": ["y", "Internal"] }
   ] 
 }
 `,
@@ -37,7 +37,7 @@ export default function getExample(exampleNum) {
 [
 `{ 
   "$R": "Data",
-  "$I": [] 
+  "$I": ["*", "External"] 
 }
 `,
 `{
@@ -172,7 +172,7 @@ export default function getExample(exampleNum) {
   "$I": [
     "name.last",
     "Unknown Name",
-    { "$R": "Data", "$I": [] }
+    { "$R": "Data", "$I": ["*", "External"] }
   ]
 }
 `,
@@ -201,9 +201,10 @@ export default function getExample(exampleNum) {
   "$R": "Filter", 
   "$I": [
     [1, 3, 5],
+    "i",
     { 
       "$R": ">",
-      "$I": [{ "$R": "Data", "$I": ["Local"] }, 2] 
+      "$I": [{ "$R": "Data", "$I": ["i", "Internal"] }, 2] 
     }
   ]
 }
@@ -215,9 +216,10 @@ export default function getExample(exampleNum) {
   "$R": "Map", 
   "$I": [
     [1, 3, 5],
+    "i",
     { 
       "$R": "+",
-      "$I": [{ "$R": "Data", "$I": ["Local"] }, 2]
+      "$I": [{ "$R": "Data", "$I": ["i", "Internal"] }, 2]
     }
   ]
 }
@@ -229,9 +231,10 @@ export default function getExample(exampleNum) {
   "$R": "Foreach", 
   "$I": [
     [1, 3, 5],
+    "i",
     {
       "$R": "+",
-      "$I": [{ "$R": "Data", "$I": ["Local"] }, 2]
+      "$I": [{ "$R": "Data", "$I": ["i", "Internal"] }, 2]
     }
   ]
 }
@@ -277,7 +280,7 @@ export default function getExample(exampleNum) {
           "$I": [
             "data.test",
             null,
-            { "$R": "Data", "$I": ["Global"] }
+            { "$R": "Data", "$I": ["*", "External"] }
           ]
         },
         {
@@ -304,7 +307,7 @@ export default function getExample(exampleNum) {
   "$I": [
     { 
       "$R": "Get",
-      "$I": ["user.age", null, { "$R": "Data", "$I": [] }]
+      "$I": ["user.age", null, { "$R": "Data", "$I": ["*", "External"] }]
     }
   ]
 }
