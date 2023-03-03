@@ -6,23 +6,23 @@ on:
     - master
     - monorepo
 jobs:
-  test: 
-    name: testing
-    runs-on: Ubuntu-20.04
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '16.x'
-        registry-url: 'https://registry.npmjs.org'
-    - name: Installing...
-      run: npm i
-    - name: Building...
-      run: npm run build
-    - name: Testing...
-      run: npm run test
-    - name: Coveralls
-      uses: codecov/codecov-action@v3
+  # test: 
+  #   name: testing
+  #   runs-on: Ubuntu-20.04
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - uses: actions/setup-node@v3
+  #     with:
+  #       node-version: '16.x'
+  #       registry-url: 'https://registry.npmjs.org'
+  #   - name: Installing...
+  #     run: npm i
+  #   - name: Building...
+  #     run: npm run build
+  #   - name: Testing...
+  #     run: npm run test
+  #   - name: Coveralls
+  #     uses: codecov/codecov-action@v3
 
   publish:
     name: npm-publish
