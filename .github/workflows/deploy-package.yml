@@ -27,9 +27,9 @@ jobs:
   publish:
     name: npm-publish
     runs-on: Ubuntu-20.04
-      env:
-        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -45,8 +45,7 @@ jobs:
         git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
         git config --global user.name "Ahmed Medhat"
     - name: Publishing...
-      run: |
-        lerna publish --yes
+      run: lerna publish --yes
 
 
         
