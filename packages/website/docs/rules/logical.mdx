@@ -9,62 +9,74 @@ import JsonLangRunner from '@site/src/components/JsonLangRunner';
 
 All logical operations
 
+``` js 
+import { JsonLang } from '@jsonlang/core';
+import { LogicRules } from '@jsonlang/logic';
+
+const jsonLang = new JsonLang();
+
+jsonLang.import(LogicRules);
+```
+
 ## And or && 
-  * Input[]: Array<any\> (Size: Unlimited).
-  * Output: Boolean (true or false).
-  * Description: Do the `Anding` operation, if any value in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true`. 
-<JsonLangRunner example="8" height="10vh" key="example8"></JsonLangRunner>
+  * **Input[]:** Array<any\> (Size: Unlimited). Array or any data or rules.
+  * **Output:** Boolean (true or false).
+  * **Description:** Do the `Anding` operation, if any value in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true`. 
+<JsonLangRunner example="8" height="13vh" key="example8"></JsonLangRunner>
 
 ## Or or ||
-  * Input[]: Array<any\> (Size: Unlimited).
-  * Output: Boolean (true or false).
-  * Description: Do the `Oring` operation, if all values in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true` .
-<JsonLangRunner example="9" height="10vh" key="example9"></JsonLangRunner>
+  * **Input[]:** Array<any\> (Size: Unlimited). Array or any data or rules.
+  * **Output:** Boolean (true or false).
+  * **Description:** Do the `Oring` operation, if all values in `Input[]` has a value of (null, 0, false), it will return `false`, else it will return `true` .
+<JsonLangRunner example="9" height="13vh" key="example9"></JsonLangRunner>
 
 ## Equal or ==
-  * Input[]: Array<any\> (Size: 2).
-  * Output: Boolean (true or false).
-  * Description: It takes an array of 2 inputs to compare if element one `Equal` element two or not.
-<JsonLangRunner example="10" height="10vh" key="example10"></JsonLangRunner>
+  * **Input[]:** Array<any\> (Size: 2). Two fields with any data type or rules to compare.
+  * **Output:** Boolean (true or false).
+  * **Description:** It takes an array of 2 inputs to compare if element one `Equal` element two or not. If the provided fields have different data types, it will cast them to same data type to compare.
+<JsonLangRunner example="10" height="13vh" key="example10"></JsonLangRunner>
 
 ## NotEqual or !=
-  * Input[]: Array<any\> (Size: 2).
-  * Output: Boolean (true or false).
-  * Description: It takes an array of 2 inputs to compare if element one `Not Equal` to element two or not.
-<JsonLangRunner example="11" height="10vh" key="example11"></JsonLangRunner>
+  * **Input[]:** Array<any\> (Size: 2). Two fields with any data type or rules to compare.
+  * **Output:** Boolean (true or false).
+  * **Description:** It takes an array of 2 inputs to compare if element one `Not Equal` to element two or not. If the provided fields have different data types, it will cast them to same data type to compare.
+<JsonLangRunner example="11" height="13vh" key="example11"></JsonLangRunner>
 
 ## Not or !
-  * Input[]: Array<Boolean\> (Size: 1).
-  * Output: Boolean (true or false).
-  * Description: It takes an array of 1 input inverts its value. If it `true` it will return `false` and vice versa.
-<JsonLangRunner example="12" height="10vh" key="example12"></JsonLangRunner>
+  * **Input[]:** Array<Boolean\> (Size: 1). Boolean value or a rule returns a boolean value.
+  * **Output:** Boolean (true or false).
+  * **Description:** It takes an array of 1 input inverts its value. If it `true` it will return `false` and vice versa.
+<JsonLangRunner example="12" height="13vh" key="example12"></JsonLangRunner>
 
 ## GreaterThan or >
-  * Input[]: Array<number\> (Size: 2).
-  * Output: Boolean (true or false).
-  * Description: It takes an array of 2 inputs to compare if element one `Greater Than` element two or not.
-<JsonLangRunner example="13" height="10vh" key="example13"></JsonLangRunner>
+  * **Input[]:** Array<number\> (Size: 2). Two numbers or rules return numerical values to compare.
+  * **Output:** Boolean (true or false).
+  * **Description:** It takes an array of 2 inputs to compare if element one `Greater Than` element two or not.
+<JsonLangRunner example="13" height="13vh" key="example13"></JsonLangRunner>
 
 ## LessThan or <
-  * Input[]: Array<number\> (Size: 2).
-  * Output: Boolean (true or false).
-  * Description: It takes an array of 2 inputs to compare if element one `Less Than` element two or not.
-<JsonLangRunner example="14" height="10vh" key="example14"></JsonLangRunner>
+  * **Input[]:** Array<number\> (Size: 2). Two numbers or rules return numerical values to compare.
+  * **Output:** Boolean (true or false).
+  * **Description:** It takes an array of 2 inputs to compare if element one `Less Than` element two or not.
+<JsonLangRunner example="14" height="13vh" key="example14"></JsonLangRunner>
 
 ## GreaterThanOrEqual or >=
-  * Input[]: Array<number\> (Size: 2).
-  * Output: Boolean (true or false).
-  * Description: It takes an array of 2 inputs to compare if element one `Greater Than or Equal` element two or not.
-<JsonLangRunner example="15" height="10vh" key="example15"></JsonLangRunner>
+  * **Input[]:** Array<number\> (Size: 2). Two numbers or rules return numerical values to compare.
+  * **Output:** Boolean (true or false).
+  * **Description:** It takes an array of 2 inputs to compare if element one `Greater Than or Equal` element two or not.
+<JsonLangRunner example="15" height="13vh" key="example15"></JsonLangRunner>
 
 ## LessThanOrEqual or <=
-  * Input[]: Array<number\> (Size: 2).
-  * Output: Boolean (true or false).
-  * Description: It takes an array of 2 inputs to compare if element one `Less Than or Equal` element two or not.
-<JsonLangRunner example="16" height="10vh" key="example16"></JsonLangRunner>
+  * **Input[]:** Array<number\> (Size: 2). Two numbers or rules return numerical values to compare.
+  * **Output:** Boolean (true or false).
+  * **Description:** It takes an array of 2 inputs to compare if element one `Less Than or Equal` element two or not.
+<JsonLangRunner example="16" height="13vh" key="example16"></JsonLangRunner>
 
 ## If-Else
-  * Input[]: Array<Mixed\> (Size: 3), 1st one Value/Rule for `condition`, 2nd one Value/Rule for `then`, and 3nd one Value/Rule for `else`.
-  * Output: any depends on the value of `then` or `else`.
-  * Description: to do the if-else logic, all the 3 inputs are required, if u didn't pass one of them it will return `false`.
-<JsonLangRunner example="26" height="40vh" key="example26"></JsonLangRunner>
+  * **Input[]:** Array<Mixed\> (Size: 3), 
+    * Condition: it can be Value or Rule and if it succeeded `(true, value)` it will call `Then`, but if it failed `(false, null, 0)` it will call `Else`
+    * Then: it can be Value or Rule.
+    * Else: it can be Value or Rule.
+  * **Output:** any depends on the value of `then` or `else`.
+  * **Description:** to do the if-else logic, all the 3 inputs are required, if u didn't pass one of them it will return `false`.
+<JsonLangRunner example="26" height="55vh" key="example26"></JsonLangRunner>

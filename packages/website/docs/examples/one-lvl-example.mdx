@@ -4,13 +4,15 @@ sidebar_position: 1
 
 import JsonLangRunner from '@site/src/components/JsonLangRunner';
 
-
 # One Level Example
 
 ```js
 import { JsonLang } from '@jsonlang/core';
+import { LogicRules } from '@jsonlang/logic';
 
 const jsonLang = new JsonLang();
+
+jsonLang.import(LogicRules);
 
 jsonLang.execute( { "$R": "LessThan" , "$I": [10, 20] } ); // true
 

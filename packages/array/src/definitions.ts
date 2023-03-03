@@ -45,6 +45,6 @@ export const arrayContactDefinition: RuleDefinition = {
 
 export const arrayUniqueDefinition: RuleDefinition = {
   identifier:{ name: 'ArrayUnique' }, 
-  inputs:{ array: {type: 'array'} },
+  inputs:{ inputs: {type: 'array'} },
   output:{ type: 'array' }
 };

@@ -69,19 +69,21 @@ JsonLang have three main parameters:
 </br>
 
 ``` js
-  execute = async (jsonLang: IJsonLangParams, data?: {}, options?: { sync: false }): Promise<RuleResult>
+  async execute(jsonLang: IJsonLangParams, data?: {}, options?: { sync: false }): Promise<RuleResult>
 
 ```
 Execute is used to run the JsonLang and takes two parameters.
 
   1. **JsonLang**: check the [Structure](#%EF%B8%8F-structure)
   1. **Data**: schemaless data object to read/write to it. To get data use the Rule [Data](#core)
+  1. **options**: execution options. it has one property called `sync` if it false the execute will be async for async rules, else it will be sync
+
 
 Execute is the `Async` version of JsonLang, use it to run all [builtin rules](#%EF%B8%8F-builtin-rules) and any [extended](#extend) `Sync` or `Async` Rules
 </br>
 
 ``` js 
-  execute = (jsonLang: IJsonLangParams, data: {} | undefined, options: { sync: true }): RuleResult
+  execute(jsonLang: IJsonLangParams, data: {} | undefined, options: { sync: true }): RuleResult
 ```
 
 Execute is the `Sync` version of JsonLang, use it to run all [builtin rules](#%EF%B8%8F-builtin-rules) and any [extended](#extend) `Sync` Rules
@@ -94,7 +96,7 @@ Execute is the `Sync` version of JsonLang, use it to run all [builtin rules](#%E
 </br>
 
 ``` js 
-registerOne = (ruleDefinition: RuleDefinition, ruleHandler: RuleHandler): void
+  registerOne(ruleDefinition: RuleDefinition, ruleHandler: RuleHandler): void
 ```
 
 Extend JsonLang by adding 2 params
@@ -108,7 +110,7 @@ Extend JsonLang by adding 2 params
 </br>
 
 ``` js 
-registerMany(rules: Rules): void
+  registerMany(rules: Rules): void
 ```
 registerMany allows registering a `Map()` of rules. The `Map key` is `RuleDefinition`, and the `Map value` is the `RuleHandler`
 
@@ -193,7 +195,7 @@ import { JsonLang } from '@jsonlang/core';
 ```
 
 * **Data**
-  * Input[]?: Array<string> (Size: 1) Enum of "External" or "Internal", defaulted with "External".
+  * Input[]: Array<string> (Size: 2) var name you need to access, Enum of "External" or "Internal"
   * Output: any.
   * Description: if the Input is `["External"]` it will return the schemaless data object which you pass it to the [execute](#execute) method, else if the input is `["Internal"]`, it will return the value of any `Output` from any rules, [Check the Output part](#%EF%B8%8F-structure) or the value passed from the parent rule like [filter in array rules](#array).
 
@@ -485,12 +487,13 @@ jsonLang.import(LogicRules, ArrayRules, ObjectRules);
 const result = jsonLang.execute({ $R: 'All', $I: [
   { 
     $R: 'Filter',
-    $I: [[1, 3, 5], { $R: '>', $I: [{ $R: 'Data', $I: ['Internal'] }, 2] }]
+    $I: [[1, 3, 5], 'i', { $R: '>', $I: [{ $R: 'Data', $I: ['Internal'] }, 2] }],
   },
   { 
     $R: 'Filter',
     $I: [
-      { $R: 'Get', $I: ['data.test', null, { $R: 'Data', $I: ['External'] }] },
+      { $R: 'Get', $I: ['data.test', null, { $R: 'Data', $I: ['External'] }] }, 
+      'j',
       { $R: '<', $I: [{ $R: 'Data', $I: ['Internal'] }, 500] }
     ]
   }
@@ -560,11 +563,12 @@ This library uses `Array.map` and `Array.reduce`, so it's not *exactly* Internet
 </br>
 
 * Adding more math, logic, object, array, date, and casting methods.
-* Allow importing packages to extend JsonLang easily.
 * Provide plugins to wrap well-known packages like MathJs, Jsonata, Axios, Lodash, MomentJs, ...etc.
-* Make a UI Editor generate the JSON of JsonLang.
-* Allow Writing Rules as expression. i.e. `And(true, Or(1, Get('var1.var2', 0)))`.
-* Public website has good documentation, for example, playground to try JsonLang, use-cases session has many ideas for using JsonLang.
+* Adding Jsonschema validation for rules inputs
+* Allow saving, loading, calling other block of rules.
+* Allow logging with different level for rules while execution.
+* Make a UI diagram react npm package to generate, show, build, run and show instances logs.
+* Add more use-cases for many ideas for using JsonLang.
 </br></br></br>
 
 ## 📜 **License**

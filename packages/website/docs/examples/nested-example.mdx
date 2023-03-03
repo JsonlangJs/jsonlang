@@ -9,35 +9,35 @@ import JsonLangRunner from '@site/src/components/JsonLangRunner';
 
 ```js
 import { JsonLang } from '@jsonlang/core';
+import { MathRules } from '@jsonlang/math';
+import { ObjectRules } from '@jsonlang/object';
 
 const jsonLang = new JsonLang();
 
-const result = jsonLang.execute({ 
-  $R: '+',
-  $I: [
-    {
-      $R: '+',
-      $I: [
-        1,
-        { $R: '*', $I: [2, 3] },
-        5
-      ]
-    },
-    {
-      $R: '+',
-      $I: [
-        1,
-        { $R: '*', $I: [3, 3], $O: 'x' },
-        5
-      ]
-    },
-    { $R: 'Var', $I: ['x'] },
-    { $R: 'Get', $I: ['user.age', null, { $R: 'Data', $I: [] }] }
-  ]
-}, { user: { name: 'test', age: 100 } });
+jsonLang.import(MathRules, ObjectRules);
+
+const result = jsonLang.execute({
+  $R: "+",
+  $I: [{
+    $R: "+",
+    $I: [1, { $R: "*", $I: [2, 3] }, 5]
+  }, {
+    $R: "+",
+    $I: [1, { $R: "*", $I: [3, 3, 7], $O: "x" }, 6, 7]
+  }, {
+    $R: "Data",
+    $I: ["x", "Internal"]
+  }, {
+    $R: "Get",
+    $I: [
+      "user.age",
+      null,
+      { $R: "Data", $I: ["*", "External"] }
+    ]
+  }]
+}, { user: { name: 'test', age: 100 } }, { sync: true });
 
 console.log(result);
-// 252
 ```
 
 <JsonLangRunner example="1" height="40vh" key="example24"></JsonLangRunner>

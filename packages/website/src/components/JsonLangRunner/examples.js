@@ -265,10 +265,11 @@ export default function getExample(exampleNum) {
     { 
       "$R": "Filter",
       "$I": [
-        [1, 3, 5], 
+        [1, 3, 5],
+        "i",
         { 
           "$R": ">",
-          "$I": [{ "$R": "Data", "$I": ["Local"] }, 2]
+          "$I": [{ "$R": "Data", "$I": ["i", "Internal"] }, 2]
         }
       ]
     },
@@ -283,9 +284,10 @@ export default function getExample(exampleNum) {
             { "$R": "Data", "$I": ["*", "External"] }
           ]
         },
+        "k",
         {
           "$R": "<",
-          "$I": [{ "$R": "Data", "$I": ["Local"] }, 500]
+          "$I": [{ "$R": "Data", "$I": ["k", "Internal"] }, 500]
         }
       ]
     }
@@ -325,7 +327,13 @@ export default function getExample(exampleNum) {
   "$I": [
     { 
       "$R": ">",
-      "$I": [4, 3]
+      "$I": [
+        {
+          "$R": "Data",
+          "$I": ["age", "External"]
+        },
+        3
+      ]
     },
     { 
       "$R": "If",
@@ -334,13 +342,29 @@ export default function getExample(exampleNum) {
     false
   ]
 }
+
 `,
-`{
-  "user": { 
-    "name": "test",
-    "age": 100
-  }
+`{ 
+  "name": "test",
+  "age": 100
 }`
+],
+[
+`{ 
+  "$R": "ArrayConcat",
+  "$I": [[3, 5], [3, 7]]
+}
+
+`,
+`{}`
+],
+[
+`{ 
+  "$R": "ArrayUnique",
+  "$I": [3, 5, 3, 7, 1, 1]
+}
+`,
+`{}`
 ]
 ];
 

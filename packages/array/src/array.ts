@@ -17,10 +17,6 @@ import {
 @JsonLangExtension('Array/Collections')
 export class ArrayRules {
 
-  @RuleExtension(allDefinition)
-  async all(...inputs: RuleInput[]) {
-    return [...inputs].map(input => input);
-  }
 
   @RuleExtension(seqDefinition)
   async seq($rules: IJsonLangParams[], $runner: Runner) {
@@ -68,6 +64,11 @@ export class ArrayRules {
     }
 
     return results;
+  }
+
+  @RuleExtension({ ...allDefinition, sync: true })
+  syncAll(...inputs: RuleInput[]) {
+    return [...inputs];
   }
 
   @RuleExtension({ ...seqDefinition, sync: true })
@@ -129,8 +130,9 @@ export class ArrayRules {
   }
 
   @RuleExtension(arrayUniqueDefinition)
-  unique(array: any[]) {
-    return Array.isArray(array) ? [...new Set(array.map(r => JSON.stringify(r)))].map(r => JSON.parse(r)) : [];
+  unique(...inputs: any[]) {
+    const arrayOfInputs = [...inputs];
+    return Array.isArray(arrayOfInputs) ? [...new Set(arrayOfInputs.map(r => JSON.stringify(r)))].map(r => JSON.parse(r)) : [];
   }
 
 }

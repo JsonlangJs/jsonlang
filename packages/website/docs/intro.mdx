@@ -43,39 +43,22 @@ JsonLang have three main parameters:
 ### Execute
 
 ``` js
-   execute = (jsonLang: IJsonLangParams, data?: {}): RuleResult
+  async execute(jsonLang: IJsonLangParams, data?: {}, options?: { sync: false }): Promise<RuleResult>
 ```
 Execute is used to run the JsonLang and takes two parameters.
 
   1. **JsonLang**: check the [**Structure**](#structure)
   1. **Data**: schemaless data object to read/write to it. To get data use the Rule [**Data**](./rules/core#data)
+  1. **options**: execution options. it has one property called `sync` if it false the execute will be async for async rules, else it will be sync
 
-Execute is the `Sync` version of JsonLang, use it to run all [**builtin rules**](./rules/core.mdx) and any [**extended**](./extend/customization.mdx) `Sync` Rules
+Execute is the `Async` version of JsonLang, use it to run all [**builtin rules**](./rules/core.mdx) and any [**extended**](./extend/customization.mdx) `Sync` Rules or `Async` Rules
 
 
 ``` js 
-  executeAsync = async (jsonLang: IJsonLangParams, data?: {}): Promise<RuleResult>
+  execute(jsonLang: IJsonLangParams, data: {} | undefined, options: { sync: true }): RuleResult
 ```
 
-Execute is the `Async` version of JsonLang, use it to run all [**builtin rules**](./rules/core.mdx) and any [**extended**](./extend/customization.mdx) `Sync` or `Async` Rules
-
-
-### Extend
-
-``` js 
-registerOne = (ruleIdentifier: RuleIdentifier, ruleHandler: RuleHandler): void
-```
-
-Extend JsonLang by adding 2 params
-
-1. **ruleIdentifier**: Object `{ name: string, shortcut?: string }`, `name`(required) is the `Rule` name, and `shortcut`(optional) is the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`.
-1. **ruleHandler**: Sync/Async Function `(...inputs: RuleInput[]) => RuleResult)`, `inputs`(required) is array of all inputs needs for the handler [**check Input in Structure**](#structure), and `data` is the schemaless data [**check Data in the Execute Section**](#execute)
-
-``` js 
-registerMany(rules: Rules): void
-```
-registerMany allows registering a `Map()` of rules. The `Map key` is `RuleIdentifier`, and the `Map value` is the `RuleHandler`
-
+Execute is the `Sync` version of JsonLang with , use it to run all [**builtin rules**](./rules/core.mdx) and any [**extended**](./extend/customization.mdx) only `Sync` Rules.
 
 
 ## **Try It**

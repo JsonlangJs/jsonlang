@@ -9,33 +9,66 @@ import JsonLangRunner from '@site/src/components/JsonLangRunner';
 
 All Array/Collection operations
 
+``` js 
+import { JsonLang } from '@jsonlang/core';
+import { ArrayRules } from '@jsonlang/array';
+
+const jsonLang = new JsonLang();
+
+jsonLang.import(ArrayRules);
+```
+
 
 ## All
-  * Input[]: Array<any\> (Size: Unlimited).
-  * Output: Array<any\> (Size: Unlimited).
-  * Description: It takes an array of inputs and returns them again. It is used to run a list of `nested Rules`.
-<JsonLangRunner example="18" height="20vh" key="example18"></JsonLangRunner>
+  * **Input[]:** Array<any\> (Size: Unlimited). Array of any type or nested rules
+  * **Output:** Array<any\> (Size: Unlimited).
+  * **Description:** It takes an array of inputs and returns them again. It is used to run a list of `Rules`.
+<JsonLangRunner example="18" height="22vh" key="example18"></JsonLangRunner>
 
 ## Filter
-  * Input[]: Array<mixed\> (Size: 2) {elements: any[], rule: IJsonLangParams}.
-  * Output: Any[].
-  * Description: It accepts array of elements with any type to filter them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
-<JsonLangRunner example="19" height="20vh" key="example19"></JsonLangRunner>
+  * **Input[]:** Array<mixed\> (Size: 3) {elements: any[], iterator: string, condition: IJsonLangParams}.
+      * Elements: Array of data of any types.
+      * Iterator: The iterator variable name. for example, the iterator is  `i` in `for (let i = 0; i < 10; i++)`.
+      * Condition: The filter condition `rule`.
+  * **Output:** Any[].
+  * **Description:** It accepts array of elements with any type to filter them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Internal`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
+<JsonLangRunner example="19" height="30vh" key="example19"></JsonLangRunner>
 
 ## Map
-  * Input[]: Array<mixed\> (Size: 2) {elements: any[], rule: IJsonLangParams}.
-  * Output: Any[].
-  * Description: It accepts array of elements with any type to map them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
-<JsonLangRunner example="20" height="20vh" key="example20"></JsonLangRunner>
+  * **Input[]:** Array<mixed\> (Size: 3) {elements: any[], iterator: string, mapping: IJsonLangParams}.
+      * Elements: Array of data of any types.
+      * Iterator: The iterator variable name. for example, the iterator is  `i` in `for (let i = 0; i < 10; i++)`.
+      * Mapping: The mapping `rule` used to map, format or restructure the data.
+  * **Output:** Any[].
+  * **Description:** It accepts array of elements with any type to map them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Internal`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
+<JsonLangRunner example="20" height="30vh" key="example20"></JsonLangRunner>
 
 ## Foreach
-  * Input[]: Array<mixed\> (Size: 2) {elements: any[], rule: IJsonLangParams}.
-  * Output: true.
-  * Description: It accepts array of elements with any type to iterate over them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Local`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
-<JsonLangRunner example="21" height="20vh" key="example21"></JsonLangRunner>
+  * **Input[]:** Array<mixed\> (Size: 3) {elements: any[], iterator: string, logic: IJsonLangParams}.
+      * Elements: Array of data of any types.
+      * Iterator: The iterator variable name. for example, the iterator is  `i` in `for (let i = 0; i < 10; i++)`.
+      * Logic: The `rule` to execute.
+  * **Output:** true, if their is no error in the loop.
+  * **Description:** It accepts array of elements with any type to iterate over them using nested/inner rules, the filter rule will pass each elements as a Data with scope `Internal`, to access it by the inner rules, you will need to use [**Data**](./core#data) Rule with scope local.
+<JsonLangRunner example="21" height="30vh" key="example21"></JsonLangRunner>
+
 
 ## Flatten
-  * Input[]: Array<mixed\> (Size: 2) {elements: any[], level?: number}.
-  * Output: true.
-  * Description: It accepts array of elements with any type to flatten this array with any level.
-<JsonLangRunner example="22" height="20vh" key="example22"></JsonLangRunner>
+  * **Input[]:** Array<mixed\> (Size: 2) {elements: any[], level?: number}.
+      * Elements: Array of data of any types.
+      * level: the level of array depth.
+  * **Output:** true.
+  * **Description:** It accepts array of elements with any type to flatten this array with any level.
+<JsonLangRunner example="22" height="22vh" key="example22"></JsonLangRunner>
+
+## ArrayConcat
+  * **Input[]:** Array<mixed\> (Size: 2) {array1: any[], array2: any[]}.
+  * **Output:** any[].
+  * **Description:** Concat two arrays together.
+<JsonLangRunner example="27" height="15vh" key="example22"></JsonLangRunner>
+
+## ArrayUnique
+  * **Input[]:** Array<any\> (Size: unlimited).
+  * **Output:** any[].
+  * **Description:** Return same array but after removing duplicates.
+<JsonLangRunner example="28" height="15vh" key="example22"></JsonLangRunner>

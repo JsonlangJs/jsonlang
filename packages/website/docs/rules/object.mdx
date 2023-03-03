@@ -9,23 +9,43 @@ import JsonLangRunner from '@site/src/components/JsonLangRunner';
 
 All Object operations to Read/Mutate the Data
 
+``` js 
+import { JsonLang } from '@jsonlang/core';
+import { ObjectRules } from '@jsonlang/object';
+
+const jsonLang = new JsonLang();
+
+jsonLang.import(ObjectRules);
+```
+
 ## Get [In Progress]
-  * Input[]: Array<mixed\> (Size: 3) {path: string, defaultValue?: any, data:{}}.
-  * Output: Any.
-  * Description: It accepts two inputs, the 1st one (required) is a path to get the [**Data**](../intro#structure), and the 2nd one (optional) is a default value of the path is not found. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+  * **Input[]:** Array<mixed\> (Size: 3) {path: string, defaultValue?: any | null, data:{}}.
+    * Path: the `path` of the field you need to get. It must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+    * defaultValue: default value used if the field wasn't exists in this path, it can be `null` if you don't need it. 
+    * Data: the [**Data**](./core#data) you want to access.
+  * **Output:** Any.
+  * **Description:** It used to `get` some values in complex and nesed objects for Internal and Exiternal [**Data**](./core#data) 
 <JsonLangRunner example="17" height="20vh" key="example17"></JsonLangRunner>
 
 ## Set [In Progress]
-  * Input[]: Array<mixed\> (Size: 3) {path: string, value: any, data:{}}.
-  * Output: Any.
-  * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [**Data**](../intro#structure), and the 2nd one is the value to set. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Set` Rule will create it.
+  * **Input[]:** Array<mixed\> (Size: 3) {path: string, value: any, data:{}}.
+      * Path: the `path` of the field you need to get. It must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+      * value: the value to set. 
+      * Data: the [**Data**](./core#data) you want to access.
+  * **Output:** Any.
+  * **Description:** It used to `set` some values in complex and nesed objects for Internal and Exiternal [**Data**](./core#data), it will create the field if it's not exist, or it will update its value if it's already exist 
 
 ## Update [In Progress]
-  * Input[]: Array<mixed\> (Size: 3) {path: string, value: any, data:{}}.
-  * Output: Any.
-  * Description: It accepts two inputs. The 1st one (required) is a path to update/mutate the [**Data**](../intro#structure), and the 2nd one is the value to update. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Update` rule won't do anything.
+  * **Input[]:** Array<mixed\> (Size: 3) {path: string, value: any, data:{}}.
+      * Path: the `path` of the field you need to get. It must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+      * value: the value to update. 
+      * Data: the [**Data**](./core#data) you want to access.
+  * **Output:** Any.
+  * **Description:** It used to `update` some values in complex and nesed objects for Internal and Exiternal [**Data**](./core#data), it Won't do any thing if the  field isn't exist, but it will update its value if it's already exist 
 
 ## Delete [In Progress]
-  * Input[]: Array<string\> (Size: 2) {path: string, data:{}}.
-  * Output: Any.
-  * Description: It accepts two inputs, a path to mutate the [**Data**](../intro#structure) by deleting a field in the request path. the `path` must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`. If the `path` does not exist, the `Delete` rule won't do anything.
+  * **Input[]:** Array<string\> (Size: 2) {path: string, data:{}}.
+      * Path: the `path` of the field you need to get. It must follow the dotted style `var1.var2` for nested fields and brackets with number for arrays `var1.var2[3].var3`
+      * Data: the [**Data**](./core#data) you want to access. 
+  * **Output:** Any.
+  * **Description:** It used to `delete` some values in complex and nesed objects for Internal and Exiternal [**Data**](./core#data), it Won't do any thing if the  field isn't exist, but it will delete it if it's already exist 
