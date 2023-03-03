@@ -46,7 +46,7 @@ jobs:
         git config --global user.name "Ahmed Medhat"
     - name: Publishing...
       run: |
-        lerna version --conventional-commits --conventional-graduate --yes
+        lerna version --yes
         lerna publish from-git --yes
 
 
