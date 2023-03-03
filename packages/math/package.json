@@ -1,6 +1,6 @@
 {
   "name": "@jsonlang/math",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JsonLang Extension for Mathematical Operations",
   "funding": [
     {
@@ -59,6 +59,6 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
-    "@jsonlang/core": "*"
+    "@jsonlang/core": "^0.0.3"
   }
 }
