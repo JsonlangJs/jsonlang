@@ -59,6 +59,6 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
-    "@jsonlang/core": "^0.0.2"
+    "@jsonlang/core": "*"
   }
 }
