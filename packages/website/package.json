@@ -28,7 +28,7 @@
     "@docusaurus/core": "2.1.0",
     "@docusaurus/preset-classic": "2.1.0",
     "@jsonlang/array": "^0.0.3",
-    "@jsonlang/core": "^0.0.3",
+    "@jsonlang/core": "^0.0.4",
     "@jsonlang/logic": "^0.0.3",
     "@jsonlang/math": "^0.0.3",
     "@jsonlang/object": "^0.0.3",
