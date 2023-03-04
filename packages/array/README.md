@@ -1,7 +1,7 @@
 # 👋 **JsonLang/Array**
 
 
-<a href="https://jsonlang.dev"><img align="center" src="./jsonlang.svg" height="50%" width="60%" alt="JsonLang Logo"/></a></br></br>
+<a href="https://jsonlang.dev"><img align="center" src="https://raw.githubusercontent.com/JsonlangJs/jsonlang/master/assets/default-monochrome.svg" height="50%" width="60%" alt="JsonLang Logo"/></a></br></br>
 
 <ul>
   <li style="display:inline; margin:17px; font-size:17px"><a href="https://jsonlang.dev"><b>Website</b></a></li>

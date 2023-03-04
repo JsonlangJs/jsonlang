@@ -1,7 +1,7 @@
 # 👋 **JsonLang**
 
 
-<a href="https://jsonlang.dev"><img align="center" src="./jsonlang.svg" height="200" width="300" alt="JsonLang Logo"/></a></br></br>
+<a href="https://jsonlang.dev"><img align="center" src="https://raw.githubusercontent.com/JsonlangJs/jsonlang/master/assets/default-monochrome.svg" height="200" width="300" alt="JsonLang Logo"/></a></br></br>
 
 [https://jsonlang.dev](https://jsonlang.dev)
 
