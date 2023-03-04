@@ -2,6 +2,10 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useWorkspaces": true,
   "version": "independent",
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
   "command": {
     "version": {
       "allowBranch": "monorepo",
@@ -14,6 +18,12 @@
         "**/**/*spec.ts", 
         "**/**/*e2e-spec.ts"
       ]
+    },
+    "publish": {
+      "registry": "https://www.npmjs.com/package/@jsonlang",
+      "access": "public",
+      "yes": true,
+      "directory": "dist"
     }
   }
 }

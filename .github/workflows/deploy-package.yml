@@ -45,9 +45,7 @@ jobs:
         git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
         git config --global user.name "Ahmed Medhat"
     - name: Publishing...
-      run: |
-        lerna version --yes
-        lerna publish from-git --yes
+      run: lerna publish from-package --force-publish --no-private --yes
 
 
         
