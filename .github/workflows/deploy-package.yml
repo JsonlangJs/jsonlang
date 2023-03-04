@@ -49,7 +49,7 @@ jobs:
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     - name: Publishing...
-      run: lerna publish --force-publish --no-private --yes
+      run: lerna publish -no-private --yes
 
 
         
