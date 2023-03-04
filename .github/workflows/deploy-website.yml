@@ -2,9 +2,13 @@ name: deploy-website
 
 on:
   push:
-    branches: [master]
+    branches: 
+    - master
+    - monorepo
   pull_request:
-    branches: [master]
+    branches:
+    - master
+    - monorepo
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
