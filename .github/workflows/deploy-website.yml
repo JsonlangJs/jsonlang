@@ -28,7 +28,7 @@ jobs:
     - name: Build Docusaurus website
       run: |
         cd packages/website
-        npm install 
+        npm install --ignore-scripts 
         npm run build
     - name: Deploy to GitHub Pages
       if: success()
