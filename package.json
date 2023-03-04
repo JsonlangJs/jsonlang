@@ -7,6 +7,10 @@
     "lint": "lerna exec --parallel --ignore @jsonlang/website npm run lint",
     "start": "lerna exec --parallel npm run start"
   },
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
   "private": true,
   "workspaces": [
     "packages/*"

@@ -2,10 +2,6 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useWorkspaces": true,
   "version": "independent",
-  "publishConfig": {
-    "access": "public",
-    "directory": "dist"
-  },
   "command": {
     "version": {
       "allowBranch": "monorepo",

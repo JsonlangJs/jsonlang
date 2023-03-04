@@ -12,6 +12,10 @@
       "url": "https://opencollective.com/jsonlang-js"
     }
   ],
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "commonjs",
