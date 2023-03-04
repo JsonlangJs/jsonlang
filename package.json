@@ -8,8 +8,7 @@
     "start": "lerna exec --parallel npm run start"
   },
   "publishConfig": {
-    "access": "public",
-    "directory": "dist"
+    "access": "public"
   },
   "private": true,
   "workspaces": [
