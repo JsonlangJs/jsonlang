@@ -52,7 +52,7 @@ jobs:
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     - name: Publishing...
-      run: lerna publish --no-private --yes
+      run: git checkout monorepo && lerna publish --no-private --yes
 
 
         
