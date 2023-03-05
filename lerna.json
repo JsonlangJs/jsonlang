@@ -4,7 +4,7 @@
   "version": "independent",
   "command": {
     "version": {
-      "allowBranch": "monorepo",
+      "allowBranch": "master",
       "conventionalCommits": true,
       "ignoreChanges": [
         "**/__fixtures__/**",
