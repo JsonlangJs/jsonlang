@@ -1,12 +1,10 @@
 name: deploy-package
 
 on:
-  # push:
-  #   branches: 
-  #   - master
   pull_request:
     branches:
-    - master
+      - master
+    types: [closed]
 
 jobs:
   # test: 
@@ -28,6 +26,7 @@ jobs:
   #     uses: codecov/codecov-action@v3
 
   publish:
+    if: ${{ github.event.pull_request.merged }}
     name: npm-publish
     runs-on: Ubuntu-20.04
     env:
