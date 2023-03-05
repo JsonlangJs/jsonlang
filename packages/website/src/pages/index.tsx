@@ -46,15 +46,15 @@ function HomepageHeader() {
           </a>
           &nbsp;
           <a href="https://github.com/JsonlangJs/jsonlang/graphs/commit-activity" target="_blank">
-            <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2023.svg" />
+            <img alt="Maintenance" src="https://img.shields.io/maintenance/yes/2090.svg" />
           </a>
           &nbsp;
-          <a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fahmed-medhat-tawfiq%2Fjsonlang-js?ref=badge_shield" target="_blank">
+          <a href="https://github.com/JsonlangJs/jsonlang/blob/master/LICENSE" target="_blank">
             <img alt="License" src="https://img.shields.io/github/license/jsonlangjs/jsonlang.svg" />
           </a>
           &nbsp;
-          <a href="https://github.com/JsonlangJs/jsonlang-js/blob/master/LICENSE" target="_blank">
-            <img alt="FOSSA Status" src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fahmed-medhat-tawfiq%2Fjsonlang-js.svg?type=shield" />
+          <a href="https://app.fossa.com/projects/git%2Bgithub.com%2FJsonlangJs%2Fjsonlang?ref=badge_shield" target="_blank">
+            <img alt="FOSSA Status" src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FJsonlangJs%2Fjsonlang.svg?type=shield" />
           </a>
           &nbsp;
           <a href="https://github.com/JsonlangJs/jsonlang-js/stargazers" target="_blank">
