@@ -20,29 +20,29 @@ function HomepageHeader() {
             <img alt="Programming Language" src="https://img.shields.io/badge/typescript-100%25-blue.svg" />
           </a>
           &nbsp;
-          <a href="https://www.npmjs.com/package/jsonlang-js" target="_blank">
-            <img alt="Version" src="https://img.shields.io/npm/v/jsonlang-js.svg" />
+          <a href="https://www.npmjs.com/package/@jsonlang/core" target="_blank">
+            <img alt="Version" src="https://img.shields.io/npm/v/@jsonlang/core.svg" />
           </a>
           &nbsp;
-          <a href="https://packagephobia.com/result?p=jsonlang-js" target="_blank">
-            <img alt="Size" src="https://packagephobia.com/badge?p=jsonlang-js" />
+          <a href="https://packagephobia.com/result?p=@jsonlang/core" target="_blank">
+            <img alt="Size" src="https://packagephobia.com/badge?p=@jsonlang/core" />
           </a>
           &nbsp;
-          <a href="https://www.npmjs.com/package/jsonlang-js" target="_blank">
-            <img alt="Downloads" src="https://img.shields.io/npm/dy/jsonlang-js.svg" />
+          <a href="https://www.npmjs.com/package/@jsonlang/core" target="_blank">
+            <img alt="Downloads" src="https://img.shields.io/npm/dy/@jsonlang/core.svg" />
           </a>
-          &nbsp;
+          {/* &nbsp;
           <a href="https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js" target="_blank">
             <img alt="Code Coverage" src="https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js/branch/master/graph/badge.svg?token=35JEA7G369" />
-          </a>
+          </a> */}
           &nbsp;
-          <a href="https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js" target="_blank">
-            <img alt="Vulnerabilities" src="https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js" />
+          <a href="https://img.shields.io/snyk/vulnerabilities/npm/@jsonlang/core" target="_blank">
+            <img alt="Vulnerabilities" src="https://img.shields.io/snyk/vulnerabilities/npm/@jsonlang/core" />
           </a>
         </div>
         <div>
         <a href="https://github.com/JsonlangJs/jsonlang/actions" target="_blank">
-            <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/ahmed-medhat-tawfiq/jsonlang-js/deploy-package.yml?branch=master" />
+            <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/JsonlangJs/jsonlang/deploy-package.yml?branch=master" />
           </a>
           &nbsp;
           <a href="https://github.com/JsonlangJs/jsonlang/graphs/commit-activity" target="_blank">

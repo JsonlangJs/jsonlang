@@ -15,11 +15,10 @@ It is JsonLang Plugin/Extension for Array/Collection operations.
 </br></br> 
 
 
-[![npm version](https://img.shields.io/npm/v/jsonlang-js.svg)](https://www.npmjs.com/package/jsonlang-js)
-[![install size](https://packagephobia.com/badge?p=jsonlang-js)](https://packagephobia.com/result?p=jsonlang-js)
-[![npm downloads](https://img.shields.io/npm/dy/jsonlang-js.svg)](https://www.npmjs.com/package/jsonlang-js)
-[![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)](https://img.shields.io/snyk/vulnerabilities/npm/jsonlang-js)
-[![codecov](https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js/branch/master/graph/badge.svg?token=35JEA7G369)](https://codecov.io/gh/ahmed-medhat-tawfiq/jsonlang-js)
+[![npm version](https://img.shields.io/npm/v/@jsonlang/array.svg)](https://www.npmjs.com/package/@jsonlang/array)
+[![install size](https://packagephobia.com/badge?p=@jsonlang/array)](https://packagephobia.com/result?p=@jsonlang/array)
+[![npm downloads](https://img.shields.io/npm/dy/@jsonlang/array.svg)](https://www.npmjs.com/package/@jsonlang/array)
+[![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/@jsonlang/array)](https://img.shields.io/snyk/vulnerabilities/npm/@jsonlang/array)
 [![Maintenance](https://img.shields.io/maintenance/yes/2090.svg)](https://github.com/JsonlangJs/jsonlang/graphs/commit-activity)
 [![Build](https://img.shields.io/github/actions/workflow/status/JsonlangJs/jsonlang/deploy-package.yml?branch=master)](https://github.com/JsonlangJs/jsonlang/actions)
 [![Programming Language](https://img.shields.io/badge/typescript-100%25-blue.svg)](https://img.shields.io/badge/typescript-100%25-blue.svg)
