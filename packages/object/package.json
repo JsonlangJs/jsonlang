@@ -1,6 +1,6 @@
 {
   "name": "@jsonlang/object",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "JsonLang Extension for (Key-Value pair) Object/Map Operations",
   "funding": [
     {
@@ -62,6 +62,6 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
-    "@jsonlang/core": "^0.0.8"
+    "@jsonlang/core": "^0.0.9"
   }
 }
