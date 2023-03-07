@@ -1,10 +1,17 @@
 # 👋 **JsonLang**
 
 
-<a href="https://jsonlang.dev"><img align="center" src="./assets/default-monochrome.svg" height="200" width="300" alt="JsonLang Logo"/></a></br></br>
+<a href="https://jsonlang.dev"><img align="center" src="https://raw.githubusercontent.com/JsonlangJs/jsonlang/master/jsonlang.svg" height="200" width="300" alt="JsonLang Logo"/></a></br></br>
 
 [https://jsonlang.dev](https://jsonlang.dev)
 
+</br>
+
+## <span style="color:red">**Deprecated**</span>
+
+**This package is deprecated. Use [@jsonlang/core](https://www.npmjs.com/package/@jsonlang/core) instead**
+
+</br></br>
 
 It is a Typescript package that provides a simple JSON Programming Language, allowing you to execute a safe logic in Frontend or Backend (NodeJS). Furthermore, it can be stored in the database and rendered to the Frontend-Side to execute/run some business logic. 
 
