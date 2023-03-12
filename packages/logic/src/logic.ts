@@ -22,17 +22,17 @@ export class LogicRules {
 
   @RuleExtension(isNumberDefinition)
   isNumber(input: RuleInput) {
-    return input === 'number';
+    return typeof input === 'number';
   }
 
   @RuleExtension(isStringDefinition)
   isString(input: RuleInput) {
-    return input === 'string';
+    return typeof input === 'string';
   }
 
   @RuleExtension(isBooleanDefinition)
   isBoolean(input: RuleInput) {
-    return input === 'boolean';
+    return typeof input === 'boolean';
   }
 
   @RuleExtension(isArrayDefinition)
