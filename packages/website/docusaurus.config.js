@@ -92,6 +92,11 @@ const config = {
             position: 'right'
           },
           {
+            to: '/flowBuilder',
+            label: 'Flow',
+            position: 'right'
+          },
+          {
             href: 'https://github.com/JsonlangJs/jsonlang',
             position: 'right',
             className: 'header-github-link',
