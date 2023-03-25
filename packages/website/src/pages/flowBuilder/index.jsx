@@ -19,35 +19,7 @@ import AddButton from './addbutton';
 
 import './index.css';
 
-const initialNodes = [
-  {
-    id: '0',
-    type: 'default',
-    data: { label: 'Node' },
-    position: { x: 0, y: 0 },
-  },
-  {
-    id: '1',
-    type: 'default',
-    data: { label: 'Node' },
-    position: { x: 0, y: 100 },
-  },
-];
 
-const initialEdges = [
-  {
-    id: 'edges-e5-7',
-    source: '0',
-    target: '1',
-    label: '+',
-    labelBgPadding: [8, 4],
-    labelBgBorderRadius: 4,
-    labelBgStyle: { fill: '#FFCC00', color: '#fff', fillOpacity: 0.7 },
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-    },
-  }
-]
 
 const fitViewOptions = {
   padding: 3,
@@ -67,8 +39,8 @@ const getId = () => `dndnode_${id++}`;
 
 export default () => {
   const reactFlowWrapper = useRef(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [addnode, setAddnode] = useState(false);
   const [addChildeNode, setAddChildeNode] = useState(false);
@@ -79,35 +51,14 @@ export default () => {
   const initialNodeType = {
     id : getId(),
     type : 'default',
-    position : { x: initialNodes[0].position.x, y: nodes.length*100},
+    position : { x: 0, y: nodes.length*100},
     data: { label: 'New Node' },
     width: 150
   }
 
-  const initialEdge = {
-    id: String(parseInt(Math.random(100000000)*1000000)),
-    source: nodes[nodes.length-2].id,
-    target: nodes[nodes.length-1].id,
-    label: '+',
-    labelBgPadding: [8, 4],
-    labelBgBorderRadius: 4,
-    labelBgStyle: { fill: '#FFCC00', color: '#fff', fillOpacity: 0.7 },
-    markerEnd: {
-      type: MarkerType.ArrowClosed,
-    },
-  }
 
   useEffect(()=>{
-    if(addnode){
-      const findFirstNode = nodes.find(item=>item.id===initialEdge.target)
-      setEdges((eds) => eds.concat({
-        ...initialEdge,
-        // source: parentNode.id,
-      }));
-      setAddnode(false);
-      setParentNode(null);
-    }
-    if(addChildeNode){
+    if (addChildeNode){
       setEdges((eds) => eds.concat({
         id: String(parseInt(Math.random(100000000)*1000000)),
         source: parentNode.id,
@@ -187,10 +138,6 @@ export default () => {
     [reactFlowInstance]
   );
 
-  const test = () => {
-    console.log('test');
-  }
-
   const handleEdgeClick = (param, data) => {
     console.log(data);
     const findSourceNode = nodes.find((item)=>item.id===data.source);
@@ -209,6 +156,7 @@ export default () => {
       position : { x: data.position.x+filterNodeswithSameSource.length*160, y: data.position.y+100},
       data: { label: 'New Node', parentId: data.id },
       width: 150,
+      draggable: false
     }));
     setAddChildeNode(true);
     setParentNode(data);
