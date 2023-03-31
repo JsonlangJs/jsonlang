@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.11 (2023-03-31)
+
+**Note:** Version bump only for package @jsonlang/array
+
+
+
+
+
 ## [0.0.10](https://github.com/JsonlangJs/jsonlang/compare/@jsonlang/array@0.0.9...@jsonlang/array@0.0.10) (2023-03-31)
 
 **Note:** Version bump only for package @jsonlang/array
