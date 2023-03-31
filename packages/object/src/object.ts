@@ -1,107 +1,102 @@
 import { JsonLangExtension, RuleExtension } from '@jsonlang/core';
-import { getDefinition, updateDefinition, deleteDefinition, setDefinition } from './definitions';
+import { 
+  getDefinition, updateDefinition, deleteDefinition, setDefinition,
+  omitDefinition, pickDefinition, copyDefinition, mergeDefinition, invertDefinition, valuesDefinition, keysDefinition
+} from './definitions';
+import set from 'lodash.set';
+import unset from 'lodash.unset';
+import get from 'lodash.get';
+import pick from 'lodash.pick';
+import invert from 'lodash.invert';
+import merge from 'lodash.merge';
 
 @JsonLangExtension('Object')
 export class ObjectRules {
-  private arrayEleNumRegex: RegExp;
 
-  constructor() {
-    this.arrayEleNumRegex = /^\[([0-9]+)\]/;
-  }
-
-  private isArrayOfPaths = (path: any) => {
-    if (!Array.isArray(path)) return false;
-
-    return path.every(p => typeof p === 'string');
-  }
-
-  private getPath(path: any) {
-    let pathProps = <string[]> path;
-
-    if (typeof path === 'string') pathProps = path.split('.');
-
-    return this.isArrayOfPaths(pathProps) && pathProps.length > 0 ? pathProps : undefined;
-  }
-
-  private baseGet = (pathProps: string[], data: any): any | undefined => {
-    const property = pathProps.shift();
-
-    if (!property || data[property] === undefined) return undefined;
-
-    return pathProps.length === 0 ? (property === '*'? data : data[property]) : this.baseGet(pathProps, data[property]);
-  }
-
-  private baseSet = (pathProps: string[], data: any, value: any, upsert: boolean = false): boolean => {
-    const lastKeyIndex = pathProps.length-1;
-    for (var i = 0; i < lastKeyIndex; ++ i) {
-      let property = pathProps[i];
-      if (!(property in data)){
-        data[property] = {}
-      }
-      data = data[property];
-    }
-    data[pathProps[lastKeyIndex]] = value;
-    return true;
-  }
-
-  private baseUpdate = (pathProps: string[], data: any, value: any): boolean => {
-    const property = pathProps.shift();
-
-    if (!property || data[property] === undefined) return false;
-
-    if (pathProps.length === 0) {
-      data[property] = value;
-      
-      return true;
-    }
-    else {
-      return this.baseUpdate(pathProps, data[property], value);
-    }
-  }
-
-  private baseDelete = (pathProps: string[], data: any): boolean => {
-    const property = pathProps.shift();
-
-    if (!property || data[property] === undefined) return false;
-
-    if (pathProps.length === 0) {
-      delete data[property];
-      
-      return true;
-    }
-    else {
-      return this.baseDelete(pathProps, data[property]);
-    }
+  private cloneDeep(objectToClone: any) {
+    return JSON.parse(JSON.stringify(objectToClone));
   }
 
   @RuleExtension(setDefinition)
-  set(path: string, value: any, data?: {}) {
-    const pathProps = this.getPath(path);    
-
-    return data && pathProps && value ? this.baseSet(pathProps, data, value, true) : false;
+  set(path: string, data: {}, value: any) {
+    if (typeof path !== 'string' || typeof data !== 'object' || value === undefined) return false;
+    set(data, path, value);
+    return true;
   }
 
   @RuleExtension(getDefinition)
-  get(path: string, defaultValue?: any, data?: {}) {
-    const pathProps = this.getPath(path);
-
-    // defaultValue = defaultValue || 'invalidPath';
-
-    const result = data && pathProps ? this.baseGet(pathProps, data) : undefined;
-    return result === undefined ? defaultValue : result
+  get(path: string, data: {}, defaultValue: any = null) {
+    get(data, path, defaultValue);
+    return data;
   }
 
   @RuleExtension(updateDefinition)
-  update(path: string, value: any, data?: {}) {
-    const pathProps = this.getPath(path);
+  update(path: string, data: {}, value: any) {
+    if (typeof path !== 'string' || typeof data !== 'object' || value === undefined) return false;
 
-    return data && pathProps && value ? this.baseUpdate(pathProps, data, value) : false;
+    const isExits = get(data, path, undefined);
+
+    if (isExits === undefined) return false;
+    
+    set(data, path, value);
+    return true;
   }
 
   @RuleExtension(deleteDefinition)
-  delete(path: string, data?: {}) {
-    const pathProps = this.getPath(path);
+  delete(path: string, data: {}) {
+    if (typeof path !== 'string' || typeof data !== 'object') return false;
 
-    return data && pathProps ? this.baseDelete(pathProps, data) : false;
+    return unset(data, path);
+  }
+
+  @RuleExtension(omitDefinition)
+  omit(paths: string[], data: {}) {
+    if (!Array.isArray(paths) || typeof data !== 'object') return false;
+
+    for (const path of paths) {
+      const res = unset(data, path);
+
+      if (!res) return false;
+    }
+
+    return true;
+  }
+
+  @RuleExtension(pickDefinition)
+  pick(paths: string[], data: {}) {
+    if (!Array.isArray(paths) || typeof data !== 'object') return false;
+
+    pick(data, paths);
+
+    return true;
+  }
+
+  @RuleExtension(copyDefinition)
+  copy(data: {}) {
+    return this.cloneDeep(data)
+  }
+
+  @RuleExtension(keysDefinition)
+  keys(data: {}) {
+    if (typeof data !== 'object' || Array.isArray(data)) return [];
+
+    return Object.keys(data);
+  }
+
+  @RuleExtension(valuesDefinition)
+  values(data: {}) {
+    if (typeof data !== 'object' || Array.isArray(data)) return [];
+
+    return Object.values(data);
+  }
+
+  @RuleExtension(invertDefinition)
+  invert(data: {}) {
+    return invert(data);
+  }
+
+  @RuleExtension(mergeDefinition)
+  merge(...data: {}[]) {
+    return merge(data);
   }
 }
