@@ -7,3 +7,5 @@ coverage/
 .vscode/
 
 /build/
+
+.npmrc
