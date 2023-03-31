@@ -39,26 +39,18 @@ export class RuleCore {
   */
   import = (...ruleClasses: any[]) => {
     [...ruleClasses].forEach((RuleClass: any) => {
-      console.log('RuleClass', RuleClass);
 
       if (!RuleClass.prototype) return;
 
       const ruleClass = new RuleClass();
-
-      console.log('ruleClass', ruleClass);
-
       const propertyNames = Object.getOwnPropertyNames(RuleClass.prototype);
       
       propertyNames.forEach((propertyName) => {
-        console.log('propertyName', propertyName);
-
         const group = Reflect.getMetadata('jsonlang:group', RuleClass)?.name || 'Others';
         const ruleDefinition: RuleDefinition = Reflect.getMetadata('jsonlang:rule', RuleClass, propertyName);
-        console.log('ruleDefinition', ruleDefinition);
 
         if (ruleDefinition) {
           const handler = ruleClass[propertyName].bind(ruleClass);
-          console.log('handler', handler);
 
           ruleDefinition.identifier.group = ruleDefinition.identifier.group || group;
           const ruleHandler: any = ruleDefinition.sync ? { sync: handler } : { async: handler };
