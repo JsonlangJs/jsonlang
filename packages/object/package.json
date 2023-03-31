@@ -1,6 +1,6 @@
 {
   "name": "@jsonlang/object",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "JsonLang Extension for (Key-Value pair) Object/Map Operations",
   "funding": [
     {
@@ -68,7 +68,7 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
-    "@jsonlang/core": "^0.0.10",
+    "@jsonlang/core": "^0.0.11",
     "lodash.get": "^4.4.2",
     "lodash.invert": "^4.3.0",
     "lodash.merge": "^4.6.2",
