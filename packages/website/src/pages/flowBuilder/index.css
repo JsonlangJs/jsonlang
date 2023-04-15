@@ -141,6 +141,18 @@
   height: fit-content;
   padding: 2px;
 }
+/* dotted border */
+.react-flow__node-childrule {
+  font-size: 20px;
+  background: rgb(223, 219, 219);
+  border: 1px dotted #555;
+  border-radius: 5px;
+  text-align: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 2px;
+  cursor: pointer;
+}
 
 .react-flow__node-text input {
   width: 70px;
@@ -158,6 +170,7 @@
   height: fit-content;
   padding: 3px;
 }
+
 
 .react-flow__node-rule:focus,
 .react-flow__node-rule:hover,

@@ -99,10 +99,20 @@ const Rule = (({ data, isConnectable }) => {
 });
 
 
+const ChildRule = (({ data, isConnectable }) => {
+
+  return (
+    <>
+      <label> {data.label} </label>
+    </>
+  );
+});
+
 export {
   Number,
   Text,
   Json,
   Boolean,
-  Rule
+  Rule,
+  ChildRule,
 }

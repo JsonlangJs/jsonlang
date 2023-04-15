@@ -14,7 +14,7 @@ import 'reactflow/dist/style.css';
 import Layout from '@theme/Layout';
 import Sidebar from './sidebar';
 import JsonLangRunner from '@site/src/components/JsonLangRunner';
-import { Number, Text, Json, Boolean, Rule } from './types';
+import { Number, Text, Json, Boolean, Rule, ChildRule } from './types';
 import AddButton from './addbutton';
 
 import './index.css';
@@ -31,6 +31,7 @@ const nodeTypes = {
   json: Json,
   boolean: Boolean,
   rule: Rule,
+  childrule: ChildRule,
 };
 
 let id = 0;
@@ -115,15 +116,24 @@ export default () => {
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow/type');
       const key = event.dataTransfer.getData('application/reactflow/key');
-
+      const childType = event.dataTransfer.getData('application/reactflow/childType');
+      const childKey = event.dataTransfer.getData('application/reactflow/childKey');
       // check if the dropped element is valid
       if (typeof type === 'undefined' || !type) {
         return;
       }
 
+      const positionX = event.clientX - reactFlowBounds.left;
+      const positionY = event.clientY - reactFlowBounds.top;
+
       const position = reactFlowInstance.project({
-        x: event.clientX - reactFlowBounds.left,
-        y: event.clientY - reactFlowBounds.top,
+        x: positionX,
+        y: positionY
+      });
+
+      const nextPosition = reactFlowInstance.project({
+        x: positionX,
+        y: positionY+100,
       });
   
       const newNode = {
@@ -133,7 +143,14 @@ export default () => {
         data: { label: key },
       };
 
-      setNodes((nds) => nds.concat(newNode));
+      const nextNode = {
+        id: getId(),
+        type: childType,
+        position: nextPosition,
+        data: { label: childKey },
+      };
+
+      setNodes((nds) => nds.concat(newNode, nextNode));
     },
     [reactFlowInstance]
   );

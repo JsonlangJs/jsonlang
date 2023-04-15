@@ -30,6 +30,8 @@ export default () => {
   const onDragStart = (event, nodeType, key) => {
     event.dataTransfer.setData('application/reactflow/type', nodeType);
     event.dataTransfer.setData('application/reactflow/key', key);
+    event.dataTransfer.setData('application/reactflow/childType', 'childrule');
+    event.dataTransfer.setData('application/reactflow/childKey', '+');
     event.dataTransfer.effectAllowed = 'move';
   };
 
