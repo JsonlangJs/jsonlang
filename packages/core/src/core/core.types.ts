@@ -6,12 +6,23 @@ export type RuleIdentifier = {
   name: string;
   /**
    *  the shortcut. i.e `Sum` is the `name`, and `+` is the `shortcut`
+   *  it is required and it must be unique
    */
   shortcut?: string;
   /**
    *  used to group set of rules in one group
   */
   group?: string;
+  /**
+   * used to describe the rule in details  
+  */
+  description?: string;
+  /**
+   * used to identify the rule in a human readable way
+   * It will be used in the UI builder
+   * if it's not defined, the `name` will be used
+  */
+  label?: string; 
 } 
 
 /**

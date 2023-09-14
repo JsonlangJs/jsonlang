@@ -50,12 +50,6 @@
   },
   "devDependencies": {
     "@types/jest": "^29.1.0",
-    "@types/lodash.get": "^4.4.7",
-    "@types/lodash.invert": "^4.3.7",
-    "@types/lodash.merge": "^4.6.7",
-    "@types/lodash.pick": "^4.4.7",
-    "@types/lodash.set": "^4.3.7",
-    "@types/lodash.unset": "^4.5.7",
     "@types/node": "^18.7.23",
     "concurrently": "^7.6.0",
     "jest": "^29.1.1",
@@ -68,12 +62,6 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
-    "@jsonlang/core": "^0.0.12",
-    "lodash.get": "^4.4.2",
-    "lodash.invert": "^4.3.0",
-    "lodash.merge": "^4.6.2",
-    "lodash.pick": "^4.4.0",
-    "lodash.set": "^4.3.2",
-    "lodash.unset": "^4.5.2"
+    "@jsonlang/core": "^0.0.12"
   }
 }
