@@ -1,10 +1,13 @@
 import React from 'react';
-import Editor from "@monaco-editor/react";
+import * as monaco from 'monaco-editor';
+import Editor, { loader } from "@monaco-editor/react";
 import { JsonLang } from '@jsonlang/core';
 import { MathRules } from '@jsonlang/math';
 import { LogicRules } from '@jsonlang/logic';
 import { ArrayRules } from '@jsonlang/array';
 import { ObjectRules } from '@jsonlang/object';
+
+loader.config({ monaco });
 
 import styles from './styles.module.css';
 import getExample from './examples';
