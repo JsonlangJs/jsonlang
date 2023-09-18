@@ -9,3 +9,5 @@ coverage/
 /build/
 
 .npmrc
+
+package-lock.json
