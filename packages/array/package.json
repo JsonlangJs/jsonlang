@@ -1,6 +1,6 @@
 {
   "name": "@jsonlang/array",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "JsonLang Extension for Array/Collection Operations",
   "funding": [
     {
@@ -64,6 +64,6 @@
     "wait-on": "^7.0.1"
   },
   "dependencies": {
-    "@jsonlang/core": "^0.0.13"
+    "@jsonlang/core": "^0.0.14"
   }
 }
