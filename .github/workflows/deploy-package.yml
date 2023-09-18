@@ -41,7 +41,7 @@ jobs:
     - name: Installing...
       run: npm i -g lerna && npm install --force
     - name: Building...
-      run: npm run build
+      run: lerna run build --ignore @jsonlang/website
     - name: Config GIT
       run: >-
         git config --global user.email "ahmed.medhat.tawfiq@gmail.com" &&
