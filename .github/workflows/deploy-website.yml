@@ -22,11 +22,10 @@ jobs:
         node-version: '16.x'
         registry-url: 'https://registry.npmjs.org'
     # Install and build Docusaurus website
+    - name: Installing...
+      run: npm i -g lerna && npm install --force --ignore-scripts 
     - name: Build Docusaurus website
-      run: |
-        cd packages/website
-        npm install --ignore-scripts 
-        npm run build
+      run: lerna run build --scope @jsonlang/website
     - name: Deploy to GitHub Pages
       if: success()
       uses: crazy-max/ghaction-github-pages@v3
