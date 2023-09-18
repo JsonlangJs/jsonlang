@@ -17,8 +17,7 @@
     },
     "publish": {
       "access": "public",
-      "yes": true,
-      "directory": "dist"
+      "yes": true
     }
   }
 }
